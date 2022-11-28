@@ -10,12 +10,12 @@ export enum ConnectionState {
 
 export type Snapshot<S> = S | null;
 
-export interface BlocBuilderProps<S, B extends Bloc<S>> {
+export interface BlocBuilderProps<S> {
   builder: (snapshot: Snapshot<S>) => React.ReactElement;
 }
 
 function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | null>) {
-  function BlocBuilder({builder} : BlocBuilderProps<S, B>) {
+  function BlocBuilder({builder} : BlocBuilderProps<S>) {
       const [snapshot, setSnapshot] = useState<Snapshot<S>>(null); 
       const bloc = useContext(context);
       useEffect(() => {

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TextInfo } from '../../../domain/service/Texts';
-import { LoadedState, TextsState } from '../../../domain/state/TextsBloc';
+import { LoadedState, TextsContext, TextsState } from '../../../domain/state/TextsBloc';
 
 
 export interface LoadedRecordingScreenProps {
@@ -50,10 +50,11 @@ function TextInfoComponent({text}: TextProps) {
 }
 
 function Actions() {
+    const skip = useContext(TextsContext)!.skipPressed;
     return (
         <div style={{display: 'flex', alignContent: 'stretch', flexDirection: 'column'}}>
             <button>Запись</button>
-            <button>Пропустить</button>
+            <button onClick={skip}>Пропустить</button>
         </div>
     );
 }

@@ -1,8 +1,8 @@
 
 export interface TextInfo {
-    id: String, 
-    text: String, 
-    notes: String, 
+    id: string, 
+    text: string, 
+    notes: string, 
 }
 
 
@@ -45,11 +45,11 @@ export class MockTextsService implements TextsService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (Math.random() > 0.5) {
-                    throw Error("a mock error");
+                    reject(Error("a mock error"));
                 } else {
                     resolve(null);
                 }
-            }, 1000);
+            }, 300);
         });
     } 
 }

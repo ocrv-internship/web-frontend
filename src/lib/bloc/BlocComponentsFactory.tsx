@@ -9,6 +9,7 @@ function BlocComponentsFactory<S, B extends Bloc<S>>() {
     return {
         Provider: BlocProviderFactory<S, B>(context),
         Builder: BlocBuilderFactory<S, B>(context), 
+        Context: context,
     }
 }
 

@@ -31,21 +31,21 @@ export const mockTexts = [
 ];
 
 export interface TextsService {
-    getTexts() : Promise<TextInfo[] | Error>;
-    skipText(id: string): Promise<Error | null>;
+    getTexts() : Promise<TextInfo[]>;
+    skipText(id: string): Promise<null>;
 }
 
 export class MockTextsService implements TextsService {
-    getTexts() : Promise<TextInfo[] | Error> {
+    getTexts() : Promise<TextInfo[]> {
         return new Promise((resolve, reject) => {
             setTimeout(() => resolve(mockTexts), 1000);
         });
     }
-    skipText(id: string): Promise<Error | null> {
+    skipText(id: string): Promise<null> {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (Math.random() > 0.5) {
-                    resolve(Error("a mock error"));
+                    throw Error("a mock error");
                 } else {
                     resolve(null);
                 }

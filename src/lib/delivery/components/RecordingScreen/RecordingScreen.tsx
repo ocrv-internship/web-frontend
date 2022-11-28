@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types'; 
 import { TextInfo } from '../../../domain/service/Texts';
+import { LoadedState, TextsState } from '../../../domain/state/TextsBloc';
 
-export interface TextProps {
-    text: TextInfo,
+
+export interface LoadedRecordingScreenProps {
+    state: LoadedState,
 }
-export function RecordingScreen({text} : TextProps) {
+
+export function LoadedRecordingScreen({state} : LoadedRecordingScreenProps) {
+    const text = state.texts[state.currentInd];
     return (
         <div>
             <TextTitle text={text} />
@@ -18,12 +21,14 @@ export function RecordingScreen({text} : TextProps) {
     );
 }
 
+export interface TextProps {
+    text: TextInfo,
+}
+
+
 function TextTitle({text}: TextProps) {
     return <h1>Задача №{text.id}</h1>;
 }
-TextTitle.propTypes = {
-    id: PropTypes.string, 
-};
 
 function AudioWave() {
     return <div>AudioWave</div>;

@@ -8,34 +8,34 @@ export enum ConnectionState {
   done,
 }
 
-export class AsyncSnapshot<T> {
-  constructor(readonly connectionState: ConnectionState, readonly data: T | null, readonly error: Error | null) {};
-};
+export type Snapshot<S> = S | null;
 
 export interface BlocBuilderProps<S, B extends Bloc<S>> {
-  builder: (bloc: B, snapshot: AsyncSnapshot<S>) => React.ReactElement;
+  builder: (snapshot: Snapshot<S>) => React.ReactElement;
 }
 
 function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | null>) {
-  return ({builder} : BlocBuilderProps<S, B>) => {
-      const [snapshot, setSnapshot] = useState<AsyncSnapshot<S>>(new AsyncSnapshot<S>(ConnectionState.waiting, null, null)); 
+  function BlocBuilder({builder} : BlocBuilderProps<S, B>) {
+      const [snapshot, setSnapshot] = useState<Snapshot<S>>(null); 
       const bloc = useContext(context);
       useEffect(() => {
         if (bloc === null) return;
-        setSnapshot(new AsyncSnapshot<S>(ConnectionState.active, bloc.state, null));
+        setSnapshot(bloc.state);
         const subscription = bloc.stream.subscribe(
           {
-            next: (value) => setSnapshot(new AsyncSnapshot(ConnectionState.active, value, null)),
-            error: (error) => setSnapshot(new AsyncSnapshot<S>(ConnectionState.active, null, error)),
-            complete: () => setSnapshot(new AsyncSnapshot<S>(ConnectionState.done, null, null)),
+            next: (value) => setSnapshot(value),
+            error: (error) => {throw Error(`error was thrown on a bloc: ${error}`); },
+            complete: () => {},
           }
         );
         return () => subscription.unsubscribe();
-      }, []); // TODO: stop calling this on every re-render
+      }, []); 
 
-      if (bloc === null) return <h1>No bloc found in context</h1>;
-      return builder(bloc, snapshot);
+      if (bloc === null) throw Error("No bloc found in context"); 
+      return builder(snapshot);
   }
+
+  return BlocBuilder;
 }
 
 export default BlocBuilderFactory;

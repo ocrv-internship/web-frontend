@@ -9,7 +9,7 @@ interface BlocProviderProps<S, B extends Bloc<S>> {
 }
 
 function BlocProviderFactory<S, B extends Bloc<S>>(context: React.Context<B | null>) {
-    return ({ create, children }: BlocProviderProps<S, B>) => {
+    function BlocProvider({ create, children }: BlocProviderProps<S, B>) {
         const [bloc, setBloc] = useState<B | null>(null);
         useEffect(() => {
             const createdBloc = create();
@@ -24,6 +24,8 @@ function BlocProviderFactory<S, B extends Bloc<S>>(context: React.Context<B | nu
             </context.Provider>
         );
     }
+
+    return BlocProvider;
 }
 
 export default BlocProviderFactory;

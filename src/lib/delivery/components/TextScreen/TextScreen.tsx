@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { TextInfo } from '../../../domain/service/Texts';
 import { LoadedState, TextsContext, TextsState } from '../../../domain/state/TextsBloc';
+import { RecordingContainer } from './Recording/RecordingContainer';
 import "./TextScreen.css";
 
 
@@ -17,10 +18,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
         <div>
             <TextTitle text={text} />
             <TextInfoComponent text={text} /> 
-            <div id="recording">
-                <AudioWave /> 
-                <Actions />
-            </div>
+            <RecordingContainer />
         </div>
     );
 }
@@ -34,14 +32,6 @@ function TextTitle({text}: TextProps) {
     return <h1>Задача №{text.id}</h1>;
 }
 
-function AudioWave() {
-    return (
-        <div id="audiowave" className="card">
-
-        </div>
-    );
-}
-
 function TextInfoComponent({text}: TextProps) {
     return (
         <div id="textInfo">
@@ -53,16 +43,6 @@ function TextInfoComponent({text}: TextProps) {
                 <h2>Заметки</h2>
                 <p>{text.notes}</p>
             </section>
-        </div>
-    );
-}
-
-function Actions() {
-    const skip = useContext(TextsContext)!.skipPressed;
-    return (
-        <div id="actions">
-            <button className="button empathetic-button">Запись</button>
-            <button className="button" onClick={skip}>Пропустить</button>
         </div>
     );
 }

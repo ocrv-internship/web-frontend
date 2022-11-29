@@ -1,12 +1,14 @@
+import { timeStamp } from "console";
 import { Bloc } from "../../bloc/Bloc";
+import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
 
-enum RecordingStateType {
-    stopped, 
+export enum RecordingStateType {
+    initial,
     recording, 
     recorded,
 }
 
-interface RecordingState {
+export interface RecordingState {
     recordingURL?: string, 
     type: RecordingStateType,
     error?: Error,
@@ -17,22 +19,40 @@ class RecordingBloc extends Bloc<RecordingState> {
     private chunks: Blob[] = [];
     constructor() {
         super({
-            type: RecordingStateType.stopped,
+            type: RecordingStateType.initial,
         })
+        this.init = this.init.bind(this);
+        this.onStartPressed = this.onStartPressed.bind(this);
+        this.onStopPressed = this.onStopPressed.bind(this);
+        this.onCancelPressed = this.onCancelPressed.bind(this);
         this.init();
     }
 
+    dispose() {
+        console.log("recording bloc disposed");
+        super.dispose();
+        this.recorder?.stop();
+    }
+
+    // TODO: split this into helper functions 
     private async init() {
+        console.log("recording bloc initialized");
         if (navigator.mediaDevices) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({audio: true}); 
                 this.recorder = new MediaRecorder(stream);
+                this.recorder.onstart = ({}) => {
+                    console.log("bloc start pressed");
+                    this.emit({type: RecordingStateType.recording});
+                }
                 this.recorder.ondataavailable = ({data}) => {
                     this.chunks.push(data);
                 };
                 this.recorder.onstop = ({}) => {
-                    const blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-                    const audioURL = window.URL.createObjectURL(blob);
+                    console.log("bloc stop pressed");
+                    const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
+                    const audioURL = window.URL.createObjectURL(blob); // TODO call revokeObjectURL
+                    console.log(audioURL);
                     this.chunks = [];
                     this.emit({recordingURL: audioURL, type: RecordingStateType.recorded});
                 }
@@ -50,4 +70,16 @@ class RecordingBloc extends Bloc<RecordingState> {
     async onStopPressed() {
         this.recorder?.stop();
     }
+
+    async onCancelPressed() {
+        this.emit({type: RecordingStateType.initial});
+    }
 }
+
+export default RecordingBloc;
+
+export const {
+    Provider: RecordingProvider, 
+    Builder: RecordingBuilder,
+    Context: RecordingContext,
+} = BlocComponentsFactory<RecordingState, RecordingBloc>();

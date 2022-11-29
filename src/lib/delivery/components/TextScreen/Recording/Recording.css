@@ -1,0 +1,16 @@
+#actions {
+    display: flex;
+    align-content: stretch; 
+    gap: 5px;
+    flex-direction: column;
+}
+
+#recording {
+    display: flex; 
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#audiowave {
+    flex-grow: 1;
+}

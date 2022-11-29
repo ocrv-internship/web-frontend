@@ -20,36 +20,30 @@ export const mockTexts = [
     },
     {
         id: "2",
-        text: mockText, 
+        text: mockText.substring(0,30) + mockText, 
         notes: mockNotes,
     },
     {
         id: "3",
-        text: mockText, 
+        text: mockText + mockText.substring(80), 
         notes: mockNotes,
     },
 ];
 
 export interface TextsService {
     getTexts() : Promise<TextInfo[]>;
-    skipText(id: string): Promise<null>;
+    skipText(id: string): Promise<void>;
 }
 
 export class MockTextsService implements TextsService {
-    getTexts() : Promise<TextInfo[]> {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(mockTexts), 1000);
-        });
+    async getTexts() : Promise<TextInfo[]> {
+        await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
+        return mockTexts;
     }
-    skipText(id: string): Promise<null> {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                if (Math.random() > 0.5) {
-                    reject(Error("a mock error"));
-                } else {
-                    resolve(null);
-                }
-            }, 300);
-        });
+    async skipText(id: string): Promise<void> {
+        await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
+        // if (Math.random() > 0.5) {
+        //     throw Error("a mock error");
+        // } 
     } 
 }

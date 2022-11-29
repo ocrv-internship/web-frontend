@@ -1,8 +1,8 @@
 import React from 'react';
-import { RecordingScreenContainer } from './lib/delivery/components/RecordingScreen/RecordingScreenContainer';
+import { TextScreenContainer } from './lib/delivery/components/TextScreen/TextScreenContainer';
 
 function App() {
-  return <RecordingScreenContainer />;
+  return <TextScreenContainer />;
 }
 
 export default App;

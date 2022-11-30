@@ -1,5 +1,4 @@
 import { uiDeps } from "../../../di";
-import { mockTexts } from "../../../domain/service/Texts";
 import { TextsBuilder, TextsProvider } from "../../../domain/state/TextsBloc";
 import { LoadedTextScreen } from "./TextScreen";
 

@@ -1,4 +1,4 @@
-import { MockTextsService } from "./domain/service/Texts";
+import { MockTextsService } from "./domain/service/MockTextsService";
 import { TextsBloc } from "./domain/state/TextsBloc";
 
 interface UIDeps {

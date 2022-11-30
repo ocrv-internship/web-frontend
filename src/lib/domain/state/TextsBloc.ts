@@ -1,6 +1,6 @@
 import { Bloc } from "../../bloc/Bloc";
 import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
-import { TextInfo, TextsService } from "../service/Texts";
+import { TextInfo, TextsService } from "../service/TextsService";
 
 export interface LoadedState {
     texts: TextInfo[], 

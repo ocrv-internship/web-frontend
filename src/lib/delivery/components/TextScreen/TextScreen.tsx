@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TextInfo } from '../../../domain/service/Texts';
+import { TextInfo } from '../../../domain/service/TextsService';
 import { LoadedState, TextsContext, TextsState } from '../../../domain/state/TextsBloc';
 import { RecordingContainer } from './Recording/RecordingContainer';
 import "./TextScreen.css";
@@ -41,7 +41,7 @@ function TextInfoComponent({text}: TextProps) {
             </section>
             <section id="notes" className='card'>
                 <h2>Заметки</h2>
-                <p>{text.notes}</p>
+                <p>{text.note}</p>
             </section>
         </div>
     );

@@ -8,8 +8,11 @@ export enum RecordingStateType {
     recorded,
 }
 
+// TODO: maybe make RecordingBloc a field in the TextsBloc's state
+
 export interface RecordingState {
     recordingURL?: string, 
+    recordingBlob?: Blob,
     type: RecordingStateType,
     error?: Error,
 }
@@ -51,10 +54,10 @@ class RecordingBloc extends Bloc<RecordingState> {
                 this.recorder.onstop = ({}) => {
                     console.log("bloc stop pressed");
                     const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
-                    const audioURL = window.URL.createObjectURL(blob); // TODO call revokeObjectURL
+                    const audioURL = window.URL.createObjectURL(blob); // TODO call revokeObjectURL on cancel and dispose
                     console.log(audioURL);
                     this.chunks = [];
-                    this.emit({recordingURL: audioURL, type: RecordingStateType.recorded});
+                    this.emit({recordingURL: audioURL, recordingBlob: blob, type: RecordingStateType.recorded});
                 }
             } catch (e) {
                 this.emit({...this.state, error: e as Error}); // TODO: fix error handling

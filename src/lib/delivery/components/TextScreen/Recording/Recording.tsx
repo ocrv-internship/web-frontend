@@ -11,7 +11,7 @@ export function Recording({ state }: RecordingProps) {
     return (
         <div id="recording">
             <AudioWave audioURL={state.recordingURL}/>
-            <Actions state={state.type}/>
+            <Actions state={state}/>
         </div>
     )
 }
@@ -24,28 +24,32 @@ function AudioWave({ audioURL }: { audioURL?: string }) {
     );
 }
 
-function Actions({ state }: { state: RecordingStateType }) {
-    const skip = useContext(TextsContext)!.skipPressed;
+// TODO: refactor this
+function Actions({ state }: { state: RecordingState }) {
+    const textsBloc = useContext(TextsContext)!;
     const recordingBloc = useContext(RecordingContext)!;
-    switch (state) {
+    console.log("rebuilding actions");
+    console.log(state);
+    switch (state.type) {
         case RecordingStateType.initial:
             return (
                 <div id="actions">
                     <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
-                    <button className="button" onClick={skip}>Пропустить</button>
+                    <button onClick={textsBloc.skipPressed} className="button">Пропустить</button>
                 </div>
             );
         case RecordingStateType.recording:
             return (
                 <div id="actions">
                     <button onClick={recordingBloc.onStopPressed} className="button empathetic-button">Закончить</button>
-                    <button className="button">Отменить</button>
+                    <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
                 </div>
             );
         case RecordingStateType.recorded: 
+            const audio = state.recordingURL!;
             return (
                 <div id="actions">
-                    <button className="button empathetic-button">Отправить</button>
+                    <button onClick={() => textsBloc.sendPressed(state.recordingBlob!)} className="button empathetic-button">Отправить</button>
                     <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
                 </div>
             );

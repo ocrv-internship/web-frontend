@@ -17,6 +17,7 @@ export interface BlocBuilderProps<S> {
 function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | null>) {
   function BlocBuilder({builder} : BlocBuilderProps<S>) {
       const [snapshot, setSnapshot] = useState<Snapshot<S>>(null); 
+      console.log(snapshot);
       const bloc = useContext(context);
       useEffect(() => {
         if (bloc === null) return;
@@ -29,7 +30,7 @@ function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | nul
           }
         );
         return () => subscription.unsubscribe();
-      }, []); 
+      }, [builder, bloc]); 
 
       if (bloc === null) throw Error("No bloc found in context"); 
       return builder(snapshot);

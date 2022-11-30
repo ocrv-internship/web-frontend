@@ -33,6 +33,23 @@ export class TextsBloc extends Bloc<TextsState> {
         }
     }
 
+    // TODO: refactor code duplication with skipPressed
+    async sendPressed(audio: Blob) {
+        const current = this.state;
+        if (current == null || current instanceof Error) return; 
+        try {
+            await this.service.sendAudio(current.texts[current.currentInd].id, audio);
+            this.emit({
+                texts: current.texts, 
+                currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
+                retries: 0, 
+                loadingSmth: false,
+            })
+        } catch (e) {
+            this.emit(e instanceof Error ? e : Error(`unknown error: ${e}`));
+        }
+    }
+
     async skipPressed() {
         const current = this.state;
         if (current == null || current instanceof Error) {
@@ -44,10 +61,12 @@ export class TextsBloc extends Bloc<TextsState> {
             loadingSmth: true, 
         })
         try {
-            await this.service.skipText(current.texts[current.currentInd].id)
+            await this.service.skipText(current.texts[current.currentInd].id, current.retries)
             this.emit({
-                ...current, 
+                texts: current.texts, 
                 currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
+                retries: 0, 
+                loadingSmth: false,
             })
         } catch (e) {
             this.emit(e instanceof Error ? e : Error(`unknown error: ${e}`));

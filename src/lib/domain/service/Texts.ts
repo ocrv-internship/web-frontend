@@ -32,7 +32,8 @@ export const mockTexts = [
 
 export interface TextsService {
     getTexts() : Promise<TextInfo[]>;
-    skipText(id: string): Promise<void>;
+    skipText(id: string, retries: number): Promise<void>;
+    sendAudio(id: string, blob: Blob): Promise<void>;
 }
 
 export class MockTextsService implements TextsService {
@@ -40,10 +41,14 @@ export class MockTextsService implements TextsService {
         await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
         return mockTexts;
     }
-    async skipText(id: string): Promise<void> {
+    async skipText(id: string, retries: number): Promise<void> {
         await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");
         // } 
     } 
+    async sendAudio(id: string, blob: Blob): Promise<void> {
+        await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
+        // throw new Error("Method not implemented.");
+    }
 }

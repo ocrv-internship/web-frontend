@@ -31,6 +31,7 @@ export class MockTextsService implements TextsService {
         return mockTexts;
     }
     async skipText(id: string, retries: number): Promise<void> {
+        console.log(`${retries} retries`);
         await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");

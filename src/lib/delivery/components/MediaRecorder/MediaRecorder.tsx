@@ -35,7 +35,7 @@ function Actions({ state }: { state: RecordingState }) {
     const buildInitial = (state: Initial) => (
         <div id="actions">
             <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
-            <button onClick={textsBloc.skipPressed} className="button">Пропустить</button>
+            <button onClick={() => textsBloc.skipPressed(recordingBloc.state.retries)} className="button">Пропустить</button>
         </div>
     );
     const buildRecording = (state: Recording) => (

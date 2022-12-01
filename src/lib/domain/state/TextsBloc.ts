@@ -5,13 +5,11 @@ import { TextInfo, TextsService } from "../service/TextsService";
 export interface LoadedState {
     texts: TextInfo[], 
     currentInd: number, 
-    retries: number, 
     loadingSmth: boolean, 
 }
 
 export type TextsState = null | LoadedState | Error; 
 
-// TODO: implement incrementing the retries count
 
 // TODO: refactor the TextsBloc
 export class TextsBloc extends Bloc<TextsState> {
@@ -28,7 +26,6 @@ export class TextsBloc extends Bloc<TextsState> {
                 loadingSmth: false, 
                 texts: texts, 
                 currentInd: 0, 
-                retries: 0,
             })
         } catch (e) {
             this.emit(e instanceof Error ? e : Error(`unknown: ${e}`));
@@ -45,7 +42,6 @@ export class TextsBloc extends Bloc<TextsState> {
             this.emit({
                 texts: current.texts, 
                 currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-                retries: 0, 
                 loadingSmth: false,
             })
         } catch (e) {
@@ -53,7 +49,7 @@ export class TextsBloc extends Bloc<TextsState> {
         }
     }
 
-    async skipPressed() {
+    async skipPressed(retries: number) {
         const current = this.state;
         if (current == null || current instanceof Error) {
             return; 
@@ -63,11 +59,10 @@ export class TextsBloc extends Bloc<TextsState> {
             loadingSmth: true, 
         })
         try {
-            await this.service.skipText(current.texts[current.currentInd].id, current.retries)
+            await this.service.skipText(current.texts[current.currentInd].id, retries)
             this.emit({
                 texts: current.texts, 
                 currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-                retries: 0, 
                 loadingSmth: false,
             })
         } catch (e) {

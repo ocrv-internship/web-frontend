@@ -66,7 +66,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     }
 
     private onRecorderStopped() {
-        const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
+        const blob = new Blob(this.chunks, { 'type' : 'video/mp4' });
         console.log(blob.size);
         console.log(window.URL.createObjectURL(blob));
         this.disposeAll();
@@ -77,7 +77,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     private async initRecorder() {
         if (navigator.mediaDevices) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({audio: true}); 
+                const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true}); 
                 this.recorder = new MediaRecorder(stream);
                 this.recorder.onstop = this.onRecorderStopped;
                 this.recorder.ondataavailable = ({data}) => {
@@ -88,7 +88,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
                 this.emit(convertError(e)); 
             }
         } else {
-            this.emit(Error("Audio recording is not supported."));
+            this.emit(Error("Video recording is not supported."));
         }
     }
 }

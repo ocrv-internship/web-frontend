@@ -22,8 +22,8 @@ function VideoPopup({onClose, src} : {onClose: () => void, src: string}) {
     return (
         <div onClick={onClose} id="popupBackground">
             <div className="card" onClick={(e) => e.stopPropagation()} id="popup">
-                {/* <video controls src={src} width={600}/> */}
-                <audio controls src={src} />
+                <video controls src={src} width={600}/>
+                {/* <audio controls src={src} /> */}
             </div>
         </div>
     );

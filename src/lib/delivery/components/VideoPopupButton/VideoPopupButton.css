@@ -17,7 +17,4 @@
     position: relative;
     align-items: center;
     justify-content: center;
-    width: 800px; 
-    height: 800px;
-    z-index: 9001;
 }

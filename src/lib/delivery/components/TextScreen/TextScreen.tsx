@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { TextInfo } from '../../../domain/service/TextsService';
 import { LoadedState, TextsContext, TextsState } from '../../../domain/state/TextsBloc';
-import { MediaRecorderContainer } from './MediaRecorder/MediaRecorderContainer';
+import { MediaRecorderContainer } from '../MediaRecorder/MediaRecorderContainer';
 import "./TextScreen.css";
 
 

@@ -1,4 +1,4 @@
-import MediaRecorderBloc, { RecordingBuilder, RecordingProvider } from "../../../../domain/state/MediaRecorderBloc";
+import MediaRecorderBloc, { RecordingBuilder, RecordingProvider } from "../../../domain/state/MediaRecorderBloc";
 import { MediaRecorder } from "./MediaRecorder";
 
 export function MediaRecorderContainer() {

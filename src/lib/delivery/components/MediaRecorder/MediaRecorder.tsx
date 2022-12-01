@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../../domain/state/MediaRecorderBloc";
-import { TextsContext } from "../../../../domain/state/TextsBloc";
+import { Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../domain/state/MediaRecorderBloc";
+import { TextsContext } from "../../../domain/state/TextsBloc";
+import VideoPopupButton from "../VideoPopupButton/VideoPopupButton";
 import "./MediaRecorder.css";
 
 export interface RecordingProps {
@@ -27,14 +28,6 @@ function RecordingInfo({ durationSec }: {durationSec: number}) {
     );
 }
 
-function AudioWave({ audioURL }: { audioURL?: string }) {
-    return (
-        <div id="audiowave" className="card">
-            {audioURL != null ? <audio controls src={audioURL} itemType="audio/mp3"/> : <div></div>}
-        </div>
-    );
-}
-
 function Actions({ state }: { state: RecordingState }) {
     const textsBloc = useContext(TextsContext)!;
     const recordingBloc = useContext(RecordingContext)!;
@@ -54,6 +47,7 @@ function Actions({ state }: { state: RecordingState }) {
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
             <button onClick={() => textsBloc.sendPressed(state.blob)} className="button empathetic-button">Отправить</button>
+            <VideoPopupButton video={state.blob}/>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>
     );

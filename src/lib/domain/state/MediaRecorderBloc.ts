@@ -1,3 +1,4 @@
+import { isForInStatement } from "typescript";
 import { Bloc } from "../../bloc/Bloc";
 import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
 import { convertError } from "../../utils/utils";
@@ -12,7 +13,7 @@ export class Recording {
 }; 
 
 export class Recorded {
-    constructor(readonly url: string, readonly blob: Blob) {}
+    constructor(readonly blob: Blob) {}
 };
 
 export type RecordingState = Initial | Recording | Recorded | Error;
@@ -24,6 +25,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     constructor() {
         super(new Initial());
         this.initRecorder = this.initRecorder.bind(this);
+        this.onRecorderStopped = this.onRecorderStopped.bind(this);
         this.onStartPressed = this.onStartPressed.bind(this);
         this.onStopPressed = this.onStopPressed.bind(this);
         this.onCancelPressed = this.onCancelPressed.bind(this);
@@ -49,10 +51,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     }
 
     async onStopPressed() {
-        const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
-        this.disposeAll();
-        const audioURL = window.URL.createObjectURL(blob); 
-        this.emit(new Recorded(audioURL, blob));
+        this.recorder?.stop();
     }
 
     async onCancelPressed() {
@@ -64,15 +63,27 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
         clearInterval(this.timer);
         this.chunks = [];
         this.recorder?.stop();
-        if (this.state instanceof Recorded) window.URL.revokeObjectURL(this.state.url);
     }
+
+    private onRecorderStopped() {
+        const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
+        console.log(blob.size);
+        console.log(window.URL.createObjectURL(blob));
+        this.disposeAll();
+        this.emit(new Recorded(blob));
+    }
+
 
     private async initRecorder() {
         if (navigator.mediaDevices) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({audio: true}); 
                 this.recorder = new MediaRecorder(stream);
-                this.recorder.ondataavailable = ({data}) => this.chunks.push(data);
+                this.recorder.onstop = this.onRecorderStopped;
+                this.recorder.ondataavailable = ({data}) => {
+                    console.log(data);
+                    this.chunks.push(data)
+                };
             } catch (e) {
                 this.emit(convertError(e)); 
             }

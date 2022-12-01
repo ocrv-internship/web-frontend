@@ -17,10 +17,12 @@ export function MediaRecorder({ state }: RecordingProps) {
 }
 
 function RecordingInfo({ durationSec }: {durationSec: number}) {
+    const min = Math.floor(durationSec / 60).toString(); 
+    const sec = (durationSec % 60).toString().padStart(2, "0");
     return (
         <div id="recordingInfo">
             <p id="isRecordingLabel">Запись идёт</p>
-            <p>0:32</p>
+            <p>{`${min}:${sec}`}</p>
         </div>
     );
 }

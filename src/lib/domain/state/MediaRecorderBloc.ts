@@ -19,6 +19,7 @@ export class Recorded {
 export type RecordingState = Initial | Recording | Recorded | Error;
 
 class MediaRecorderBloc extends Bloc<RecordingState> {
+    private mediaStream?: MediaStream;
     private recorder?: MediaRecorder; 
     private timer?: NodeJS.Timer;
     private chunks: Blob[] = [];
@@ -63,6 +64,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
         clearInterval(this.timer);
         this.chunks = [];
         this.recorder?.stop();
+        this.mediaStream?.getTracks().forEach((track) => track.stop());
     }
 
     private onRecorderStopped() {
@@ -77,8 +79,8 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     private async initRecorder() {
         if (navigator.mediaDevices) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true}); 
-                this.recorder = new MediaRecorder(stream);
+                this.mediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: true}); 
+                this.recorder = new MediaRecorder(this.mediaStream);
                 this.recorder.onstop = this.onRecorderStopped;
                 this.recorder.ondataavailable = ({data}) => {
                     console.log(data);

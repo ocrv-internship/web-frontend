@@ -17,6 +17,8 @@ export function VideoPopupButton({video} : {video: Blob}) {
     );
 }
 
+// TODO: add a close button 
+
 function VideoPopup({onClose, src} : {onClose: () => void, src: string}) {
     return (
         <div onClick={onClose} id="popupBackground">

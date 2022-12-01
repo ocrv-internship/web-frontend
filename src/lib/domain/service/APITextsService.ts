@@ -12,10 +12,17 @@ class APITextsService implements TextsService {
         const json = await response.json();
         return json["texts"] as TextInfo[];
     }
-    skipText(id: string, retries: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async skipText(id: string, retries: number): Promise<void> {
+        const body = {
+            text_id: id, 
+            retries: retries,
+        };
+        await fetch(skipsEndpoint, {
+            method: "POST", 
+            body: JSON.stringify(body),
+        });
     }
-    sendAudio(id: string, blob: Blob): Promise<void> {
+    async sendAudio(id: string, blob: Blob): Promise<void> {
         throw new Error("Method not implemented.");
     }
 }

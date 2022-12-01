@@ -28,8 +28,6 @@ function AudioWave({ audioURL }: { audioURL?: string }) {
 function Actions({ state }: { state: RecordingState }) {
     const textsBloc = useContext(TextsContext)!;
     const recordingBloc = useContext(RecordingContext)!;
-    console.log("rebuilding actions");
-    console.log(state);
     switch (state.type) {
         case RecordingStateType.initial:
             return (

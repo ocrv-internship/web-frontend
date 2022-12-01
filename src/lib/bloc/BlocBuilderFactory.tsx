@@ -17,7 +17,6 @@ export interface BlocBuilderProps<S> {
 function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | null>) {
   function BlocBuilder({builder} : BlocBuilderProps<S>) {
       const [snapshot, setSnapshot] = useState<Snapshot<S>>(null); 
-      console.log(snapshot);
       const bloc = useContext(context);
       useEffect(() => {
         if (bloc === null) return;

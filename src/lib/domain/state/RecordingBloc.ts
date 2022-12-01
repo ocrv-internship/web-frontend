@@ -32,30 +32,26 @@ class RecordingBloc extends Bloc<RecordingState> {
     }
 
     dispose() {
-        console.log("recording bloc disposed");
         super.dispose();
         this.recorder?.stop();
+        if (this.state.recordingURL != null) window.URL.revokeObjectURL(this.state.recordingURL);
     }
 
     // TODO: split this into helper functions 
     private async init() {
-        console.log("recording bloc initialized");
         if (navigator.mediaDevices) {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({audio: true}); 
                 this.recorder = new MediaRecorder(stream);
                 this.recorder.onstart = ({}) => {
-                    console.log("bloc start pressed");
                     this.emit({type: RecordingStateType.recording});
                 }
                 this.recorder.ondataavailable = ({data}) => {
                     this.chunks.push(data);
                 };
                 this.recorder.onstop = ({}) => {
-                    console.log("bloc stop pressed");
                     const blob = new Blob(this.chunks, { 'type' : 'audio/mp3' });
-                    const audioURL = window.URL.createObjectURL(blob); // TODO call revokeObjectURL on cancel and dispose
-                    console.log(audioURL);
+                    const audioURL = window.URL.createObjectURL(blob); 
                     this.chunks = [];
                     this.emit({recordingURL: audioURL, recordingBlob: blob, type: RecordingStateType.recorded});
                 }
@@ -75,6 +71,7 @@ class RecordingBloc extends Bloc<RecordingState> {
     }
 
     async onCancelPressed() {
+        if (this.state.recordingURL != null) window.URL.revokeObjectURL(this.state.recordingURL);
         this.emit({type: RecordingStateType.initial});
     }
 }

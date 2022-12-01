@@ -55,7 +55,6 @@ export class TextsBloc extends Bloc<TextsState> {
         if (current == null || current instanceof Error) {
             return; 
         }
-        console.log("skip pressed");
         this.emit({
             ...current, 
             loadingSmth: true, 

@@ -35,6 +35,7 @@ export class TextsBloc extends Bloc<TextsState> {
 
     // TODO: refactor code duplication with skipPressed
     async sendPressed(audio: Blob) {
+        console.log("send pressed");
         const current = this.state;
         if (current == null || current instanceof Error) return; 
         try {

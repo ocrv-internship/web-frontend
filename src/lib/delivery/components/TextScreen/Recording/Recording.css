@@ -1,11 +1,30 @@
-#actions {
-    display: flex;
-    align-content: stretch; 
-    gap: 5px;
+
+#recording {
+    flex: 0;
+    display: flex; 
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#recordingInfo {
+    display: flex; 
+    justify-content: center;
     flex-direction: column;
 }
 
-#recording {
-    display: flex; 
-    gap: 20px;
+#isRecordingLabel {
+    color: red;
+}
+
+#recordingInfo > p {
+    margin: 5px 0px;
+}
+
+#actions {
+    display: flex;
+    align-content: stretch; 
+    justify-content: center;
+    gap: 5px;
+    flex-direction: column;
 }

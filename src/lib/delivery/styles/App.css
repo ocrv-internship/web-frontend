@@ -16,13 +16,16 @@
     min-width: 200px;
     color: white;
     padding: 14px;
-    background: rgba(224, 224, 255, 0.06); 
+    background: #3c3c4a; 
     border-radius: 72px;
     cursor: pointer;
 }
+.button:hover {
+    filter: brightness(110%);
+}
 
 .button:active {
-    filter: brightness(125%);
+    filter: brightness(150%);
 }
 
 .empathetic-button {

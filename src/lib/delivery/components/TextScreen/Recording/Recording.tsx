@@ -10,9 +10,19 @@ export interface RecordingProps {
 export function Recording({ state }: RecordingProps) {
     return (
         <div className="card" id="recording">
+            <RecordingInfo state={state} />
             <Actions state={state}/>
         </div>
     )
+}
+
+function RecordingInfo({ state}: RecordingProps) {
+    return (
+        <div id="recordingInfo">
+            <p id="isRecordingLabel">Запись идёт</p>
+            <p>0:32</p>
+        </div>
+    );
 }
 
 function AudioWave({ audioURL }: { audioURL?: string }) {
@@ -43,10 +53,10 @@ function Actions({ state }: { state: RecordingState }) {
                 </div>
             );
         case RecordingStateType.recorded: 
-            const audio = state.recordingURL!;
+            const audio = state.recordingBlob!;
             return (
                 <div id="actions">
-                    <button onClick={() => textsBloc.sendPressed(state.recordingBlob!)} className="button empathetic-button">Отправить</button>
+                    <button onClick={() => textsBloc.sendPressed(audio)} className="button empathetic-button">Отправить</button>
                     <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
                 </div>
             );

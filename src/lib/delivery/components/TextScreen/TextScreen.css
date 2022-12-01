@@ -7,7 +7,7 @@ h1 {
     flex-direction: row;
     gap: 20px;
     justify-content: 'space-around';
-    height: 600px;
+    height: 800px;
 }
 
 #text, #notes {
@@ -20,9 +20,13 @@ h1 {
     gap: 20px;
 }
 
+#notes {
+    flex-grow: 1;
+}
+
 #text {
-    flex: 3;
+    flex: 4;
 }
 #notesSection {
-    flex: 1;
+    flex: 2;
 }

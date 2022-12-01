@@ -22,7 +22,14 @@ class APITextsService implements TextsService {
             body: JSON.stringify(body),
         });
     }
-    async sendAudio(id: string, blob: Blob): Promise<void> {
-        throw new Error("Method not implemented.");
+    async sendAudio(id: string, blob: Blob, retries: number): Promise<void> {
+        const formData = new FormData();
+        formData.set("text_id", id)
+        formData.set("retries", retries.toString());
+        formData.set("speech", blob);
+        await fetch(speechesEndpoint, {
+            method: "POST", 
+            body: formData,
+        });
     }
 }

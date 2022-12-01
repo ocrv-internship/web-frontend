@@ -36,7 +36,8 @@ export class MockTextsService implements TextsService {
         //     throw Error("a mock error");
         // } 
     } 
-    async sendAudio(id: string, blob: Blob, retries: number): Promise<void> {
+    async sendSpeech(id: string, blob: Blob, retries: number): Promise<void> {
+        console.log(`${retries} retries`);
         await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
         // throw new Error("Method not implemented.");
     }

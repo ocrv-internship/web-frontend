@@ -22,7 +22,7 @@ class APITextsService implements TextsService {
             body: JSON.stringify(body),
         });
     }
-    async sendAudio(id: string, blob: Blob, retries: number): Promise<void> {
+    async sendSpeech(id: string, blob: Blob, retries: number): Promise<void> {
         const formData = new FormData();
         formData.set("text_id", id)
         formData.set("retries", retries.toString());

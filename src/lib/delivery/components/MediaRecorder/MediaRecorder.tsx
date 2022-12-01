@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../domain/state/MediaRecorderBloc";
+import { ErrorState, Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../domain/state/MediaRecorderBloc";
 import { TextsContext } from "../../../domain/state/TextsBloc";
 import VideoPopupButton from "../VideoPopupButton/VideoPopupButton";
 import "./MediaRecorder.css";
@@ -46,14 +46,14 @@ function Actions({ state }: { state: RecordingState }) {
     );
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
-            <button onClick={() => textsBloc.sendPressed(state.blob)} className="button empathetic-button">Отправить</button>
+            <button onClick={() => textsBloc.sendPressed(state.blob, state.retries)} className="button empathetic-button">Отправить</button>
             <VideoPopupButton video={state.blob}/>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>
     );
-    const buildError = (state: Error) => (
+    const buildError = (state: ErrorState) => (
         <div id="actions">
-            <p>{state.message}</p>
+            <p>{state.err.message}</p>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>
     );

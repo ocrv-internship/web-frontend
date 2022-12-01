@@ -11,7 +11,9 @@ export interface LoadedState {
 
 export type TextsState = null | LoadedState | Error; 
 
+// TODO: implement incrementing the retries count
 
+// TODO: refactor the TextsBloc
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
@@ -34,12 +36,12 @@ export class TextsBloc extends Bloc<TextsState> {
     }
 
     // TODO: refactor code duplication with skipPressed
-    async sendPressed(audio: Blob) {
+    async sendPressed(speech: Blob, retries: number) {
         console.log("send pressed");
         const current = this.state;
         if (current == null || current instanceof Error) return; 
         try {
-            await this.service.sendAudio(current.texts[current.currentInd].id, audio);
+            await this.service.sendSpeech(current.texts[current.currentInd].id, speech, retries);
             this.emit({
                 texts: current.texts, 
                 currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 

@@ -14,9 +14,15 @@ h1 {
     overflow-y: auto;
 }
 
+#notesSection {
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px;
+}
+
 #text {
     flex: 3;
 }
-#notes {
+#notesSection {
     flex: 1;
 }

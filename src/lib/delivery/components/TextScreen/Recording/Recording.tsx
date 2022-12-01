@@ -9,8 +9,7 @@ export interface RecordingProps {
 
 export function Recording({ state }: RecordingProps) {
     return (
-        <div id="recording">
-            <AudioWave audioURL={state.recordingURL}/>
+        <div className="card" id="recording">
             <Actions state={state}/>
         </div>
     )

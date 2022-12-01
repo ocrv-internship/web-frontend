@@ -18,7 +18,6 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
         <div>
             <TextTitle text={text} />
             <TextInfoComponent text={text} /> 
-            <RecordingContainer />
         </div>
     );
 }
@@ -39,10 +38,13 @@ function TextInfoComponent({text}: TextProps) {
                 <h2>Текст для записи</h2>
                 <p>{text.text}</p>
             </section>
-            <section id="notes" className='card'>
-                <h2>Заметки</h2>
-                <p>{text.note}</p>
-            </section>
+            <div id="notesSection">
+                <section id="notes" className='card'>
+                    <h2>Заметки</h2>
+                    <p>{text.note}</p>
+                </section>
+                <RecordingContainer />
+            </div>
         </div>
     );
 }

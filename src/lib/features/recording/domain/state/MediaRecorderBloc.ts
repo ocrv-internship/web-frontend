@@ -26,7 +26,7 @@ export type RecordingState = Initial | Recording | Recorded | ErrorState;
 
 class MediaRecorderBloc extends Bloc<RecordingState> {
     private recorder?: SimpleRecorder;
-    private timer?: NodeJS.Timer;
+    private durationTimer?: NodeJS.Timer;
     constructor() {
         super(new Initial(0));
         this.onStartPressed = this.onStartPressed.bind(this);
@@ -47,7 +47,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
         .then((recorder) => {
             this.recorder = recorder; 
             this.emit(new Recording(0, this.state.retries));
-            this.timer = setInterval(this.incrementDuration, 1000);
+            this.durationTimer = setInterval(this.incrementDuration, 1000);
         })
         .catch((e) => this.emit(new ErrorState(e, this.state.retries)));
     }
@@ -69,7 +69,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     }
 
     private disposeAll() {
-        clearInterval(this.timer);
+        clearInterval(this.durationTimer);
         this.recorder?.dispose();
         this.recorder = undefined;
     }

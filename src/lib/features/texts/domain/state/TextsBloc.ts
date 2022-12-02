@@ -20,6 +20,8 @@ export class TextsBloc extends Bloc<TextsState> {
         this.emitError = this.emitError.bind(this);
         this.emitNextInd = this.emitNextInd.bind(this);
         this.skipPressed = this.skipPressed.bind(this);
+        this.sendPressed = this.sendPressed.bind(this); 
+        this.sendSpeech = this.sendSpeech.bind(this);
 
         this.load();
     }
@@ -31,30 +33,28 @@ export class TextsBloc extends Bloc<TextsState> {
             currentInd: 0, 
         })
     }
-    // TODO: remove code duplication with skipPressed
-    async sendPressed(speech: Blob, retries: number) {
+
+    async sendPressed(retries: number, speech: Blob) {
+        this.sendSpeech(retries, speech);
+    }
+    async skipPressed(retries: number) {
+        this.sendSpeech(retries, null);
+    }
+
+    // if speech is null, skips this text
+    private async sendSpeech(retries: number, speech: Blob | null) {
         const current = this.state;
         if (current == null || current instanceof Error) return; 
         this.emit({
             ...current, 
             loadingSmth: true, 
         })
-        const error = await this.service.sendSpeech(current.texts[current.currentInd].id, speech, retries);
-        if (error != null) return this.emitError(error);
-        this.emitNextInd(current);
-    }
 
-    async skipPressed(retries: number) {
-        const current = this.state;
-        if (current == null || current instanceof Error) {
-            return; 
-        }
-        this.emit({
-            ...current, 
-            loadingSmth: true, 
-        })
-        const error = await this.service.skipText(current.texts[current.currentInd].id, retries)
-        if (error != null) return this.emit(convertError(error));
+        const textId = current.texts[current.currentInd].id;
+        const error = speech ? 
+                await this.service.sendSpeech(textId, speech, retries)
+            :   await this.service.skipText(textId, retries);
+        if (error != null) return this.emitError(error);
         this.emitNextInd(current);
     }
 

@@ -46,7 +46,7 @@ function Actions({ state }: { state: RecordingState }) {
     );
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
-            <button onClick={() => textsBloc.sendPressed(state.blob, state.retries)} className="button empathetic-button">Отправить</button>
+            <button onClick={() => textsBloc.sendSpeech(state.blob, state.retries)} className="button empathetic-button">Отправить</button>
             <VideoPopupButton video={state.blob}/>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>

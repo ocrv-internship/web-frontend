@@ -1,6 +1,6 @@
-import { Bloc } from "../../bloc/Bloc";
-import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
-import { convertError } from "../../utils/utils";
+import { Bloc } from "../../../../core/utils/bloc/Bloc";
+import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
+import { convertError } from "../../../../core/utils/utils";
 import { TextInfo, TextsService } from "../service/TextsService";
 
 export interface LoadedState {

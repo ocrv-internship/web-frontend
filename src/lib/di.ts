@@ -1,6 +1,6 @@
 // import { APITextsService } from "./domain/service/APITextsService";
-import { MockTextsService } from "./domain/service/MockTextsService";
-import { TextsBloc } from "./domain/state/TextsBloc";
+import { MockTextsService } from "./features/texts/domain/service/MockTextsService";
+import { TextsBloc } from "./features/texts/domain/state/TextsBloc";
 
 interface UIDeps {
     textsBloc: () => TextsBloc;

@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { TextInfo } from '../../../domain/service/TextsService';
-import { LoadedState, TextsContext, TextsState } from '../../../domain/state/TextsBloc';
-import { MediaRecorderContainer } from '../MediaRecorder/MediaRecorderContainer';
+import { LoadedState } from '../../../domain/state/TextsBloc';
+import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import "./TextScreen.css";
 
 
@@ -14,7 +14,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
         return <p>You have recorded all of the texts.</p>;
     }
     const text = state.texts[state.currentInd];
-    return (
+    return  (
         <div>
             <TextTitle text={text} />
             <TextInfoComponent text={text} /> 

@@ -1,7 +1,7 @@
 import { isForInStatement } from "typescript";
-import { Bloc } from "../../bloc/Bloc";
-import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
-import { convertError } from "../../utils/utils";
+import { Bloc } from "../../../../core/utils/bloc/Bloc";
+import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
+import { convertError } from "../../../../core/utils/utils";
 
 export interface RecordingStateRetries {
     retries: number

@@ -1,7 +1,7 @@
 
 // TODO: implement showing the total time in the corner of the screen
 
-import { withErrorHandling } from "../../utils/utils";
+import { withErrorHandling } from "../../../../core/utils/utils";
 import { TextInfo, TextsService } from "./TextsService";
 
 const mockText = 

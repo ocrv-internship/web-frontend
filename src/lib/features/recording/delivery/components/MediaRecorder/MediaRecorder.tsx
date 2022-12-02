@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { ErrorState, Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../domain/state/MediaRecorderBloc";
-import { TextsContext } from "../../../domain/state/TextsBloc";
+import { TextsContext } from "../../../../texts/domain/state/TextsBloc";
 import VideoPopupButton from "../VideoPopupButton/VideoPopupButton";
 import "./MediaRecorder.css";
 

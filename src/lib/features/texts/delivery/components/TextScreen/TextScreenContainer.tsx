@@ -1,4 +1,4 @@
-import { uiDeps } from "../../../di";
+import { uiDeps } from "../../../../../di";
 import { TextsBuilder, TextsProvider } from "../../../domain/state/TextsBloc";
 import { LoadedTextScreen } from "./TextScreen";
 

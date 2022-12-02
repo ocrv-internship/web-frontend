@@ -1,3 +1,7 @@
+
+// TODO: implement showing the total time in the corner of the screen
+
+import { withErrorHandling } from "../../utils/utils";
 import { TextInfo, TextsService } from "./TextsService";
 
 const mockText = 
@@ -26,20 +30,19 @@ export const mockTexts: TextInfo[] = [
 
 
 export class MockTextsService implements TextsService {
-    async getTexts() : Promise<TextInfo[]> {
-        await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
-        return mockTexts;
+    async getTexts() : Promise<TextInfo[] | Error> {
+        return withErrorHandling(async () => {
+            await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
+            return mockTexts;
+        });
     }
-    async skipText(id: string, retries: number): Promise<void> {
-        console.log(`${retries} retries`);
-        await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
+    async skipText(id: string, retries: number): Promise<Error | null> {
+        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 300))); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");
         // } 
     } 
-    async sendSpeech(id: string, blob: Blob, retries: number): Promise<void> {
-        console.log(`${retries} retries`);
-        await new Promise(resolve =>  setTimeout(() => resolve(null), 300)); 
-        // throw new Error("Method not implemented.");
+    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | null> {
+        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 300))); 
     }
 }

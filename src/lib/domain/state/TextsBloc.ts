@@ -1,52 +1,47 @@
 import { Bloc } from "../../bloc/Bloc";
 import BlocComponentsFactory from "../../bloc/BlocComponentsFactory";
+import { convertError } from "../../utils/utils";
 import { TextInfo, TextsService } from "../service/TextsService";
 
 export interface LoadedState {
     texts: TextInfo[], 
     currentInd: number, 
-    loadingSmth: boolean, 
+    loadingSmth?: boolean, 
+    err?: Error;
 }
 
 export type TextsState = null | LoadedState | Error; 
 
 
-// TODO: refactor the TextsBloc
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
         this.load = this.load.bind(this);
+        this.emitError = this.emitError.bind(this);
+        this.emitNextInd = this.emitNextInd.bind(this);
         this.skipPressed = this.skipPressed.bind(this);
+
         this.load();
     }
     private async load() {
-        try {
-            const texts = await this.service.getTexts() 
-            this.emit({
-                loadingSmth: false, 
-                texts: texts, 
-                currentInd: 0, 
-            })
-        } catch (e) {
-            this.emit(e instanceof Error ? e : Error(`unknown: ${e}`));
-        }
+        const textsRes = await this.service.getTexts() 
+        if (textsRes instanceof Error) return this.emit(textsRes);
+        this.emit({
+            texts: textsRes, 
+            currentInd: 0, 
+        })
     }
-
-    // TODO: refactor code duplication with skipPressed
+    // TODO: remove code duplication with skipPressed
     async sendPressed(speech: Blob, retries: number) {
-        console.log("send pressed");
         const current = this.state;
         if (current == null || current instanceof Error) return; 
-        try {
-            await this.service.sendSpeech(current.texts[current.currentInd].id, speech, retries);
-            this.emit({
-                texts: current.texts, 
-                currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-                loadingSmth: false,
-            })
-        } catch (e) {
-            this.emit(e instanceof Error ? e : Error(`unknown error: ${e}`));
-        }
+        this.emit({
+            ...current, 
+            loadingSmth: true, 
+        })
+        const error = await this.service.sendSpeech(current.texts[current.currentInd].id, speech, retries);
+        if (error != null) return this.emitError(error);
+        this.emitNextInd(current);
     }
 
     async skipPressed(retries: number) {
@@ -58,17 +53,25 @@ export class TextsBloc extends Bloc<TextsState> {
             ...current, 
             loadingSmth: true, 
         })
-        try {
-            await this.service.skipText(current.texts[current.currentInd].id, retries)
-            this.emit({
-                texts: current.texts, 
-                currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-                loadingSmth: false,
-            })
-        } catch (e) {
-            this.emit(e instanceof Error ? e : Error(`unknown error: ${e}`));
-        }
+        const error = await this.service.skipText(current.texts[current.currentInd].id, retries)
+        if (error != null) return this.emit(convertError(error));
+        this.emitNextInd(current);
     }
+
+    private emitError(e: Error) {
+        const current = this.state; 
+        if (current == null) return;
+        else if (current instanceof Error) this.emit(e);
+        else this.emit({...current, loadingSmth: false, err: e});
+    }
+
+    private emitNextInd(current: LoadedState) {
+        this.emit({
+            texts: current.texts, 
+            currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
+        })
+    }
+
 }
 
 export const {

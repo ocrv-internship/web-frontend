@@ -7,7 +7,7 @@ export interface TextInfo {
 
 
 export interface TextsService {
-    getTexts() : Promise<TextInfo[]>;
-    skipText(id: string, retries: number): Promise<void>;
-    sendSpeech(id: string, blob: Blob, retries: number): Promise<void>;
+    getTexts() : Promise<Error | TextInfo[]>;
+    skipText(id: string, retries: number): Promise<Error | null>;
+    sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | null>;
 }

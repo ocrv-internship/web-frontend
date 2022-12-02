@@ -4,15 +4,21 @@ import { TextsContext } from "../../../../texts/domain/state/TextsBloc";
 import VideoPopupButton from "../VideoPopupButton/VideoPopupButton";
 import "./MediaRecorder.css";
 
-export interface RecordingProps {
-    state: RecordingState,
+export interface RecordingCallbacks {
+    onRecorded: (retries: number, recording: Blob) => void, 
+    onSkipped: (retries: number) => void,
 }
 
-export function MediaRecorder({ state }: RecordingProps) {
+export interface RecordingProps {
+    state: RecordingState,
+    callbacks: RecordingCallbacks,
+}
+
+export function MediaRecorder(props: RecordingProps) {
     return (
         <div className="card" id="recording">
-            {state instanceof Recording ? <RecordingInfo durationSec={state.durationSec} /> : <div></div>}
-            <Actions state={state}/>
+            {props.state instanceof Recording ? <RecordingInfo durationSec={props.state.durationSec} /> : <div></div>}
+            <Actions {...props}/>
         </div>
     )
 }
@@ -28,14 +34,15 @@ function RecordingInfo({ durationSec }: {durationSec: number}) {
     );
 }
 
-function Actions({ state }: { state: RecordingState }) {
-    const textsBloc = useContext(TextsContext)!;
+function Actions({state, callbacks }: RecordingProps) {
     const recordingBloc = useContext(RecordingContext)!;
 
     const buildInitial = (state: Initial) => (
         <div id="actions">
             <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
-            <button onClick={() => textsBloc.skipPressed(recordingBloc.state.retries)} className="button">Пропустить</button>
+            <button onClick={() => callbacks.onSkipped(recordingBloc.state.retries)} className="button">
+                Пропустить
+            </button>
         </div>
     );
     const buildRecording = (state: Recording) => (
@@ -46,7 +53,9 @@ function Actions({ state }: { state: RecordingState }) {
     );
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
-            <button onClick={() => textsBloc.sendSpeech(state.blob, state.retries)} className="button empathetic-button">Отправить</button>
+            <button onClick={() => callbacks.onRecorded(state.retries, state.blob)} className="button empathetic-button">
+                Отправить
+            </button>
             <VideoPopupButton video={state.blob}/>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>

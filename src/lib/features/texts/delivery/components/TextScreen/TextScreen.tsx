@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TextInfo } from '../../../domain/service/TextsService';
-import { LoadedState } from '../../../domain/state/TextsBloc';
+import { LoadedState, TextsContext } from '../../../domain/state/TextsBloc';
 import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import "./TextScreen.css";
+import { RecordingCallbacks } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorder';
 
 
 export interface LoadedTextScreenProps {
@@ -32,6 +33,11 @@ function TextTitle({text}: TextProps) {
 }
 
 function TextInfoComponent({text}: TextProps) {
+    const textsBloc = useContext(TextsContext)!;
+    const callbacks: RecordingCallbacks = {
+        onRecorded: textsBloc.sendPressed,
+        onSkipped: textsBloc.skipPressed,
+    };
     return (
         <div id="textInfo">
             <section id="text" className='card'>
@@ -43,7 +49,7 @@ function TextInfoComponent({text}: TextProps) {
                     <h2>Заметки</h2>
                     <p>{text.note}</p>
                 </section>
-                <MediaRecorderContainer />
+                <MediaRecorderContainer callbacks={callbacks}/>
             </div>
         </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextScreenContainer } from '../../features/texts/delivery/components/TextScreen/TextScreenContainer';
+import { TextScreenContainer } from '../../../../features/texts/delivery/components/TextScreen/TextScreenContainer';
 import "./App.css";
 
 function App() {

@@ -2,6 +2,12 @@ h1 {
     text-align: center;
 }
 
+#textScreen {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
 #textInfo {
     display: flex;
     flex-direction: row;

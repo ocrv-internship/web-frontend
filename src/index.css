@@ -1,4 +1,9 @@
 body {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+
+  min-height: 100vh;
   margin: 0;
   padding: 50px;
   background: #212429;
@@ -8,6 +13,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  height: 100%;
 }
 
 

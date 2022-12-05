@@ -36,10 +36,7 @@ function TextTitle({text}: TextProps) {
 function TextInfoComponent({text}: {text: TextInfo}) {
     return (
         <div id="textInfo">
-            <section id="text" className='card'>
-                <h2>Текст для записи</h2>
-                <p>{text.text}</p>
-            </section>
+            <TextComponent text={text.text} />
             <div id="notesSection">
                 <section id="notes" className='card'>
                     <h2>Заметки</h2>
@@ -48,5 +45,24 @@ function TextInfoComponent({text}: {text: TextInfo}) {
                 <MediaRecorderContainer textId={text.id}/>
             </div>
         </div>
+    );
+}
+
+const defaultFontSize = 18; 
+
+function TextComponent({text}: {text: string}) {
+    const [fontSize, setFontSize] = useState(defaultFontSize);
+    return (
+        <section id="text" className='card'>
+            <div id="textHeader">
+                <h2>Текст для записи</h2>
+                <div>
+                    <h2>{`Шрифт: ${fontSize}`}</h2>
+                    <button onClick={() => setFontSize(fontSize-1)} className="button">-</button>
+                    <button onClick={() => setFontSize(fontSize+1)} className="button">+</button>
+                </div>
+            </div>
+            <p style={{fontSize: fontSize}}>{text}</p>
+        </section>
     );
 }

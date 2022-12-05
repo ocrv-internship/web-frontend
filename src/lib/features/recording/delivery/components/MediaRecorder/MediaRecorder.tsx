@@ -39,31 +39,41 @@ function Actions({ state }: MediaRecorderProps) {
     const textsBloc = useContext(TextsContext)!;
     const textsState = textsBloc.state as LoadedState;
 
-    const buildInitial = (state: Initial) => (
-        <div id="actions">
-            <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
-            <button onClick={() => textsBloc.skipPressed(recordingBloc.state.retries)} className="button">
-                {textsState.loading === Loading.skip ?  < Spinner /> : <div />}
-                Пропустить
-            </button>
-        </div>
-    );
+    const buildInitial = (state: Initial) => {
+        const loading = textsState.loading === Loading.skipping;
+        const onSkip = () => textsBloc.skipPressed(recordingBloc.state.retries);
+        const skipClass = "button" + (loading ? " button-loading" : "");
+        return (
+            <div id="actions">
+                <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
+                <button onClick={onSkip} className={skipClass}>
+                    {loading ? < Spinner /> : <></>}
+                    <p>Пропустить</p>
+                </button>
+            </div>
+        );
+    }
     const buildRecording = (state: Recording) => (
         <div id="actions">
             <button onClick={recordingBloc.onStopPressed} className="button empathetic-button">Закончить</button>
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>
     );
-    const buildRecorded = (state: Recorded) => (
-        <div id="actions">
-            <button onClick={() => textsBloc.sendPressed(state.retries, state.blob)} className="button empathetic-button">
-                {textsState.loading === Loading.sending ?  < Spinner /> : <div />}
-                Отправить
-            </button>
-            <VideoPopupButton video={state.blob} />
-            <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
-        </div>
-    );
+    const buildRecorded = (state: Recorded) => {
+        const loading = textsState.loading === Loading.sending;
+        const onSend = () => textsBloc.sendPressed(state.retries, state.blob);
+        const sendClass = "button empathetic-button" + (loading ? " button-loading" : "");
+        return (
+            <div id="actions">
+                <button onClick={onSend} className={sendClass}>
+                    {textsState.loading === Loading.sending ? < Spinner /> : <></>}
+                    <p>Отправить</p>
+                </button>
+                <VideoPopupButton video={state.blob} />
+                <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
+            </div>
+        );
+    }
     const buildError = (state: ErrorState) => (
         <div id="actions">
             <p>{state.err.message}</p>

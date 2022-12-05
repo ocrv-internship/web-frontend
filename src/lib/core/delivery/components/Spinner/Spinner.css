@@ -1,9 +1,32 @@
 .spinner {
-    border: 10px solid #f3f3f3;
-    border-top: 10px solid #3498db;
+    border: 8px solid transparent;
+    border-top: 8px solid #FF00AA;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+
+    transform-origin: 50% 50%;
+    animation: spin 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 }
+
+.button > .spinnerWrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+.button > .spinnerWrapper > .spinner {
+    height: 16px !important; 
+    width: 16px !important;
+    border-width: 4px !important;
+}
+
+.button-loading > p {
+    visibility: hidden;
+}
+
+.empathetic-button > .spinnerWrapper > .spinner {
+    border-top-color: white;
+}
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

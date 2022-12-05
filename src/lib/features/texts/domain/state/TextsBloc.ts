@@ -3,7 +3,7 @@ import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFac
 import { TextInfo, TextsService } from "../service/TextsService";
 
 export enum Loading {
-    skip, 
+    skipping, 
     sending,
 }
 
@@ -51,7 +51,7 @@ export class TextsBloc extends Bloc<TextsState> {
         if (current == null || current instanceof Error) return; 
         this.emit({
             ...current, 
-            loading: speech ? Loading.sending : Loading.skip, 
+            loading: speech ? Loading.sending : Loading.skipping, 
         })
 
         const textId = current.texts[current.currentInd].id;

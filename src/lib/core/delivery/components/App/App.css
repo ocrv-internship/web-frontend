@@ -11,6 +11,10 @@
 }
 
 .button {
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     border: 0px;
     font-size: 21px;
     min-width: 200px;

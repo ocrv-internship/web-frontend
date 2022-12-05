@@ -2,10 +2,15 @@ import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import { TextInfo, TextsService } from "../service/TextsService";
 
+export enum Loading {
+    skip, 
+    sending,
+}
+
 export interface LoadedState {
     texts: TextInfo[], 
     currentInd: number, 
-    loadingSmth?: boolean, 
+    loading?: Loading, 
     err?: Error;
 }
 
@@ -44,10 +49,10 @@ export class TextsBloc extends Bloc<TextsState> {
     private async sendSpeech(retries: number, speech: Blob | null) {
         const current = this.state;
         if (current == null || current instanceof Error) return; 
-        this.emit({
-            ...current, 
-            loadingSmth: true, 
-        })
+        // this.emit({
+        //     ...current, 
+        //     loading: speech ? Loading.sending : Loading.skip, 
+        // })
 
         const textId = current.texts[current.currentInd].id;
         const error = speech ? 
@@ -61,7 +66,7 @@ export class TextsBloc extends Bloc<TextsState> {
         const current = this.state; 
         if (current == null) return;
         else if (current instanceof Error) this.emit(e);
-        else this.emit({...current, loadingSmth: false, err: e});
+        else this.emit({...current, loading: undefined, err: e});
     }
 
     private emitNextInd(current: LoadedState) {

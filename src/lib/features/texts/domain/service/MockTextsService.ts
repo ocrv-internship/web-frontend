@@ -43,6 +43,6 @@ export class MockTextsService implements TextsService {
         // } 
     } 
     async sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | null> {
-        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 300))); 
+        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 10000))); 
     }
 }

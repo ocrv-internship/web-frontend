@@ -29,6 +29,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     private durationTimer?: NodeJS.Timer;
     constructor() {
         super(new Initial(0));
+        console.log("media recorder bloc created");
         this.onStartPressed = this.onStartPressed.bind(this);
         this.onStopPressed = this.onStopPressed.bind(this);
         this.onCancelPressed = this.onCancelPressed.bind(this);
@@ -37,6 +38,7 @@ class MediaRecorderBloc extends Bloc<RecordingState> {
     }
 
     dispose() {
+        console.log("media recorder bloc disposed");
         super.dispose();
         this.disposeAll();
     }

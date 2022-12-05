@@ -1,30 +1,30 @@
 import { useContext } from "react";
-import { ErrorState, Initial, Recorded, Recording, RecordingContext, RecordingState} from "../../../domain/state/MediaRecorderBloc";
-import { TextsContext } from "../../../../texts/domain/state/TextsBloc";
+import { ErrorState, Initial, Recorded, Recording, RecordingContext, RecordingState } from "../../../domain/state/MediaRecorderBloc";
 import VideoPopupButton from "../VideoPopupButton/VideoPopupButton";
 import "./MediaRecorder.css";
+import Spinner from "../../../../../core/delivery/components/Spinner/Spinner";
+import { LoadedState, Loading, TextsContext } from "../../../../texts/domain/state/TextsBloc";
 
 export interface RecordingCallbacks {
-    onRecorded: (retries: number, recording: Blob) => void, 
+    onRecorded: (retries: number, recording: Blob) => void,
     onSkipped: (retries: number) => void,
 }
 
-export interface RecordingProps {
+export interface MediaRecorderProps {
     state: RecordingState,
-    callbacks: RecordingCallbacks,
 }
 
-export function MediaRecorder(props: RecordingProps) {
+export function MediaRecorder(props: MediaRecorderProps) {
     return (
         <div className="card" id="recording">
             {props.state instanceof Recording ? <RecordingInfo durationSec={props.state.durationSec} /> : <div></div>}
-            <Actions {...props}/>
+            <Actions {...props} />
         </div>
     )
 }
 
-function RecordingInfo({ durationSec }: {durationSec: number}) {
-    const min = Math.floor(durationSec / 60).toString(); 
+function RecordingInfo({ durationSec }: { durationSec: number }) {
+    const min = Math.floor(durationSec / 60).toString();
     const sec = (durationSec % 60).toString().padStart(2, "0");
     return (
         <div id="recordingInfo">
@@ -34,13 +34,16 @@ function RecordingInfo({ durationSec }: {durationSec: number}) {
     );
 }
 
-function Actions({state, callbacks }: RecordingProps) {
+function Actions({ state }: MediaRecorderProps) {
     const recordingBloc = useContext(RecordingContext)!;
+    const textsBloc = useContext(TextsContext)!;
+    const textsState = textsBloc.state as LoadedState;
 
     const buildInitial = (state: Initial) => (
         <div id="actions">
             <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
-            <button onClick={() => callbacks.onSkipped(recordingBloc.state.retries)} className="button">
+            <button onClick={() => textsBloc.skipPressed(recordingBloc.state.retries)} className="button">
+                {textsState.loading == Loading.skip ?  < Spinner /> : <div />}
                 Пропустить
             </button>
         </div>
@@ -53,10 +56,11 @@ function Actions({state, callbacks }: RecordingProps) {
     );
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
-            <button onClick={() => callbacks.onRecorded(state.retries, state.blob)} className="button empathetic-button">
+            <button onClick={() => textsBloc.sendPressed(state.retries, state.blob)} className="button empathetic-button">
+                {textsState.loading == Loading.sending ?  < Spinner /> : <div />}
                 Отправить
             </button>
-            <VideoPopupButton video={state.blob}/>
+            <VideoPopupButton video={state.blob} />
             <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
         </div>
     );
@@ -69,6 +73,6 @@ function Actions({state, callbacks }: RecordingProps) {
 
     if (state instanceof Initial) return buildInitial(state);
     else if (state instanceof Recording) return buildRecording(state);
-    else if (state instanceof Recorded) return buildRecorded(state); 
+    else if (state instanceof Recorded) return buildRecorded(state);
     else return buildError(state);
 }

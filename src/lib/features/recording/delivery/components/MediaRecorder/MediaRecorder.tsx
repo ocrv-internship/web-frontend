@@ -43,7 +43,7 @@ function Actions({ state }: MediaRecorderProps) {
         <div id="actions">
             <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
             <button onClick={() => textsBloc.skipPressed(recordingBloc.state.retries)} className="button">
-                {textsState.loading == Loading.skip ?  < Spinner /> : <div />}
+                {textsState.loading === Loading.skip ?  < Spinner /> : <div />}
                 Пропустить
             </button>
         </div>
@@ -57,7 +57,7 @@ function Actions({ state }: MediaRecorderProps) {
     const buildRecorded = (state: Recorded) => (
         <div id="actions">
             <button onClick={() => textsBloc.sendPressed(state.retries, state.blob)} className="button empathetic-button">
-                {textsState.loading == Loading.sending ?  < Spinner /> : <div />}
+                {textsState.loading === Loading.sending ?  < Spinner /> : <div />}
                 Отправить
             </button>
             <VideoPopupButton video={state.blob} />

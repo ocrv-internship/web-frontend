@@ -49,10 +49,10 @@ export class TextsBloc extends Bloc<TextsState> {
     private async sendSpeech(retries: number, speech: Blob | null) {
         const current = this.state;
         if (current == null || current instanceof Error) return; 
-        // this.emit({
-        //     ...current, 
-        //     loading: speech ? Loading.sending : Loading.skip, 
-        // })
+        this.emit({
+            ...current, 
+            loading: speech ? Loading.sending : Loading.skip, 
+        })
 
         const textId = current.texts[current.currentInd].id;
         const error = speech ? 

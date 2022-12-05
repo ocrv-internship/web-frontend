@@ -45,7 +45,7 @@ function TextInfoComponent({text}: {text: TextInfo}) {
                     <h2>Заметки</h2>
                     <p>{text.note}</p>
                 </section>
-                <MediaRecorderContainer />
+                <MediaRecorderContainer textId={text.id}/>
             </div>
         </div>
     );

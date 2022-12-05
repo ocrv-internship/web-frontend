@@ -52,14 +52,16 @@ const defaultFontSize = 18;
 
 function TextComponent({text}: {text: string}) {
     const [fontSize, setFontSize] = useState(defaultFontSize);
+    const decrement = fontSize > 12 ? () => setFontSize(fontSize-1) : () => {};
+    const increment = () => setFontSize(fontSize+1);
     return (
         <section id="text" className='card'>
             <div id="textHeader">
                 <h2>Текст для записи</h2>
                 <div>
                     <h2>{`Шрифт: ${fontSize}`}</h2>
-                    <button onClick={() => setFontSize(fontSize-1)} className="button">-</button>
-                    <button onClick={() => setFontSize(fontSize+1)} className="button">+</button>
+                    <button onClick={decrement} className="button">-</button>
+                    <button onClick={increment} className="button">+</button>
                 </div>
             </div>
             <p style={{fontSize: fontSize}}>{text}</p>

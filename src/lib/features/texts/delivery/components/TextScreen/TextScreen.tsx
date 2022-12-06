@@ -19,7 +19,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
     return  (
         <div>
             <TextTitle text={text} />
-            <TextInfoComponent text={text} /> 
+            <TextInfoComponent text={text} index={state.currentInd+1} fullCount={state.texts.length}  /> 
         </div>
     );
 }
@@ -33,14 +33,20 @@ function TextTitle({text}: TextProps) {
     return <h1>Задача №{text.id}</h1>;
 }
 
-function TextInfoComponent({text}: {text: TextInfo}) {
+interface TextInfoComponentProps {
+    text: TextInfo, 
+    index: number, 
+    fullCount: number,
+}
+
+function TextInfoComponent({text, index, fullCount}: TextInfoComponentProps) {
     return (
         <div id="textInfo">
-            <TextComponent text={text.text} />
+            <TextComponent text={text.text} index={index} fullCount={fullCount} />
             <div id="notesSection">
                 <section id="notes" className='card'>
                     <h2>Заметки</h2>
-                    <p>{text.note}</p>
+                    <p id="notesBody">{text.note}</p>
                 </section>
                 <MediaRecorderContainer textId={text.id}/>
             </div>
@@ -50,21 +56,21 @@ function TextInfoComponent({text}: {text: TextInfo}) {
 
 const defaultFontSize = 18; 
 
-function TextComponent({text}: {text: string}) {
+function TextComponent({text, index, fullCount}: {text: string, index: number, fullCount: number}) {
     const [fontSize, setFontSize] = useState(defaultFontSize);
     const decrement = fontSize > 12 ? () => setFontSize(fontSize-1) : () => {};
     const increment = () => setFontSize(fontSize+1);
     return (
         <section id="text" className='card'>
             <div id="textHeader">
-                <h2>Текст для записи</h2>
+                <h2>Текст для записи {index}/{fullCount}</h2>
                 <div>
                     <h2>{`Шрифт: ${fontSize}`}</h2>
                     <button onClick={decrement} className="button">-</button>
                     <button onClick={increment} className="button">+</button>
                 </div>
             </div>
-            <p style={{fontSize: fontSize}}>{text}</p>
+            <p id="textBody" style={{fontSize: fontSize}}>{text}</p>
         </section>
     );
 }

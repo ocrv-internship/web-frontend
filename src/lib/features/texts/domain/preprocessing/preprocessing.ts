@@ -3,7 +3,8 @@ function addAccents(text: string): string {
 }
 
 function addBoldness(text: string): string {
-    throw Error("Unimplemented");
+    // TODO: implement adding boldness 
+    return text; 
 }
 
 export function preprocess(text: string) {

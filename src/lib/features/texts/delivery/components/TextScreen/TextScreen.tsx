@@ -34,7 +34,7 @@ function TextInfoComponent({text, index, fullCount}: TextInfoComponentProps) {
         <div id="textInfo">
             <TextSection text={text.text} index={index} fullCount={fullCount} />
             <div id="notesSection">
-                <section id="notes" className='card'>
+                <section id="notes">
                     <h2>Заметки</h2>
                     <p id="notesBody">{text.note}</p>
                 </section>

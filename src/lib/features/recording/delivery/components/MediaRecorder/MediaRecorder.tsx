@@ -17,10 +17,10 @@ export interface MediaRecorderProps {
 
 export function MediaRecorder({state} : {state: MediaRecordingState}) {
     return (
-        <div className="card" id="recording">
+        <section id="recording">
             {state instanceof Recording ? <RecordingInfo durationSec={state.durationSec} /> : <div></div>}
             <Actions state={state} />
-        </div>
+        </section>
     )
 }
 

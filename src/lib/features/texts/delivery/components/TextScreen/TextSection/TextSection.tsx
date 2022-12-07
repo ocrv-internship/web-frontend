@@ -8,7 +8,7 @@ export function TextSection({text, index, fullCount}: {text: string, index: numb
     const decrement = fontSize > 12 ? () => setFontSize(fontSize-1) : () => {};
     const increment = () => setFontSize(fontSize+1);
     return (
-        <section id="text" className='card'>
+        <section id="text">
             <div id="textHeader">
                 <h2>Текст для записи {index}/{fullCount}</h2>
                 <div>

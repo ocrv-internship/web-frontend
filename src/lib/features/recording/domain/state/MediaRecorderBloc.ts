@@ -25,6 +25,8 @@ export class ErrorState implements RecordingStateRetries {
 
 export type MediaRecordingState = Initial | Recording | Recorded | ErrorState;
 
+const minVideoDuration = 2; 
+
 class MediaRecorderBloc extends Bloc<MediaRecordingState> {
     private recorder?: SimpleRecorder;
     private durationTimer?: NodeJS.Timer;
@@ -60,6 +62,7 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
 
     async onStopPressed() {
         if (!this.recorder || !(this.state instanceof Recording)) return; 
+        if (this.state.durationSec < minVideoDuration) return this.onCancelPressed();
         const recording = await this.recorder.finish();
         this.recorder = undefined; 
         this.emit(new Recorded({

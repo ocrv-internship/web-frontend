@@ -1,5 +1,6 @@
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
+import { RecInfo } from "../../../texts/domain/state/TextsBloc";
 import { startRecording, SimpleRecorder } from "../service/SimpleRecorder";
 
 export interface RecordingStateRetries {
@@ -15,7 +16,7 @@ export class Recording implements RecordingStateRetries {
 };
 
 export class Recorded implements RecordingStateRetries {
-    constructor(readonly blob: Blob, readonly retries: number) { };
+    constructor(readonly rec: RecInfo, readonly retries: number) { };
 };
 
 export class ErrorState implements RecordingStateRetries {
@@ -58,10 +59,13 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
     }
 
     async onStopPressed() {
-        if (!this.recorder) return; 
+        if (!this.recorder || !(this.state instanceof Recording)) return; 
         const recording = await this.recorder.finish();
         this.recorder = undefined; 
-        this.emit(new Recorded(recording, this.state.retries));
+        this.emit(new Recorded({
+            blob: recording, 
+            durationSec: this.state.durationSec,
+        }, this.state.retries));
         this.disposeAll();
     }
 

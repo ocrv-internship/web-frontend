@@ -10,8 +10,14 @@ export enum Loading {
 export interface LoadedState {
     texts: TextInfo[], 
     currentInd: number, 
+    fullRecDurationSec: number,
     loading?: Loading, 
     err?: Error;
+}
+
+export interface RecInfo {
+    blob: Blob, 
+    durationSec: number,
 }
 
 export type TextsState = null | LoadedState | Error; 
@@ -22,7 +28,6 @@ export class TextsBloc extends Bloc<TextsState> {
         super(null);
         this.load = this.load.bind(this);
         this.emitError = this.emitError.bind(this);
-        this.emitNextInd = this.emitNextInd.bind(this);
         this.skipPressed = this.skipPressed.bind(this);
         this.sendPressed = this.sendPressed.bind(this); 
         this.sendSpeech = this.sendSpeech.bind(this);
@@ -35,10 +40,11 @@ export class TextsBloc extends Bloc<TextsState> {
         this.emit({
             texts: textsRes, 
             currentInd: 0, 
+            fullRecDurationSec: 0,
         })
     }
 
-    async sendPressed(retries: number, speech: Blob) {
+    async sendPressed(retries: number, speech: RecInfo) {
         this.sendSpeech(retries, speech);
     }
     async skipPressed(retries: number) {
@@ -46,7 +52,7 @@ export class TextsBloc extends Bloc<TextsState> {
     }
 
     // if speech is null, skips this text
-    private async sendSpeech(retries: number, speech: Blob | null) {
+    private async sendSpeech(retries: number, speech: RecInfo | null) {
         const current = this.state;
         if (current == null || current instanceof Error) return; 
         this.emit({
@@ -56,10 +62,14 @@ export class TextsBloc extends Bloc<TextsState> {
 
         const textId = current.texts[current.currentInd].id;
         const error = speech ? 
-                await this.service.sendSpeech(textId, speech, retries)
+                await this.service.sendSpeech(textId, speech.blob, retries)
             :   await this.service.skipText(textId, retries);
         if (error != null) return this.emitError(error);
-        this.emitNextInd(current);
+        this.emit({
+            texts: current.texts, 
+            currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
+            fullRecDurationSec: current.fullRecDurationSec + (speech?.durationSec ?? 0),
+        })
     }
 
     private emitError(e: Error) {
@@ -67,13 +77,6 @@ export class TextsBloc extends Bloc<TextsState> {
         if (current == null) return;
         else if (current instanceof Error) this.emit(e);
         else this.emit({...current, loading: undefined, err: e});
-    }
-
-    private emitNextInd(current: LoadedState) {
-        this.emit({
-            texts: current.texts, 
-            currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-        })
     }
 
 }

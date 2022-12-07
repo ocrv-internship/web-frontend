@@ -32,7 +32,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     );
     const buildRecorded = (state: Recorded) => {
         const loading = textsState.loading === Loading.sending;
-        const onSend = () => textsBloc.sendPressed(state.retries, state.blob);
+        const onSend = () => textsBloc.sendPressed(state.retries, state.rec);
         const sendClass = "button empathetic-button" + (loading ? " button-loading" : "");
         return (
             <div id="actions">
@@ -40,7 +40,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
                     {textsState.loading === Loading.sending ? < Spinner /> : <></>}
                     <p>Отправить</p>
                 </button>
-                <VideoPopupButton video={state.blob} />
+                <VideoPopupButton video={state.rec.blob} />
                 <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
             </div>
         );

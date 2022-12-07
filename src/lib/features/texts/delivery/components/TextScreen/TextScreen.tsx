@@ -24,7 +24,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
             <ProgressTab 
                 completedCount={completed} 
                 textsCount={state.texts.length} 
-                fullDurationSec={0}
+                fullDurationSec={state.fullRecDurationSec}
             />
         </>
     );

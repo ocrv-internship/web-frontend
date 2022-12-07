@@ -5,6 +5,7 @@ import "./MediaRecorder.css";
 import Spinner from "../../../../../core/delivery/components/Spinner/Spinner";
 import { LoadedState, Loading, TextsContext } from "../../../../texts/domain/state/TextsBloc";
 import { Actions } from "./Actions/Actions";
+import { formatDuration } from "../../../../../core/utils/utils";
 
 export interface RecordingCallbacks {
     onRecorded: (retries: number, recording: Blob) => void,
@@ -25,12 +26,10 @@ export function MediaRecorder({state} : {state: MediaRecordingState}) {
 }
 
 function RecordingInfo({ durationSec }: { durationSec: number }) {
-    const min = Math.floor(durationSec / 60).toString();
-    const sec = (durationSec % 60).toString().padStart(2, "0");
     return (
         <div id="recordingInfo">
             <p id="isRecordingLabel">Запись идёт</p>
-            <p>{`${min}:${sec}`}</p>
+            <p>{formatDuration(durationSec)}</p>
         </div>
     );
 }

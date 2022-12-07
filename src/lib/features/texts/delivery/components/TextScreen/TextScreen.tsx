@@ -4,6 +4,7 @@ import { LoadedState} from '../../../domain/state/TextsBloc';
 import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import "./TextScreen.css";
 import { TextSection } from './TextSection/TextSection';
+import { ProgressTab } from './ProgressTab/ProgressTab';
 
 
 export interface LoadedTextScreenProps {
@@ -15,27 +16,31 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
         return <p>You have recorded all of the texts.</p>;
     }
     const text = state.texts[state.currentInd];
+    const completed = state.currentInd; 
     return  (
-        <div>
+        <>
             <h1>Задача №{text.id}</h1>
-            <TextInfoComponent text={text} index={state.currentInd+1} fullCount={state.texts.length}  /> 
-        </div>
+            <TextInfoComponent text={text} /> 
+            <ProgressTab 
+                completedCount={completed} 
+                textsCount={state.texts.length} 
+                fullDurationSec={0}
+            />
+        </>
     );
 }
 
 interface TextInfoComponentProps {
     text: TextInfo, 
-    index: number, 
-    fullCount: number,
 }
 
-function TextInfoComponent({text, index, fullCount}: TextInfoComponentProps) {
+function TextInfoComponent({text}: TextInfoComponentProps) {
     return (
         <div id="textInfo">
-            <TextSection text={text.text} index={index} fullCount={fullCount} />
+            <TextSection text={text.text} />
             <div id="notesSection">
                 <section id="notes">
-                    <h2>Заметки</h2>
+                    <h2>Инструкция</h2>
                     <p id="notesBody">{text.note}</p>
                 </section>
                 <MediaRecorderContainer textId={text.id}/>

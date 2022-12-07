@@ -11,6 +11,7 @@ section {
 
 .button {
     position: relative;
+    user-select: none;
     border: 0px;
     font-size: 21px;
     min-width: 200px;

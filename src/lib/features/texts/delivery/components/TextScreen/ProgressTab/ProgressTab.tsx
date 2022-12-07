@@ -1,7 +1,16 @@
+import { formatDuration } from "../../../../../../core/utils/utils";
+import "./ProgressTab.css";
+
 export interface ProgressTabProps {
     completedCount: number, 
     textsCount: number, 
     fullDurationSec: number,
 }
 export function ProgressTab(props : ProgressTabProps) {
+    return (
+        <section id="progress">
+            <h3>Закончено {props.completedCount} из {props.textsCount}</h3>
+            <h3>Общая длительность {formatDuration(props.fullDurationSec)}</h3>
+        </section>
+    );
 }

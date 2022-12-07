@@ -22,9 +22,9 @@ export class ErrorState implements RecordingStateRetries {
     constructor(readonly err: Error, readonly retries: number) { };
 }
 
-export type RecordingState = Initial | Recording | Recorded | ErrorState;
+export type MediaRecordingState = Initial | Recording | Recorded | ErrorState;
 
-class MediaRecorderBloc extends Bloc<RecordingState> {
+class MediaRecorderBloc extends Bloc<MediaRecordingState> {
     private recorder?: SimpleRecorder;
     private durationTimer?: NodeJS.Timer;
     constructor() {
@@ -83,4 +83,4 @@ export const {
     Provider: RecordingProvider,
     Builder: RecordingBuilder,
     Context: RecordingContext,
-} = BlocComponentsFactory<RecordingState, MediaRecorderBloc>();
+} = BlocComponentsFactory<MediaRecordingState, MediaRecorderBloc>();

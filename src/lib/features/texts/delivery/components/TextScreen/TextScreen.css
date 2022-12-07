@@ -43,20 +43,3 @@ h1 {
 #notesSection {
     flex: 2;
 }
-
-#textHeader {
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-}
-
-#textHeader  h2 {
-    display: inline-block;
-    margin-right: 20px;
-}
-
-#textHeader .button {
-    min-width: 0;
-    aspect-ratio: 1;
-}

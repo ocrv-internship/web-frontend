@@ -16,7 +16,7 @@ function BlocProviderFactory<S, B extends Bloc<S>>(context: React.Context<B | nu
             setBloc(createdBloc);
             return createdBloc.dispose;
         }, [create]);
-        if (bloc == null) return <p>Loading...</p>;
+        if (bloc == null) return <></>;
 
         return (
             <context.Provider value={bloc}>

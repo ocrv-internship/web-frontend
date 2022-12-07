@@ -1,4 +1,7 @@
 #progress {
+    display: flex; 
+    flex-direction: row;
+    gap: 20px;
     position: fixed; 
     left: 0; 
     bottom: 0;

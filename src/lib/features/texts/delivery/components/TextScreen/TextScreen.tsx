@@ -13,7 +13,7 @@ export interface LoadedTextScreenProps {
 
 export function LoadedTextScreen({state} : LoadedTextScreenProps) {
     if (state.currentInd === -1) {
-        return <p>You have recorded all of the texts.</p>;
+        return <TextsEndComponent />;
     }
     const text = state.texts[state.currentInd];
     const completed = state.currentInd; 
@@ -46,5 +46,14 @@ function TextInfoComponent({text}: TextInfoComponentProps) {
                 <MediaRecorderContainer textId={text.id}/>
             </div>
         </div>
+    );
+}
+
+function TextsEndComponent({}) {
+    return (
+        <>
+            <h2>Тексты закончились. Спасибо!</h2>
+            <button className="simple" onClick={() => window.location.reload()}>Записать заново</button>
+        </>
     );
 }

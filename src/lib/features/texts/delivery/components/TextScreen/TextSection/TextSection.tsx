@@ -13,8 +13,8 @@ export function TextSection({text}: {text: string}) {
                 <h2>Текст для записи</h2>
                 <div>
                     <h2>{`Шрифт: ${fontSize}`}</h2>
-                    <button onClick={decrement} className="button">-</button>
-                    <button onClick={increment} className="button">+</button>
+                    <button onClick={decrement} className="simple">-</button>
+                    <button onClick={increment} className="simple">+</button>
                 </div>
             </div>
             <p id="textBody" style={{fontSize: fontSize}}>{text}</p>

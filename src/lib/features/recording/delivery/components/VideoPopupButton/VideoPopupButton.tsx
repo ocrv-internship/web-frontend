@@ -11,7 +11,7 @@ export function VideoPopupButton({video} : {video: Blob}) {
     }, [videoURL]);
     return (
         <div>
-            <button className="button" onClick={openVideo}>Просмотреть</button>
+            <button className="simple" onClick={openVideo}>Просмотреть</button>
             {videoURL != null ? <VideoPopup src={videoURL} onClose={closeVideo} /> : <div />}
         </div>
     );
@@ -22,9 +22,9 @@ export function VideoPopupButton({video} : {video: Blob}) {
 function VideoPopup({onClose, src} : {onClose: () => void, src: string}) {
     return (
         <div onClick={onClose} id="popupBackground">
-            <div className="card" onClick={(e) => e.stopPropagation()} id="popup">
+            <section onClick={(e) => e.stopPropagation()} id="popup">
                 <video controls src={src} width={600}/>
-            </div>
+            </section>
         </div>
     );
 }

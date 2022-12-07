@@ -9,7 +9,7 @@ section {
     border-radius: 24px;
 }
 
-.button {
+button {
     position: relative;
     user-select: none;
     border: 0px;
@@ -17,25 +17,35 @@ section {
     min-width: 200px;
     color: white;
     padding: 14px;
-    background: #3c3c4a; 
     border-radius: 72px;
     cursor: pointer;
 }
-.button:hover {
+.simple {
+    background: #3c3c4a; 
+}
+.highlighted {
+    background: linear-gradient(135deg, #FF00AA 0%, #9C42F5 50%, #5D2DE1 100%);
+    box-shadow: 0px 0px 1px rgba(156, 66, 245, 0.24), 0px 2px 4px -1px rgba(27, 10, 82, 0.12), 0px 16px 24px rgba(156, 66, 245, 0.24), 0px 8px 8px -4px rgba(156, 66, 245, 0.12);
+}
+
+.simple:hover {
+    background: #4e4e60; 
+}
+
+.simple:active {
+    background: #66667d; 
+}
+
+.highlighted:hover {
     filter: brightness(110%);
 }
-
-.button:active {
-    filter: brightness(150%);
+.highlighted:active {
+    filter: brightness(130%) saturate(3.2);
 }
 
-.button > p {
+button > p {
     margin: 0; 
 }
 
 
-.empathetic-button {
-    background: linear-gradient(135deg, #FF00AA 0%, #9C42F5 50%, #5D2DE1 100%);
-    box-shadow: 0px 0px 1px rgba(156, 66, 245, 0.24), 0px 2px 4px -1px rgba(27, 10, 82, 0.12), 0px 16px 24px rgba(156, 66, 245, 0.24), 0px 8px 8px -4px rgba(156, 66, 245, 0.12);
-}
 

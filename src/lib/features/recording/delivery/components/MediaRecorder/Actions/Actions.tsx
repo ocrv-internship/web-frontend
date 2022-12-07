@@ -13,10 +13,10 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     const buildInitial = (state: Initial) => {
         const loading = textsState.loading === Loading.skipping;
         const onSkip = () => textsBloc.skipPressed(recordingBloc.state.retries);
-        const skipClass = "button" + (loading ? " button-loading" : "");
+        const skipClass = "simple" + (loading ? " button-loading" : "");
         return (
             <div id="actions">
-                <button onClick={recordingBloc.onStartPressed} className="button empathetic-button">Запись</button>
+                <button onClick={recordingBloc.onStartPressed} className="highlighted">Запись</button>
                 <button onClick={onSkip} className={skipClass}>
                     {loading ? < Spinner /> : <></>}
                     <p>Пропустить</p>
@@ -26,14 +26,14 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     }
     const buildRecording = (state: Recording) => (
         <div id="actions">
-            <button onClick={recordingBloc.onStopPressed} className="button empathetic-button">Закончить</button>
-            <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
+            <button onClick={recordingBloc.onStopPressed} className="highlighted">Закончить</button>
+            <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
         </div>
     );
     const buildRecorded = (state: Recorded) => {
         const loading = textsState.loading === Loading.sending;
         const onSend = () => textsBloc.sendPressed(state.retries, state.rec);
-        const sendClass = "button empathetic-button" + (loading ? " button-loading" : "");
+        const sendClass = "highlighted" + (loading ? " button-loading" : "");
         return (
             <div id="actions">
                 <button onClick={onSend} className={sendClass}>
@@ -41,14 +41,14 @@ export function Actions({ state }: {state: MediaRecordingState}) {
                     <p>Отправить</p>
                 </button>
                 <VideoPopupButton video={state.rec.blob} />
-                <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
+                <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
             </div>
         );
     }
     const buildError = (state: ErrorState) => (
         <div id="actions">
             <p>{state.err.message}</p>
-            <button onClick={recordingBloc.onCancelPressed} className="button">Отменить</button>
+            <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
         </div>
     );
 

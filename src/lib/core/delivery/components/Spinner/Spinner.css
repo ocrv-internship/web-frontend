@@ -7,13 +7,13 @@
     animation: spin 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 }
 
-.button > .spinnerWrapper {
+button > .spinnerWrapper {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 
 }
-.button > .spinnerWrapper > .spinner {
+button  .spinner {
     height: 16px !important; 
     width: 16px !important;
     border-width: 4px !important;
@@ -23,7 +23,7 @@
     visibility: hidden;
 }
 
-.empathetic-button > .spinnerWrapper > .spinner {
+.highlighted  .spinner {
     border-top-color: white;
 }
 

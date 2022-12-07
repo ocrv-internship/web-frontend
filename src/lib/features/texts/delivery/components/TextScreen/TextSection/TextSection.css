@@ -12,7 +12,7 @@
     margin-right: 20px;
 }
 
-#textHeader .button {
+#textHeader button {
     min-width: 0;
     aspect-ratio: 1;
 }

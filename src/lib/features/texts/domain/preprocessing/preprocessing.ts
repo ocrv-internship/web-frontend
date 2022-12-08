@@ -3,8 +3,7 @@ export function addAccents(text: string): string {
 }
 
 export function addBoldness(text: string): string {
-    // TODO: implement adding boldness 
-    return text; 
+    return text.replace(/\*(.*?)\*/gmi, `<b>$1</b>`);
 }
 
 export function preprocess(text: string) {

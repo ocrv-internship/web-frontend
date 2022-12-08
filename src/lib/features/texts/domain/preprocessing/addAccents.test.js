@@ -1,6 +1,6 @@
 const preprocessing = require("./preprocessing.ts")
 
-const accentTable = [
+const table = [
     {
         "text": "", 
         "exp": "",
@@ -28,6 +28,6 @@ const accentTable = [
 ]
 
 
-accentTable.forEach((t) => test(t.text, () => {
+table.forEach((t) => test(t.text, () => {
     expect(preprocessing.addAccents(t.text)).toBe(t.exp);
 }));

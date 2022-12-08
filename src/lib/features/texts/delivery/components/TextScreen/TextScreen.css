@@ -8,9 +8,10 @@ h1 {
 }
 
 #textScreen {
+    flex: 1;
     display: flex; 
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
     flex-direction: column;
 }
 
@@ -18,7 +19,7 @@ h1 {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    justify-content: 'space-around';
+    justify-content: space-around;
     height: 800px;
 }
 
@@ -43,4 +44,11 @@ h1 {
 }
 #notesSection {
     flex: 2;
+}
+
+#textsEnd {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -36,13 +36,13 @@ export class MockTextsService implements TextsService {
             return mockTexts;
         });
     }
-    async skipText(id: string, retries: number): Promise<Error | null> {
-        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 300))); 
+    async skipText(id: string, retries: number): Promise<Error | void> {
+        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");
         // } 
     } 
-    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | null> {
-        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(null), 3000))); 
+    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | void> {
+        return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 3000))); 
     }
 }

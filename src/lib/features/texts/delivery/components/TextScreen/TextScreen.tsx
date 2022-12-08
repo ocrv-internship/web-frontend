@@ -51,9 +51,9 @@ function TextInfoComponent({text}: TextInfoComponentProps) {
 
 function TextsEndComponent({}) {
     return (
-        <>
+        <div id="textsEnd">
             <h2>Тексты закончились. Спасибо!</h2>
             <button className="simple" onClick={() => window.location.reload()}>Записать заново</button>
-        </>
+        </div>
     );
 }

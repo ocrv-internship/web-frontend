@@ -8,6 +8,6 @@ export interface TextInfo {
 
 export interface TextsService {
     getTexts() : Promise<Error | TextInfo[]>;
-    skipText(id: string, retries: number): Promise<Error | null>;
-    sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | null>;
+    skipText(id: string, retries: number): Promise<Error | void>;
+    sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | void>;
 }

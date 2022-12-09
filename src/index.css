@@ -1,10 +1,11 @@
+html, body, #root {
+  height: 100%;
+}
+
+
 body {
-  display: flex; 
-  justify-content: center;
-  align-items: center;
   font-size: 18px;
 
-  min-height: 100vh;
   margin: 0;
   padding: 50px;
   background: #212429;
@@ -18,9 +19,6 @@ body {
 
 #root {
   color-scheme: dark; 
-  display: flex; 
-  justify-content: center;
-  align-items: stretch;
   width: 100%; 
   min-height: 100vh;
 }

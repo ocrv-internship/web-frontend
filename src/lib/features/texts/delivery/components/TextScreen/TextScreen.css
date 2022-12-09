@@ -20,7 +20,7 @@ h1 {
     flex-direction: row;
     gap: 20px;
     justify-content: space-around;
-    height: 800px;
+    height: 100%;
 }
 
 #textBody, #notesBody {

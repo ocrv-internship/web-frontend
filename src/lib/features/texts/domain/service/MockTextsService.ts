@@ -1,6 +1,4 @@
 
-// TODO: implement showing the total time in the corner of the screen
-
 import { withErrorHandling } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { TextInfo, TextsService } from "./TextsService";
@@ -43,6 +41,7 @@ export class MockTextsService implements TextsService {
         });
     }
     async skipText(id: string, retries: number): Promise<Error | void> {
+        return Error("A test message");
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");

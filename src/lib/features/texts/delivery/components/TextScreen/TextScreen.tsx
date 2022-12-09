@@ -4,6 +4,7 @@ import { LoadedState} from '../../../domain/state/TextsBloc';
 import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import { TextSection } from './TextSection/TextSection';
 import { ProgressTab } from './ProgressTab/ProgressTab';
+import { ErrorNotification } from '../../../../../core/delivery/components/ErrorNotification/ErrorNotification';
 
 
 export interface LoadedTextScreenProps {
@@ -25,6 +26,10 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
                 textsCount={state.texts.length} 
                 fullDurationSec={state.fullRecDurationSec}
             />
+            {state.err != null ? 
+                <ErrorNotification message={state.err.message} />
+            : <></>
+            }
         </>
     );
 }

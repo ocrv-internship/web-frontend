@@ -11,7 +11,7 @@ export function TextSection({text}: {text: string}) {
         <section id="text">
             <div id="textHeader">
                 <h2>Текст для записи</h2>
-                <div>
+                <div id="fontSection">
                     <h2>{`Шрифт: ${fontSize}`}</h2>
                     <button onClick={decrement} className="simple">-</button>
                     <button onClick={increment} className="simple">+</button>

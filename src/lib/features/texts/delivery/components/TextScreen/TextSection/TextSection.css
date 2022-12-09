@@ -9,10 +9,18 @@
 
 #textHeader  h2 {
     display: inline-block;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
-#textHeader button {
-    min-width: 0;
+#fontSection {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    gap: 5px;     
+}
+
+#fontSection > button {
+    min-width: 0px;
+    height: 50px; 
     aspect-ratio: 1;
 }

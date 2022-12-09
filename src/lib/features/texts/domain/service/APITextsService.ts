@@ -3,8 +3,8 @@ import { withErrorHandling } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { TextInfo, TextsService } from "./TextsService";
 
-const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
-// const apiHost = "http://localhost:8000/api/v1/"; 
+// const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
+const apiHost = "http://localhost:8000/api/v1/"; 
 
 const textsEndpoint = apiHost+"texts/";
 const speechesEndpoint = apiHost+"speeches/"; 

@@ -2,6 +2,7 @@ import Spinner from "../../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../../di";
 import { TextsBuilder, TextsProvider } from "../../../domain/state/TextsBloc";
 import { LoadedTextScreen } from "./TextScreen";
+import "./TextScreen.css";
 
 export function TextScreenContainer({ }) {
     return (

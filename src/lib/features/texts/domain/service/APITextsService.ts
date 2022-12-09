@@ -54,10 +54,11 @@ export class APITextsService implements TextsService {
             formData.set("text_id", id)
             formData.set("retries", retries.toString());
             formData.set("speech", blob);
-            await fetch(speechesEndpoint, {
+            console.log(await fetch(speechesEndpoint, {
                 method: "POST", 
+                mode: 'no-cors',
                 body: formData,
-            });
+            }));
         });
     }
 }

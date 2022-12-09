@@ -24,7 +24,7 @@ h1 {
 }
 
 #textBody, #notesBody {
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #notesSection {

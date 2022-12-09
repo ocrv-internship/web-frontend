@@ -14,7 +14,7 @@
 }
 
 #isRecordingLabel {
-    color: red;
+    color: var(--red);
 }
 
 #recordingInfo > p {

@@ -57,6 +57,7 @@ export class TextsBloc extends Bloc<TextsState> {
         if (current == null || current instanceof Error) return; 
         this.emit({
             ...current, 
+            err: undefined,
             loading: speech ? Loading.sending : Loading.skipping, 
         })
 

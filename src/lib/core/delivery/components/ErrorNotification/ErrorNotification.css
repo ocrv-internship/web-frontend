@@ -1,12 +1,32 @@
 .error {
     margin-right: 20px; 
     margin-bottom: 20px;
-    padding: 8px; 
-    padding-left: 60px; 
+    padding: 40px; 
+    padding-top: 20px;
+    padding-right: 20px;
     min-width: 200px; 
     position: fixed; 
     right: 0; 
     bottom: 0; 
 }
 
+.errorHeader {
+    margin-bottom: 15px;
+}
 
+.error > p {
+    margin: 0;
+}
+
+.errorHeader > h3 {
+    margin: 0;
+    color: var(--red); 
+}
+
+
+.errorHeader {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    justify-content: space-between;
+}

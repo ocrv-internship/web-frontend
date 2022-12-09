@@ -1,3 +1,8 @@
+:root {
+    --main-color: #FF00AA; 
+    --secondary-color: #5D2DE1;
+    --intermediate-color: #9C42F5;
+}
 
 section {
     padding: 10px 20px;
@@ -24,7 +29,7 @@ button {
     background: #3c3c4a; 
 }
 .highlighted {
-    background: linear-gradient(135deg, #FF00AA 0%, #9C42F5 50%, #5D2DE1 100%);
+    background: linear-gradient(135deg, var(--main-color) 0%,  var(--intermediate-color) 50%, var(--secondary-color) 100%);
     box-shadow: 0px 0px 1px rgba(156, 66, 245, 0.24), 0px 2px 4px -1px rgba(27, 10, 82, 0.12), 0px 16px 24px rgba(156, 66, 245, 0.24), 0px 8px 8px -4px rgba(156, 66, 245, 0.12);
 }
 

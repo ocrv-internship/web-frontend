@@ -1,6 +1,6 @@
 .spinner {
     border: 8px solid transparent;
-    border-top: 8px solid #FF00AA;
+    border-top: 8px solid var(--main-color);
     border-radius: 50%;
 
     transform-origin: 50% 50%;

@@ -41,12 +41,12 @@ h1 {
 }
 
 #text {
-    flex: 4;
+    flex: 2;
     display: flex; 
     flex-direction: column; 
 }
 #notesSection {
-    flex: 2;
+    flex: 1;
 }
 
 

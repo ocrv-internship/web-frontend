@@ -1,5 +1,3 @@
-import { withErrorHandling } from "../../../../core/utils/utils";
-
 export interface SimpleRecorder {
     finish(): Promise<Blob>;
     dispose(): void;

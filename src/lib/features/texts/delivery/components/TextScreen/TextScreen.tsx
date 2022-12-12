@@ -27,7 +27,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
                 fullDurationSec={state.fullRecDurationSec}
             />
             {state.err != null ? 
-                <ErrorNotification message={state.err.message} />
+                <ErrorNotification message={state.err.msg} />
             : <></>
             }
         </>

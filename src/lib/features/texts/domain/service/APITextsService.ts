@@ -1,7 +1,6 @@
 import { text } from "stream/consumers";
-import { convertError, getNetworkFailure } from "../../../../core/errors/errorHandling";
+import { convertError, getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
-import { withErrorHandling } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { TextInfo, TextsService } from "./TextsService";
 
@@ -58,7 +57,7 @@ export class APITextsService implements TextsService {
             formData.set("speech", blob);
             const response = await fetch(speechesEndpoint, {
                 method: "POST", 
-                mode: 'no-cors',
+                mode: 'no-cors', // TODO: get rid of no-cors here
                 body: formData,
             });
             if (!response.ok) throw getNetworkFailure(response);

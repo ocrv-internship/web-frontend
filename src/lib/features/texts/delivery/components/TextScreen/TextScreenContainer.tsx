@@ -1,4 +1,5 @@
 import Spinner from "../../../../../core/delivery/components/Spinner/Spinner";
+import { Failure } from "../../../../../core/errors/failures";
 import { uiDeps } from "../../../../../di";
 import { TextsBuilder, TextsProvider } from "../../../domain/state/TextsBloc";
 import { LoadedTextScreen } from "./TextScreen";
@@ -12,8 +13,8 @@ export function TextScreenContainer({ }) {
                     if (snapshot == null) {
                         return <Spinner />;
                     }
-                    else if (snapshot instanceof Error) {
-                        return <p>{snapshot.message}</p> // TODO: error handling
+                    else if (snapshot instanceof Failure) {
+                        return <p className="error">{snapshot.msg}</p> // TODO: error handling
                     }
                     return <LoadedTextScreen state={snapshot} />
                 }} />

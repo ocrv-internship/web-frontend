@@ -1,6 +1,6 @@
 
+import { withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure, UnknownFailure } from "../../../../core/errors/failures";
-import { withErrorHandling } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { TextInfo, TextsService } from "./TextsService";
 

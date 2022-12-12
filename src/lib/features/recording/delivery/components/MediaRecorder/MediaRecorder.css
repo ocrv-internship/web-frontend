@@ -25,6 +25,6 @@
     display: flex;
     align-content: stretch; 
     justify-content: center;
-    gap: 5px;
+    gap: 10px;
     flex-direction: column;
 }

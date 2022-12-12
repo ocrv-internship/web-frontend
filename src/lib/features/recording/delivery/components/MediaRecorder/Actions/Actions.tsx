@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Spinner from "../../../../../../core/delivery/components/Spinner/Spinner";
 import { TextsContext, LoadedState, Loading } from "../../../../../texts/domain/state/TextsBloc";
 import { ErrorState, Initial, MediaRecordingState, Recorded, Recording, RecordingContext } from "../../../../domain/state/MediaRecorderBloc";
-import VideoPopupButton from "../../VideoPopupButton/VideoPopupButton";
+import VideoPopupButton from "../../RecordingPopupButton/RecordingPopupButton";
 
 
 export function Actions({ state }: {state: MediaRecordingState}) {
@@ -42,7 +42,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
                     {textsState.loading === Loading.sending ? < Spinner /> : <></>}
                     <p>Отправить</p>
                 </button>
-                <VideoPopupButton video={state.rec.blob} />
+                <VideoPopupButton rec={state.rec} />
                 <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
             </div>
         );

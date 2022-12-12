@@ -2,39 +2,39 @@ export abstract class Failure {
     abstract get msg(): string;
 };
 
-export class UnknownNetworkFailure implements Failure {
+export class UnknownNetworkFailure extends Failure {
     get msg() {
         return "An unknown network failure happened";
     } 
 }
 
-export class NetworkFailure implements Failure {
-    constructor(readonly msg: string) {};
+export class NetworkFailure extends Failure {
+    constructor(readonly msg: string) {super();};
 }
 
-export class UnknownFailure implements Failure {
-    constructor(readonly msg: string = "Unknown failure.") {};
+export class UnknownFailure extends Failure {
+    constructor(readonly msg: string = "Unknown failure.") {super();};
 }
 
-class MinDurationFailure implements Failure {
+class MinDurationFailure extends Failure {
     get msg() {
         return "...";
     } 
 }
 
-class MaxDurationFailure implements Failure {
+class MaxDurationFailure extends Failure {
     get msg() {
         return "...";
     } 
 }
 
-class RecordingNotAllowedFailure implements Failure {
+class RecordingNotAllowedFailure extends Failure {
     get msg() {
         return "...";
     }
 }
 
-export class RecordingStartFailure implements Failure {
+export class RecordingStartFailure extends Failure {
     get msg() {
         return "...";
     }

@@ -37,6 +37,7 @@ export class TextsBloc extends Bloc<TextsState> {
     }
     private async load() {
         const textsRes = await this.service.getTexts() 
+        console.log(textsRes);
         if (textsRes instanceof Failure) return this.emit(textsRes);
         this.emit({
             texts: textsRes, 

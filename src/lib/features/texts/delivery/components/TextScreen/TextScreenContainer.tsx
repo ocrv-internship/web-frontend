@@ -1,3 +1,4 @@
+import { ErrorScreen } from "../../../../../core/delivery/components/ErrorScreen/ErrorScreen";
 import Spinner from "../../../../../core/delivery/components/Spinner/Spinner";
 import { Failure } from "../../../../../core/errors/failures";
 import { uiDeps } from "../../../../../di";
@@ -10,11 +11,12 @@ export function TextScreenContainer({ }) {
         <div id="textScreen">
             <TextsProvider create={uiDeps.textsBloc}>
                 <TextsBuilder builder={(snapshot) => {
+                    console.log(snapshot);
                     if (snapshot == null) {
                         return <Spinner />;
                     }
                     else if (snapshot instanceof Failure) {
-                        return <p className="error">{snapshot.msg}</p> // TODO: error handling
+                        return <ErrorScreen err={snapshot} />;
                     }
                     return <LoadedTextScreen state={snapshot} />
                 }} />

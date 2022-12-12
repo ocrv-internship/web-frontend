@@ -1,0 +1,10 @@
+#errorScreen {
+    padding: 26px;
+    display: flex; 
+    flex-direction: column; 
+    align-items: stretch;
+}
+
+.errorMsg {
+    color: var(--red);
+}

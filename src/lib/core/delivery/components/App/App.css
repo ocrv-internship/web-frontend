@@ -53,5 +53,8 @@ button > p {
     margin: 0; 
 }
 
-
+/* .criticalError {
+    color: var(--red); 
+    margin: auto;
+} */
 

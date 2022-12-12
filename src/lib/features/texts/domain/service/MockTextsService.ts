@@ -31,6 +31,7 @@ export const mockTexts: TextInfo[] = [
 
 export class MockTextsService implements TextsService {
     async getTexts() : Promise<TextInfo[] | Failure> {
+        // return new UnknownFailure("A test message");
         return withErrorHandling(async () => {
             await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
             return mockTexts.map((text) => {
@@ -42,11 +43,8 @@ export class MockTextsService implements TextsService {
         });
     }
     async skipText(id: string, retries: number): Promise<void | Failure> {
-        return new UnknownFailure("A test message");
+        // return new UnknownFailure("A test message");
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
-        // if (Math.random() > 0.5) {
-        //     throw Error("a mock error");
-        // } 
     } 
     async sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void> {
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 3000))); 

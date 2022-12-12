@@ -9,8 +9,6 @@ interface UIDeps {
 export let uiDeps: UIDeps;
 
 
-// TODO: use a dependency injection lib
-
 const service = new MockTextsService();
 uiDeps = {
     textsBloc: () => new TextsBloc(service),

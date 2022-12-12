@@ -6,28 +6,34 @@ import { DurationSec } from "../../../../core/utils/utils";
 import { RecInfo } from "../../../texts/domain/state/TextsBloc";
 import { startRecording, SimpleRecorder } from "../service/SimpleRecorder";
 
-export interface RecordingStateRetries {
+export interface BaseRecording {
     retries: number
+    minDuration?: DurationSec, 
+    maxDuration?: DurationSec,
 };
 
-export class Initial implements RecordingStateRetries {
-    constructor(readonly retries: number, readonly video: boolean = false) { };
+export interface BaseRecordingState {
+    base: BaseRecording,
+}
+
+export class Initial implements BaseRecordingState {
+    constructor(readonly base: BaseRecording, readonly video: boolean = false) { };
 };
 
-export class Recording implements RecordingStateRetries {
+export class Recording implements BaseRecordingState {
     constructor(
         readonly currDuration: DurationSec, 
-        readonly retries: number, 
+        readonly base: BaseRecording, 
         readonly video: boolean
     ) { };
 };
 
-export class Recorded implements RecordingStateRetries {
-    constructor(readonly rec: RecInfo, readonly retries: number) { };
+export class Recorded implements BaseRecordingState {
+    constructor(readonly rec: RecInfo, readonly base: BaseRecording) { };
 };
 
-export class ErrorState implements RecordingStateRetries {
-    constructor(readonly err: Failure, readonly retries: number) { };
+export class ErrorState implements BaseRecordingState {
+    constructor(readonly err: Failure, readonly base: BaseRecording) { };
 }
 
 export type MediaRecordingState = Initial | Recording | Recorded | ErrorState;
@@ -37,8 +43,12 @@ const minVideoDuration = 2;
 class MediaRecorderBloc extends Bloc<MediaRecordingState> {
     private recorder?: SimpleRecorder;
     private durationTimer?: NodeJS.Timer;
-    constructor() {
-        super(new Initial(0));
+    constructor(minDuration?: DurationSec, maxDuration?: DurationSec) {
+        super(new Initial({
+            retries: 0,
+            minDuration: minDuration, 
+            maxDuration: maxDuration,
+        }));
         console.log("media recorder bloc created");
         this.onStartPressed = this.onStartPressed.bind(this);
         this.onStopPressed = this.onStopPressed.bind(this);
@@ -61,19 +71,23 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         return startRecording(current.video)
         .then((recorder) => {
             this.recorder = recorder; 
-            this.emit(new Recording(0, this.state.retries, current.video));
+            this.emit(new Recording(0, this.state.base, current.video));
             this.durationTimer = setInterval(this.incrementDuration, 1000);
         })
         .catch((e) => 
             this.emit(new ErrorState(
                 convertError(e, new RecordingStartFailure()), 
-                this.state.retries
+                this.state.base
             ),)
         );
     }
     private incrementDuration() {
         if (this.state instanceof Recording) {
-            this.emit(new Recording(this.state.currDuration + 1, this.state.retries, this.state.video));
+            this.emit(new Recording(
+                this.state.currDuration + 1, 
+                this.state.base, 
+                this.state.video
+            ));
         }
     }
 
@@ -86,18 +100,21 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
             blob: recording, 
             duration: this.state.currDuration,
             isVideo: this.state.video,  
-        }, this.state.retries));
+        }, this.state.base));
         this.disposeAll();
     }
 
     onVideoTogglePressed() {
         const current = this.state; 
         if (!(current instanceof Initial)) return; 
-        this.emit(new Initial(current.retries, !current.video));
+        this.emit(new Initial(current.base, !current.video));
     }
 
     onCancelPressed() {
-        this.emit(new Initial(this.state.retries + 1));
+        this.emit(new Initial({
+            ...this.state.base,
+            retries: this.state.base.retries + 1
+        }));
         this.disposeAll();
     }
 

@@ -13,7 +13,7 @@
     flex-direction: column;
 }
 
-#isRecordingLabel {
+.recordingIndicator {
     color: var(--red);
 }
 
@@ -25,6 +25,6 @@
     display: flex;
     align-content: stretch; 
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     flex-direction: column;
 }

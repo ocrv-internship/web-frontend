@@ -1,15 +1,22 @@
 import { useMemo } from "react";
+import { DurationSec } from "../../../../../core/utils/utils";
 import { Loading } from "../../../../texts/domain/state/TextsBloc";
 import MediaRecorderBloc, { RecordingBuilder, RecordingProvider } from "../../../domain/state/MediaRecorderBloc";
 import { MediaRecorder, RecordingCallbacks } from "./MediaRecorder";
 
 export interface MediaRecorderContainerProps {
-    callbacks: RecordingCallbacks, 
-    loadingState?: Loading, 
+    textId: string, 
+    minDuration?: DurationSec, 
+    maxDuration?: DurationSec,
 };
 
-export function MediaRecorderContainer({textId} : {textId: string}) {
-    const create = useMemo(() => () => new MediaRecorderBloc(), [textId]);
+export function MediaRecorderContainer(props: MediaRecorderContainerProps) {
+    const create = useMemo(() => 
+        () => new MediaRecorderBloc(
+            props.minDuration, 
+            props.maxDuration
+        ), [props]
+    );
     return (
         <RecordingProvider create={create}>
             <RecordingBuilder builder={

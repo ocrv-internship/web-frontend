@@ -19,19 +19,38 @@ export interface MediaRecorderProps {
 export function MediaRecorder({state} : {state: MediaRecordingState}) {
     return (
         <section id="recording">
-            {state instanceof Recording ? 
-                <RecordingInfo dur={state.currDuration} /> 
-            : <div></div>}
+            <RecordingInfo state={state} />
             <Actions state={state} />
         </section>
     )
 }
 
-function RecordingInfo({ dur: dur }: { dur: DurationSec }) {
+function RecordingInfo({ state }: { state: MediaRecordingState }) {
+    const fromDur = state.base.minDuration ? 
+        <span>От <span className="recordingIndicator">{formatDuration(state.base.minDuration)}</span></span>
+    :   <></>;
+    const toDur = state.base.maxDuration ? 
+        <span>До <span className="recordingIndicator">{formatDuration(state.base.maxDuration)}</span></span>
+    :   "";
+
     return (
         <div id="recordingInfo">
-            <p id="isRecordingLabel">Запись идёт</p>
-            <p>{formatDuration(dur)}</p>
+            {state instanceof Recording ? 
+                <p>
+                    Запись идёт <span className="recordingIndicator">{formatDuration(state.currDuration)}</span>
+                </p>
+            :   <></>
+            }
+            {state.base.minDuration || state.base.maxDuration ?
+                <span>
+                    Длина записи: <br />
+                    <span> </span>
+                    {fromDur} 
+                    <span> </span>
+                    {toDur}
+                </span>
+            :   <></>
+            }
         </div>
     );
 }

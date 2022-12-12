@@ -15,16 +15,22 @@ export const mockTexts: TextInfo[] = [
         id: "1",
         text: mockText, 
         note: mockNotes, 
+        minDuration: 1, 
+        maxDuration: 35, 
     },
     {
         id: "2",
         text: mockText.substring(0,30) + mockText, 
         note: mockNotes,
+        minDuration: 5, 
+        maxDuration: 400, 
     },
     {
         id: "3",
         text: mockText + mockText.substring(80), 
         note: mockNotes,
+        minDuration: 0, 
+        maxDuration: 10, 
     },
 ];
 

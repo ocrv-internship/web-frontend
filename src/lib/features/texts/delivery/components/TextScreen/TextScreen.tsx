@@ -47,7 +47,11 @@ function TextInfoComponent({text}: TextInfoComponentProps) {
                     <h2>Инструкция</h2>
                     <p id="notesBody">{text.note}</p>
                 </section>
-                <MediaRecorderContainer textId={text.id}/>
+                <MediaRecorderContainer 
+                    textId={text.id}
+                    minDuration={text.minDuration}
+                    maxDuration={text.maxDuration}
+                />
             </div>
         </div>
     );

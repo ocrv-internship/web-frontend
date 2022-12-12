@@ -13,7 +13,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     const buildInitial = (state: Initial) => {
         const loading = textsState.loading === Loading.skipping;
         const videoLabel = state.video ? "Выключить видео" : "Включить видео";
-        const onSkip = () => textsBloc.skipPressed(recordingBloc.state.retries);
+        const onSkip = () => textsBloc.skipPressed(recordingBloc.state.base.retries);
         const skipClass = "simple" + (loading ? " button-loading" : "");
         return (
             <div id="actions">
@@ -34,7 +34,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     );
     const buildRecorded = (state: Recorded) => {
         const loading = textsState.loading === Loading.sending;
-        const onSend = () => textsBloc.sendPressed(state.retries, state.rec);
+        const onSend = () => textsBloc.sendPressed(state.base.retries, state.rec);
         const sendClass = "highlighted" + (loading ? " button-loading" : "");
         return (
             <div id="actions">

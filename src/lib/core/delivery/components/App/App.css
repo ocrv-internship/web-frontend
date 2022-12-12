@@ -57,7 +57,6 @@ button {
     text-align: center;
 }
 
-button > span {
-    height: 20px; 
-    width: 20px; 
+.errorMsg {
+    color: var(--red);
 }

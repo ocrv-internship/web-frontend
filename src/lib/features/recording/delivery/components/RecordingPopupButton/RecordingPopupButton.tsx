@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import CloseButton from "../../../../../core/delivery/components/App/CloseButton/CloseButton";
 import { RecInfo } from "../../../../texts/domain/state/TextsBloc";
 import "./RecordingPopupButton.css";
 
@@ -27,8 +28,12 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
 
 function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
     return (
-        <div onClick={onClose} id="popupBackground">
-            <section onClick={(e) => e.stopPropagation()} id="popup">
+        <div onClick={onClose} className="popupBackground">
+            <section onClick={(e) => e.stopPropagation()} className="popup">
+                <div className="popupHeader">
+                    <h2>Запись</h2>
+                    <CloseButton onClick={onClose} />
+                </div>
                 {isVideo ?
                     <video controls src={src} width={600}/>
                 :   <audio controls src={src} />

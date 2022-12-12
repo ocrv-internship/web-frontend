@@ -19,7 +19,9 @@ export interface MediaRecorderProps {
 export function MediaRecorder({state} : {state: MediaRecordingState}) {
     return (
         <section id="recording">
-            {state instanceof Recording ? <RecordingInfo durationSec={state.durationSec} /> : <div></div>}
+            {state instanceof Recording ? 
+                <RecordingInfo durationSec={state.durationSec} /> 
+            : <div></div>}
             <Actions state={state} />
         </section>
     )

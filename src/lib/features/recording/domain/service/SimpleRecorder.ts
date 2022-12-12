@@ -6,6 +6,7 @@ export interface SimpleRecorder {
 };
 
 const videoBlobMeta = { 'type': 'video/mp4' };
+const audioBlobMeta = { 'type': 'audio/mp3' };
 
 export async function startRecording(enableVideo: boolean): Promise<SimpleRecorder>  {
     const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: enableVideo})
@@ -29,9 +30,13 @@ export async function startRecording(enableVideo: boolean): Promise<SimpleRecord
         dispose: dispose, 
         finish: () => new Promise(resolve => {
             recorder.onstop = () => {
-                resolve(new Blob(chunks, videoBlobMeta));
+                resolve(new Blob(
+                    chunks, 
+                    enableVideo ? videoBlobMeta : audioBlobMeta
+                ));
             };
-            dispose(); // calls recorder.stop()
+            // calls recorder.stop(), so that the Promise is resolved
+            dispose(); 
         }),
     }
 }

@@ -4,7 +4,7 @@ export abstract class Failure {
 
 export class UnknownNetworkFailure extends Failure {
     get msg() {
-        return "An unknown network failure happened";
+        return "При обработке запроса произошла неизвестная ошибка.";
     } 
 }
 
@@ -13,37 +13,31 @@ export class NetworkFailure extends Failure {
 }
 
 export class UnknownFailure extends Failure {
-    constructor(readonly msg: string = "Unknown failure.") {super();};
+    constructor(readonly msg: string = "Произошла неизвестная ошибка.") {super();};
 }
 
 class MinDurationFailure extends Failure {
     get msg() {
-        return "...";
+        return "Не соблюдено минимальное время начитки.";
     } 
 }
 
 class MaxDurationFailure extends Failure {
     get msg() {
-        return "...";
+        return "Не соблюдено максимальное время начитки.";
     } 
-}
-
-class RecordingNotAllowedFailure extends Failure {
-    get msg() {
-        return "...";
-    }
 }
 
 export class RecordingNotSupported extends Failure {
     get msg() {
-        return "Recording not supported";
+        return "Запись с требуемыми параметрами недоступна на Вашем устройстве.";
     }
 }
 
 
 export class RecordingStartFailure extends Failure {
     get msg() {
-        return "Recording start failure";
+        return "Прооизошла ошибка при попытке начать запись.";
     }
 }
 

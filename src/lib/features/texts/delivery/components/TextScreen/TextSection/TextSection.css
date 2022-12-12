@@ -29,4 +29,15 @@
     min-width: 0px;
     height: 50px; 
     aspect-ratio: 1;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.plusButton, .minusButton {
+    margin: auto; 
+    height: 24px; 
+    width: 24px; 
+    fill: #FFF;
+    stroke: #FFF;
 }

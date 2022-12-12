@@ -23,6 +23,7 @@ h1 {
     flex-direction: row;
     gap: 20px;
     justify-content: space-around;
+    align-items: stretch; 
     height: 100%;
 }
 

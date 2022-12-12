@@ -1,3 +1,4 @@
+import { Failure } from "../../../../core/errors/failures";
 
 export interface TextInfo {
     id: string, 
@@ -7,7 +8,7 @@ export interface TextInfo {
 
 
 export interface TextsService {
-    getTexts() : Promise<Error | TextInfo[]>;
-    skipText(id: string, retries: number): Promise<Error | void>;
-    sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | void>;
+    getTexts() : Promise<Failure | TextInfo[]>;
+    skipText(id: string, retries: number): Promise<Failure | void>;
+    sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void>;
 }

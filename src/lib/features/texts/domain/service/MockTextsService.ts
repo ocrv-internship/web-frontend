@@ -1,4 +1,5 @@
 
+import { Failure, UnknownFailure } from "../../../../core/errors/failures";
 import { withErrorHandling } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { TextInfo, TextsService } from "./TextsService";
@@ -29,7 +30,7 @@ export const mockTexts: TextInfo[] = [
 
 
 export class MockTextsService implements TextsService {
-    async getTexts() : Promise<TextInfo[] | Error> {
+    async getTexts() : Promise<TextInfo[] | Failure> {
         return withErrorHandling(async () => {
             await new Promise(resolve =>  setTimeout(() => resolve(null), 1000)); 
             return mockTexts.map((text) => {
@@ -40,14 +41,14 @@ export class MockTextsService implements TextsService {
             });
         });
     }
-    async skipText(id: string, retries: number): Promise<Error | void> {
-        return Error("A test message");
+    async skipText(id: string, retries: number): Promise<void | Failure> {
+        return new UnknownFailure("A test message");
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
         // if (Math.random() > 0.5) {
         //     throw Error("a mock error");
         // } 
     } 
-    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Error | void> {
+    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void> {
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 3000))); 
     }
 }

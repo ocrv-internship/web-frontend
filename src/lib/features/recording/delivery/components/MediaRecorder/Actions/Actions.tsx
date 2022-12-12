@@ -47,7 +47,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
     }
     const buildError = (state: ErrorState) => (
         <div id="actions">
-            <p>{state.err.message}</p>
+            <p>{state.err.msg}</p>
             <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
         </div>
     );

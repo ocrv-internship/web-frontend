@@ -1,3 +1,5 @@
+import { convertError } from "../../../../core/errors/errorHandling";
+import { Failure, RecordingStartFailure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import { RecInfo } from "../../../texts/domain/state/TextsBloc";
@@ -20,7 +22,7 @@ export class Recorded implements RecordingStateRetries {
 };
 
 export class ErrorState implements RecordingStateRetries {
-    constructor(readonly err: Error, readonly retries: number) { };
+    constructor(readonly err: Failure, readonly retries: number) { };
 }
 
 export type MediaRecordingState = Initial | Recording | Recorded | ErrorState;
@@ -54,7 +56,12 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
             this.emit(new Recording(0, this.state.retries));
             this.durationTimer = setInterval(this.incrementDuration, 1000);
         })
-        .catch((e) => this.emit(new ErrorState(e, this.state.retries)));
+        .catch((e) => 
+            this.emit(new ErrorState(
+                convertError(e, new RecordingStartFailure()), 
+                this.state.retries
+            ),)
+        );
     }
     private async incrementDuration() {
         if (this.state instanceof Recording) this.emit(new Recording(this.state.durationSec + 1, this.state.retries));

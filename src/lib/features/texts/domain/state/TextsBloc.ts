@@ -1,3 +1,4 @@
+import { Failure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import { TextInfo, TextsService } from "../service/TextsService";
@@ -12,7 +13,7 @@ export interface LoadedState {
     currentInd: number, 
     fullRecDurationSec: number,
     loading?: Loading, 
-    err?: Error;
+    err?: Failure;
 }
 
 export interface RecInfo {
@@ -20,14 +21,14 @@ export interface RecInfo {
     durationSec: number,
 }
 
-export type TextsState = null | LoadedState | Error; 
+export type TextsState = null | LoadedState | Failure; 
 
 
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
         this.load = this.load.bind(this);
-        this.emitError = this.emitError.bind(this);
+        this.emitFailure = this.emitFailure.bind(this);
         this.skipPressed = this.skipPressed.bind(this);
         this.sendPressed = this.sendPressed.bind(this); 
         this.sendSpeech = this.sendSpeech.bind(this);
@@ -36,7 +37,7 @@ export class TextsBloc extends Bloc<TextsState> {
     }
     private async load() {
         const textsRes = await this.service.getTexts() 
-        if (textsRes instanceof Error) return this.emit(textsRes);
+        if (textsRes instanceof Failure) return this.emit(textsRes);
         this.emit({
             texts: textsRes, 
             currentInd: 0, 
@@ -54,7 +55,7 @@ export class TextsBloc extends Bloc<TextsState> {
     // if speech is null, skips this text
     private async sendSpeech(retries: number, speech: RecInfo | null) {
         const current = this.state;
-        if (current == null || current instanceof Error) return; 
+        if (current == null || current instanceof Failure) return; 
         this.emit({
             ...current, 
             err: undefined,
@@ -65,7 +66,7 @@ export class TextsBloc extends Bloc<TextsState> {
         const error = speech ? 
                 await this.service.sendSpeech(textId, speech.blob, retries)
             :   await this.service.skipText(textId, retries);
-        if (error != null) return this.emitError(error);
+        if (error) return this.emitFailure(error);
         this.emit({
             texts: current.texts, 
             currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
@@ -73,10 +74,10 @@ export class TextsBloc extends Bloc<TextsState> {
         })
     }
 
-    private emitError(e: Error) {
+    private emitFailure(e: Failure) {
         const current = this.state; 
         if (current == null) return;
-        else if (current instanceof Error) this.emit(e);
+        else if (current instanceof Failure) this.emit(e);
         else this.emit({...current, loading: undefined, err: e});
     }
 

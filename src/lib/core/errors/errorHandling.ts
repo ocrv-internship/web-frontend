@@ -1,4 +1,4 @@
-import { Failure, NetworkFailure, UnknownNetworkFailure } from "./failures";
+import { Failure, NetworkFailure, UnknownFailure, UnknownNetworkFailure } from "./failures";
 
 
 export function getNetworkFailure(response: Response) {
@@ -7,4 +7,9 @@ export function getNetworkFailure(response: Response) {
             new NetworkFailure(json.display_message)
         )
         .catch((e) => new UnknownNetworkFailure());
+}
+
+export function convertError(e: any, fallback?: Failure) {
+    console.log(`converting an error: ${e}`);
+    return e instanceof Failure ? e : fallback ?? new UnknownFailure();
 }

@@ -5,11 +5,18 @@ export interface SimpleRecorder {
     dispose(): void;
 };
 
+const minSampleRate = 22050; // Hz 
+
 const videoBlobMeta = { 'type': 'video/mp4' };
 const audioBlobMeta = { 'type': 'audio/mp3' };
 
 export async function startRecording(enableVideo: boolean): Promise<SimpleRecorder>  {
-    const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: enableVideo})
+    const mediaStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+            sampleRate: minSampleRate,
+        }, 
+        video: enableVideo
+    })
         .then((res) => res)
         .catch((e) => {
             if (e instanceof OverconstrainedError) 

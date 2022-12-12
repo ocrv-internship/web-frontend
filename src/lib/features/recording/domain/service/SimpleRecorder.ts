@@ -1,3 +1,5 @@
+import { RecordingNotSupported } from "../../../../core/errors/failures";
+
 export interface SimpleRecorder {
     finish(): Promise<Blob>;
     dispose(): void;
@@ -5,8 +7,14 @@ export interface SimpleRecorder {
 
 const videoBlobMeta = { 'type': 'video/mp4' };
 
-export async function startRecording(): Promise<SimpleRecorder>  {
-    const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+export async function startRecording(enableVideo: boolean): Promise<SimpleRecorder>  {
+    const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: enableVideo})
+        .then((res) => res)
+        .catch((e) => {
+            if (e instanceof OverconstrainedError) 
+                throw new RecordingNotSupported(); 
+            throw e; 
+        }); 
     const recorder = new MediaRecorder(mediaStream);
     const chunks: Blob[] = []; 
     recorder.ondataavailable = ({ data }) => chunks.push(data); 

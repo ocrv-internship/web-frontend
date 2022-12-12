@@ -12,11 +12,13 @@ export function Actions({ state }: {state: MediaRecordingState}) {
 
     const buildInitial = (state: Initial) => {
         const loading = textsState.loading === Loading.skipping;
+        const videoLabel = state.video ? "Выключить видео" : "Включить видео";
         const onSkip = () => textsBloc.skipPressed(recordingBloc.state.retries);
         const skipClass = "simple" + (loading ? " button-loading" : "");
         return (
             <div id="actions">
                 <button onClick={recordingBloc.onStartPressed} className="highlighted">Запись</button>
+                <button onClick={recordingBloc.onVideoTogglePressed} className="simple">{videoLabel}</button>
                 <button onClick={onSkip} className={skipClass}>
                     {loading ? < Spinner /> : <></>}
                     <p>Пропустить</p>

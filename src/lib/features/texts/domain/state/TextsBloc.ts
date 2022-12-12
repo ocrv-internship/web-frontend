@@ -18,6 +18,7 @@ export interface LoadedState {
 
 export interface RecInfo {
     blob: Blob, 
+    isVideo: boolean,
     durationSec: number,
 }
 

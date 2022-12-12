@@ -34,9 +34,16 @@ class RecordingNotAllowedFailure extends Failure {
     }
 }
 
+export class RecordingNotSupported extends Failure {
+    get msg() {
+        return "Recording not supported";
+    }
+}
+
+
 export class RecordingStartFailure extends Failure {
     get msg() {
-        return "...";
+        return "Recording start failure";
     }
 }
 

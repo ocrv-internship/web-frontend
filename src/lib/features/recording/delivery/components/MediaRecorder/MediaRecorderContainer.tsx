@@ -11,12 +11,13 @@ export interface MediaRecorderContainerProps {
 };
 
 export function MediaRecorderContainer(props: MediaRecorderContainerProps) {
+    // Makes it so that the MediaRecorderBloc is only recreated when the user switches to another text
     const create = useMemo(() => 
         () => new MediaRecorderBloc(
             props.minDuration, 
             props.maxDuration
-        ), [props]
-    );
+        ), [props.textId]
+    ); 
     return (
         <RecordingProvider create={create}>
             <RecordingBuilder builder={

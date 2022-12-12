@@ -1,6 +1,7 @@
 import { Failure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
+import { DurationSec } from "../../../../core/utils/utils";
 import { TextInfo, TextsService } from "../service/TextsService";
 
 export enum Loading {
@@ -19,7 +20,7 @@ export interface LoadedState {
 export interface RecInfo {
     blob: Blob, 
     isVideo: boolean,
-    durationSec: number,
+    duration: DurationSec,
 }
 
 export type TextsState = null | LoadedState | Failure; 
@@ -72,7 +73,7 @@ export class TextsBloc extends Bloc<TextsState> {
         this.emit({
             texts: current.texts, 
             currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
-            fullRecDurationSec: current.fullRecDurationSec + (speech?.durationSec ?? 0),
+            fullRecDurationSec: current.fullRecDurationSec + (speech?.duration ?? 0),
         })
     }
 

@@ -11,7 +11,6 @@ export function TextScreenContainer({ }) {
         <div id="textScreen">
             <TextsProvider create={uiDeps.textsBloc}>
                 <TextsBuilder builder={(snapshot) => {
-                    console.log(snapshot);
                     if (snapshot == null) {
                         return <Spinner />;
                     }

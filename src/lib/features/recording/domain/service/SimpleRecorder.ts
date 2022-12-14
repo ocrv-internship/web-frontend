@@ -1,4 +1,4 @@
-import { RecordingNotSupported } from "../../../../core/errors/failures";
+import { RecordingNotAllowed, RecordingNotSupported } from "../../../../core/errors/failures";
 
 export interface SimpleRecorder {
     finish(): Promise<Blob>;
@@ -21,6 +21,8 @@ export async function startRecording(enableVideo: boolean): Promise<SimpleRecord
         .catch((e) => {
             if (e instanceof OverconstrainedError) 
                 throw new RecordingNotSupported(); 
+            if (e.name === "NotAllowedError")
+                throw new RecordingNotAllowed();
             throw e; 
         }); 
     const recorder = new MediaRecorder(mediaStream);

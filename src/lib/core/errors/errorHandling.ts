@@ -2,7 +2,6 @@ import { Failure, NetworkFailure, UnknownFailure, UnknownNetworkFailure } from "
 
 
 export function getNetworkFailure(response: Response): Promise<Failure> {
-    console.log(response);
     return response.json()
         .then((json: {detail: string}) => 
             new NetworkFailure(json.detail)

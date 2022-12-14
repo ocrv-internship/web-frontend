@@ -47,7 +47,6 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
             minDuration: minDuration, 
             maxDuration: maxDuration,
         }));
-        console.log("media recorder bloc created");
         this.onStartPressed = this.onStartPressed.bind(this);
         this.onStopPressed = this.onStopPressed.bind(this);
         this.onCancelPressed = this.onCancelPressed.bind(this);
@@ -57,7 +56,6 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
     }
 
     dispose() {
-        console.log("media recorder bloc disposed");
         super.dispose();
         this.disposeAll();
     }

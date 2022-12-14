@@ -2,6 +2,7 @@ import { text } from "stream/consumers";
 import { convertError, getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
 import preprocess from "../preprocessing/preprocessing";
+import { mapText, TextJson } from "./mappers";
 import { TextInfo, TextsService } from "./TextsService";
 
 // const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
@@ -24,7 +25,7 @@ export class APITextsService implements TextsService {
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
-            const texts = json["texts"] as TextInfo[]; 
+            const texts = (json["texts"] as TextJson[]).map(mapText); 
             return texts.map((text) => {
                 return {
                     ...text,     

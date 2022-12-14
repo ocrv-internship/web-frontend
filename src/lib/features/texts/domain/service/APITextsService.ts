@@ -22,7 +22,7 @@ export class APITextsService implements TextsService {
             });
             const json = await response.json();
             if (!response.ok) {
-                throw getNetworkFailure(response);
+                throw await getNetworkFailure(response);
             }
             const texts = json["texts"] as TextInfo[]; 
             return texts.map((text) => {
@@ -46,7 +46,7 @@ export class APITextsService implements TextsService {
                     'Content-Type': 'application/json',
                 }
             });
-            if (!response.ok) throw getNetworkFailure(response);
+            if (!response.ok) throw await getNetworkFailure(response);
         })
     }
     sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void> {
@@ -57,10 +57,10 @@ export class APITextsService implements TextsService {
             formData.set("speech", blob);
             const response = await fetch(speechesEndpoint, {
                 method: "POST", 
-                mode: 'no-cors', // TODO: get rid of no-cors here
+                //mode: 'no-cors', // TODO: get rid of no-cors here
                 body: formData,
             });
-            if (!response.ok) throw getNetworkFailure(response);
+            if (!response.ok) throw await getNetworkFailure(response);
         });
     }
 }

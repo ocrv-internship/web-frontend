@@ -1,10 +1,11 @@
 import { Failure, NetworkFailure, UnknownFailure, UnknownNetworkFailure } from "./failures";
 
 
-export function getNetworkFailure(response: Response) {
+export function getNetworkFailure(response: Response): Promise<Failure> {
+    console.log(response);
     return response.json()
-        .then((json: {display_message: string}) => 
-            new NetworkFailure(json.display_message)
+        .then((json: {detail: string}) => 
+            new NetworkFailure(json.detail)
         )
         .catch((e) => new UnknownNetworkFailure());
 }

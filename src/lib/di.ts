@@ -9,7 +9,7 @@ interface UIDeps {
 export let uiDeps: UIDeps;
 
 
-const service = new MockTextsService();
+const service = new APITextsService();
 uiDeps = {
     textsBloc: () => new TextsBloc(service),
 };

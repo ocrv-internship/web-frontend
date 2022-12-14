@@ -66,7 +66,7 @@ export class TextsBloc extends Bloc<TextsState> {
 
         const textId = current.texts[current.currentInd].id;
         const error = speech ? 
-                await this.service.sendSpeech(textId, speech.blob, retries)
+                await this.service.sendSpeech(textId, speech.blob, speech.isVideo, retries)
             :   await this.service.skipText(textId, retries);
         if (error) return this.emitFailure(error);
         this.emit({

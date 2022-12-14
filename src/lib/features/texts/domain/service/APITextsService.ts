@@ -50,11 +50,12 @@ export class APITextsService implements TextsService {
             if (!response.ok) throw await getNetworkFailure(response);
         })
     }
-    sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void> {
+    sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void> {
         return withErrorHandling(async () => {
             const formData = new FormData();
             formData.set("text_id", id)
             formData.set("retries", retries.toString());
+            formData.set("is_video", isVideo.toString());
             formData.set("speech", blob);
             const response = await fetch(speechesEndpoint, {
                 method: "POST", 

@@ -13,5 +13,6 @@ export interface TextInfo {
 export interface TextsService {
     getTexts() : Promise<Failure | TextInfo[]>;
     skipText(id: string, retries: number): Promise<Failure | void>;
-    sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void>;
+    // TODO: reduce the number of arguments
+    sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void>;
 }

@@ -52,7 +52,7 @@ export class MockTextsService implements TextsService {
         // return new UnknownFailure("A test message");
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
     } 
-    async sendSpeech(id: string, blob: Blob, retries: number): Promise<Failure | void> {
+    async sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void> {
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 3000))); 
     }
 }

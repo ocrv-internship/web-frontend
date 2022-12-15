@@ -1,4 +1,6 @@
 #errorScreen {
+    width: 300px;
+    max-height: 200px;
     padding: 26px;
     display: flex; 
     flex-direction: column; 

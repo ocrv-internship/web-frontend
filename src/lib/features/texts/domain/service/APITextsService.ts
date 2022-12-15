@@ -21,10 +21,11 @@ export class APITextsService implements TextsService {
                     'Content-Type': 'application/json',
                 },
             });
-            const json = await response.json();
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
+            const json = await response.json();
+            console.log(json);
             const texts = (json["texts"] as TextJson[]).map(mapText); 
             return texts.map((text) => {
                 return {
@@ -59,7 +60,6 @@ export class APITextsService implements TextsService {
             formData.set("speech", blob);
             const response = await fetch(speechesEndpoint, {
                 method: "POST", 
-                //mode: 'no-cors', // TODO: get rid of no-cors here
                 body: formData,
             });
             if (!response.ok) throw await getNetworkFailure(response);

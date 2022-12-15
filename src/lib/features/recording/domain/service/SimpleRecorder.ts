@@ -38,6 +38,7 @@ export async function startRecording(enableVideo: boolean): Promise<SimpleRecord
     return {
         dispose: dispose, 
         finish: () => new Promise(resolve => {
+            recorder.requestData()
             recorder.onstop = () => {
                 resolve(new Blob(
                     chunks, 

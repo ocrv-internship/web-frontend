@@ -9,10 +9,16 @@ export interface TextInfo {
     maxDuration?: DurationSec,
 }
 
+export interface SpeechInfo {
+    id: string, 
+    blob: Blob, 
+    isVideo: boolean, 
+    retries: number,
+};
+
 
 export interface TextsService {
     getTexts() : Promise<Failure | TextInfo[]>;
     skipText(id: string, retries: number): Promise<Failure | void>;
-    // TODO: reduce the number of arguments
-    sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void>;
+    sendSpeech(speech: SpeechInfo): Promise<Failure | void>;
 }

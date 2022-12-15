@@ -26,6 +26,8 @@ export interface RecInfo {
 export type TextsState = null | LoadedState | Failure; 
 
 
+// TODO: split or simplify this bloc
+
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
@@ -66,7 +68,12 @@ export class TextsBloc extends Bloc<TextsState> {
 
         const textId = current.texts[current.currentInd].id;
         const error = speech ? 
-                await this.service.sendSpeech(textId, speech.blob, speech.isVideo, retries)
+                await this.service.sendSpeech({
+                    id: textId, 
+                    blob: speech.blob, 
+                    isVideo: speech.isVideo, 
+                    retries: retries,
+                })
             :   await this.service.skipText(textId, retries);
         if (error) return this.emitFailure(error);
         this.emit({

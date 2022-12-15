@@ -2,7 +2,7 @@
 import { withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure, UnknownFailure } from "../../../../core/errors/failures";
 import preprocess from "../preprocessing/preprocessing";
-import { TextInfo, TextsService } from "./TextsService";
+import { SpeechInfo, TextInfo, TextsService } from "./TextsService";
 
 const mockText = 
         `Lorem *ipsum* d+olor *s+it* amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Gravida in fermentum et sollicitudin ac orci phasellus egestas tellus. Metus vulputate eu scelerisque felis imperdiet proin. Id cursus metus aliquam eleifend mi in nulla posuere sollicitudin. Tortor posuere ac ut consequat semper. Non sodales neque sodales ut etiam sit. Volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque in. Ac odio tempor orci dapibus ultrices in iaculis nunc sed. Nibh tortor id aliquet lectus proin nibh nisl condimentum. Consectetur purus ut faucibus pulvinar elementum. Gravida cum sociis natoque penatibus et magnis dis parturient. Vitae et leo duis ut diam quam nulla. Morbi enim nunc faucibus a pellentesque sit amet porttitor eget. Quis auctor elit sed vulputate mi sit amet mauris. Malesuada bibendum arcu vitae elementum curabitur vitae nunc sed. Purus in massa tempor nec feugiat nisl pretium fusce. Sed sed risus pretium quam vulputate dignissim suspendisse. Erat velit scelerisque in dictum non consectetur a erat nam.
@@ -52,7 +52,7 @@ export class MockTextsService implements TextsService {
         // return new UnknownFailure("A test message");
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 300))); 
     } 
-    async sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void> {
+    async sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
         return withErrorHandling(() => new Promise(resolve =>  setTimeout(() => resolve(), 3000))); 
     }
 }

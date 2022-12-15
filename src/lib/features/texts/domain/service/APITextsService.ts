@@ -1,9 +1,8 @@
-import { text } from "stream/consumers";
-import { convertError, getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
+import { getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
 import preprocess from "../preprocessing/preprocessing";
 import { mapText, TextJson } from "./mappers";
-import { TextInfo, TextsService } from "./TextsService";
+import { SpeechInfo, TextInfo, TextsService } from "./TextsService";
 
 // const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
 const apiHost = "http://localhost:8000/api/v1/"; 
@@ -51,13 +50,13 @@ export class APITextsService implements TextsService {
             if (!response.ok) throw await getNetworkFailure(response);
         })
     }
-    sendSpeech(id: string, blob: Blob, isVideo: boolean, retries: number): Promise<Failure | void> {
+    sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
         return withErrorHandling(async () => {
             const formData = new FormData();
-            formData.set("text_id", id)
-            formData.set("retries", retries.toString());
-            formData.set("is_video", isVideo.toString());
-            formData.set("speech", blob);
+            formData.set("text_id", speech.id)
+            formData.set("retries", speech.retries.toString());
+            formData.set("is_video", speech.isVideo.toString());
+            formData.set("speech", speech.blob);
             const response = await fetch(speechesEndpoint, {
                 method: "POST", 
                 body: formData,

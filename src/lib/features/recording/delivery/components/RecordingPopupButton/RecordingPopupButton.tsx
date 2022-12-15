@@ -24,8 +24,6 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
     );
 }
 
-// TODO: add a close button 
-
 function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
     return (
         <div onClick={onClose} className="popupBackground">

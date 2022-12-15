@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CloseButton from "../../../../../core/delivery/components/App/CloseButton/CloseButton";
-import { RecInfo } from "../../../../texts/domain/state/TextsBloc";
+import { RecInfo } from "../../../../texts/domain/state/TextsState";
 import "./RecordingPopupButton.css";
 
 

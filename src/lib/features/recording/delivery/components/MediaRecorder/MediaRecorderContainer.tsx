@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { DurationSec } from "../../../../../core/utils/utils";
-import { Loading } from "../../../../texts/domain/state/TextsBloc";
+import { Loading } from "../../../../texts/domain/state/TextsState";
 import MediaRecorderBloc, { RecordingBuilder, RecordingProvider } from "../../../domain/state/MediaRecorderBloc";
 import { MediaRecorder, RecordingCallbacks } from "./MediaRecorder";
 

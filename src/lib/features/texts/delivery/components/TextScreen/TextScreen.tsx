@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { TextInfo } from '../../../domain/service/TextsService';
-import { LoadedState} from '../../../domain/state/TextsBloc';
+import { LoadedState} from '../../../domain/state/TextsState';
 import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import { TextSection } from './TextSection/TextSection';
 import { ProgressTab } from './ProgressTab/ProgressTab';

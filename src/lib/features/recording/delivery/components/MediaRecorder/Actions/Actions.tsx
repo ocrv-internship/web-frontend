@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import Spinner from "../../../../../../core/delivery/components/Spinner/Spinner";
-import { TextsContext, LoadedState, Loading } from "../../../../../texts/domain/state/TextsBloc";
-import { ErrorState, Initial, MediaRecordingState, Recorded, Recording, RecordingContext } from "../../../../domain/state/MediaRecorderBloc";
+import { TextsContext } from "../../../../../texts/domain/state/TextsBloc";
+import { LoadedState, Loading } from "../../../../../texts/domain/state/TextsState";
+import { RecordingContext } from "../../../../domain/state/MediaRecorderBloc";
+import { ErrorState, Initial, MediaRecordingState, Recorded, Recording } from "../../../../domain/state/MediaRecorderState";
 import VideoPopupButton from "../../RecordingPopupButton/RecordingPopupButton";
 
 

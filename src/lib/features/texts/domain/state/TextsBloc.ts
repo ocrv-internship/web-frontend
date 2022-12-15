@@ -1,32 +1,8 @@
 import { Failure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
-import { DurationSec } from "../../../../core/utils/utils";
-import { TextInfo, TextsService } from "../service/TextsService";
-
-export enum Loading {
-    skipping, 
-    sending,
-}
-
-export interface LoadedState {
-    texts: TextInfo[], 
-    currentInd: number, 
-    fullRecDurationSec: number,
-    loading?: Loading, 
-    err?: Failure;
-}
-
-export interface RecInfo {
-    blob: Blob, 
-    isVideo: boolean,
-    duration: DurationSec,
-}
-
-export type TextsState = null | LoadedState | Failure; 
-
-
-// TODO: split or simplify this bloc
+import { TextsService } from "../service/TextsService";
+import { Loading, RecInfo, TextsState } from "./TextsState";
 
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {

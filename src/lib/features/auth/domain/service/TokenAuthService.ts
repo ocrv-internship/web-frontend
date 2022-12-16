@@ -1,8 +1,8 @@
+import { map, Observable } from "rxjs";
 import { Failure } from "../../../../core/errors/failures";
 import { jsonHeaders } from "../../../../core/utils/utils";
+import TokenStore from "../../store/TokenStore";
 import AuthService, { AuthToken } from "./AuthService";
-
-const TOKEN_KEY = "AUTH_TOKEN";
 
 export interface AuthEndpoints {
     login: string, 
@@ -10,17 +10,20 @@ export interface AuthEndpoints {
 };
 
 class TokenAuthService implements AuthService {
-    constructor(private readonly ep: AuthEndpoints) {}
-
+    constructor(private readonly s: TokenStore, private readonly ep: AuthEndpoints) {}
     async isAuthenticated() {
         return this.getToken() !== null;
     }
-    async getToken() {
-        return localStorage.getItem(TOKEN_KEY);
+    getToken() {
+        return this.s.retrieve();
     }
-    async logout() {
-        localStorage.removeItem(TOKEN_KEY);
+    logout() {
+        return this.s.delete();
     }
+    isAuthenticatedStream(): Observable<boolean> {
+        return this.s.stream().pipe(map((t) => t !== null));
+    }
+
     async login(username: string, password: string) {
         // TODO: implement form error handling
         const response = await fetch(this.ep.login, {
@@ -29,7 +32,9 @@ class TokenAuthService implements AuthService {
             }
         });
         const json = await response.json();
-        return json.token;
+        const token = json.token; 
+        this.s.set(token);
+        return token;
     }
     async register(username: string, password: string) {
         // TODO: implement form error handling
@@ -39,6 +44,8 @@ class TokenAuthService implements AuthService {
             }
         });
         const json = await response.json();
+        const token = json.token; 
+        this.s.set(token);
         return json.token;
     }
 }

@@ -1,5 +1,6 @@
 import AuthFetcher from "./features/auth/domain/service/AuthFetch";
 import TokenAuthService from "./features/auth/domain/service/TokenAuthService";
+import TokenStoreImpl from "./features/auth/store/TokenStoreImpl";
 import { APITextsService } from "./features/texts/domain/service/APITextsService";
 import { MockTextsService } from "./features/texts/domain/service/MockTextsService";
 import { TextsBloc } from "./features/texts/domain/state/TextsBloc";
@@ -20,7 +21,8 @@ const ep = {
     register: host+"auth/register/", 
 }
 
-const authService = new TokenAuthService(ep);
+const tokenStore = new TokenStoreImpl(localStorage);
+const authService = new TokenAuthService(tokenStore, ep);
 const authFetcher = new AuthFetcher(authService);
 const textsService = new APITextsService(authFetcher, ep);
 

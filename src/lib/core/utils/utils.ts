@@ -1,6 +1,5 @@
 export type DurationSec = number;
 
-export type NetworkFetcher = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>; 
 
 export function formatDuration(dur: DurationSec) {
     const min = Math.floor(dur / 60).toString();

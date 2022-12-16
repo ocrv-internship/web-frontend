@@ -1,4 +1,5 @@
-import { jsonHeaders, NetworkFetcher } from "../../../core/utils/utils";
+import { NetworkFetcher } from "../../../core/fetcher/fetcher";
+import { jsonHeaders } from "../../../core/utils/utils";
 import NetworkAuthDataSource from "../domain/datasources/NetworkAuthDataSource";
 import { AuthToken } from "../domain/service/AuthService";
 

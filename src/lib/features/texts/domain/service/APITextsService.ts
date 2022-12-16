@@ -1,5 +1,6 @@
 import { getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
+import { NetworkFetcher } from "../../../../core/fetcher/fetcher";
 import { jsonHeaders } from "../../../../core/utils/utils";
 import AuthFetcher from "../../../auth/domain/service/AuthFetch";
 import preprocess from "../preprocessing/preprocessing";
@@ -21,11 +22,11 @@ export interface TextsEndpoints {
 }
 
 export class APITextsService implements TextsService {
-    constructor(private readonly fetcher: AuthFetcher, private readonly ep: TextsEndpoints) {};
+    constructor(private readonly fetcher: NetworkFetcher, private readonly ep: TextsEndpoints) {};
 
     getTexts(): Promise<Failure | TextInfo[]> {
         return withErrorHandling(async () => {
-            const response = await this.fetcher.fetch(this.ep.texts, baseParams);
+            const response = await this.fetcher(this.ep.texts, baseParams);
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
@@ -45,7 +46,7 @@ export class APITextsService implements TextsService {
                 text_id: id, 
                 retries: retries,
             };
-            const response = await this.fetcher.fetch(this.ep.skips, {
+            const response = await this.fetcher(this.ep.skips, {
                 ...baseParams,
                 method: "POST", 
                 body: JSON.stringify(body),
@@ -56,7 +57,7 @@ export class APITextsService implements TextsService {
     sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
         return withErrorHandling(async () => {
             const formData = mapSpeech(speech);
-            const response = await this.fetcher.fetch(this.ep.speeches, {
+            const response = await this.fetcher(this.ep.speeches, {
                 ...baseParams,
                 method: "POST", 
                 body: formData,

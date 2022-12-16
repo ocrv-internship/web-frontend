@@ -27,9 +27,6 @@ export class APITextsService implements TextsService {
     getTexts(): Promise<Failure | TextInfo[]> {
         return withErrorHandling(async () => {
             const response = await this.fetcher(this.ep.texts, baseParams);
-            if (!response.ok) {
-                throw await getNetworkFailure(response);
-            }
             const json = await response.json();
             const texts = (json["texts"] as TextJson[]).map(mapText); 
             return texts.map((text) => {

@@ -6,7 +6,7 @@ export function getNetworkFailure(response: Response): Promise<Failure> {
         .then((json: {detail: string}) => 
             new NetworkFailure(json.detail)
         )
-        .catch((e) => new UnknownNetworkFailure());
+        .catch((e) => new UnknownNetworkFailure(response));
 }
 
 export function convertError(e: any, fallback?: Failure) {

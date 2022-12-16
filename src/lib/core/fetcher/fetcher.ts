@@ -1,4 +1,4 @@
-import { NetworkException } from "../errors/exceptions";
+import { getNetworkFailure } from "../errors/errorHandling";
 import { NetworkFailure } from "../errors/failures";
 
 export type NetworkFetcher = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>; 
@@ -8,13 +8,7 @@ export function FetcherExceptionMW(fetcher: NetworkFetcher): NetworkFetcher {
     return async (input: RequestInfo | URL, init?: RequestInit) => {
         const response = await fetcher(input, init);
         if (!response.ok) {
-            try {
-                const json = await response.json();
-                throw new NetworkFailure(json.detail);
-            }
-            catch {
-                throw new NetworkException(response);
-            }
+            throw getNetworkFailure(response);
         }
         return response;
     }; 

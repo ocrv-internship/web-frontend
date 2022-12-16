@@ -28,7 +28,7 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
             username: username, 
             password: password, 
         };
-        return fetch(endpoint, {
+        return this.fetcher(endpoint, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: {

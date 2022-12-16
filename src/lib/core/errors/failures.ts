@@ -3,6 +3,7 @@ export abstract class Failure {
 };
 
 export class UnknownNetworkFailure extends Failure {
+    constructor(readonly response: Response) {super();};
     get msg() {
         return "При обработке запроса произошла неизвестная ошибка.";
     } 

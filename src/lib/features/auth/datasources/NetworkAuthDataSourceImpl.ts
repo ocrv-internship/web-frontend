@@ -1,3 +1,4 @@
+import { FormFailures, UnknownNetworkFailure } from "../../../core/errors/failures";
 import { NetworkFetcher } from "../../../core/fetcher/fetcher";
 import { jsonHeaders } from "../../../core/utils/utils";
 import NetworkAuthDataSource from "../domain/datasources/NetworkAuthDataSource";
@@ -7,6 +8,11 @@ export interface AuthEndpoints {
     login: string, 
     register: string, 
 };
+
+export interface AuthFieldsFailures {
+    username?: string[], 
+    password?: string[],
+}
 
 class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
     constructor(
@@ -23,20 +29,38 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
         return this.authenticate(username, password, this.ep.register);
     }
 
-    private authenticate(username: string, password: string, endpoint: string): Promise<AuthToken> {
+    private async authenticate(username: string, password: string, endpoint: string): Promise<AuthToken> {
         const body = {
             username: username, 
             password: password, 
         };
-        return this.fetcher(endpoint, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: {
-                ...jsonHeaders, 
+        try {
+            const response = await this.fetcher(endpoint, {
+                method: 'POST',
+                body: JSON.stringify(body),
+                headers: {
+                    ...jsonHeaders, 
+                }
+            })
+            const json = await response.json();
+            return json.token; 
+        } catch (e) {
+            if (e instanceof UnknownNetworkFailure) {
+                throw this.convertFormFailures(e);
             }
-        })
-        .then((response) => response.json())
-        .then((json) => json.token);
+            throw e;
+        }
+    }
+
+    private async convertFormFailures(e: UnknownNetworkFailure) {
+        try {
+            const json = await e.response.json();
+            const nonField = json.non_field_error as string; 
+            const fields = json as AuthFieldsFailures;  
+            return new FormFailures<AuthFieldsFailures>(fields, nonField);
+        } catch { 
+            return e; 
+        }
     }
 }
 

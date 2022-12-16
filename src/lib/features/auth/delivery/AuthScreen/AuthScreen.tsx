@@ -9,22 +9,44 @@ function AuthScreenContainer() {
         <AuthScreenBuilder builder={(state) => {
             console.log(state);
             if (state === null) return <Spinner />; 
-            return <AuthScreen state={state} />;
+            return <AuthScreen />;
         }} />
     </AuthScreenProvider>
 }
 
-function AuthScreen({state} : {state: AuthScreenState}) {
+function AuthScreen() {
     const bloc = useContext(AuthScreenContext)!; 
     return (
-        <section id="authSection">
-            <h2>{state.type == AuthType.login ? "Вход" : "Регистрация"}</h2>
-            <p>{state.type == AuthType.login ? "Нет аккаунта?" : "Уже есть аккаунт?"}</p>
-            <button onClick={bloc.toggleType} className="simple">
-                {state.type == AuthType.login ? "Создать аккаунт" : "Войти в существующий аккаунт"}
-            </button>
-        </section>
+        <div id="authSectionWrapper">
+            <section id="authSection">
+                <h2>{bloc.state.type == AuthType.login ? "Вход" : "Регистрация"}</h2>
+                <AuthForm />
+                <p>Или</p>
+                <button className="simple" onClick={bloc.toggleType}>
+                    {bloc.state.type == AuthType.login ? "Создать аккаунт" : "Войти"}
+                </button>
+            </section>
+        </div>
     )
 }
+
+function AuthForm() {
+    const bloc = useContext(AuthScreenContext)!; 
+    return (
+        <form>
+            <input placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
+            <input placeholder="Пароль" name="password" required autoComplete="password" type="password"/>
+            { 
+                bloc.state.type == AuthType.registration ? 
+                <input placeholder="Повтор пароля" name="passwordRepeat" required autoComplete="password" type="password"/>
+                : <></>
+            }
+            <button type="submit" className="highlighted">
+                {bloc.state.type == AuthType.login ? "Войти" : "Зарегистрироваться"}
+            </button>
+        </form>
+    );
+}
+
 
 export default AuthScreenContainer;

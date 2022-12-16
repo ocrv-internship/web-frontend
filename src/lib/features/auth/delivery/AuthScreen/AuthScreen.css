@@ -1,4 +1,38 @@
+#authSectionWrapper {
+    height: 100%;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #authSection {
-    min-width: 200px; 
-    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 300px; 
+}
+
+#authSection h2 {
+    margin-bottom: 15px;
+}
+
+#authSection input {
+    /* border: 0; */
+    padding: 6px 4px;
+    height: 30px;
+    font-size: 18px;
+}
+
+#authSection > p {
+    margin: 0; 
+    text-align: center;
+}
+
+#authSection > form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
 }

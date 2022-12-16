@@ -27,6 +27,7 @@ class TokenAuthService implements AuthService {
     async login(username: string, password: string) {
         // TODO: implement form error handling
         const response = await fetch(this.ep.login, {
+            method: 'POST',
             headers: {
                 ...jsonHeaders, 
             }
@@ -38,7 +39,8 @@ class TokenAuthService implements AuthService {
     }
     async register(username: string, password: string) {
         // TODO: implement form error handling
-        const response = await fetch(this.ep.login, {
+        const response = await fetch(this.ep.register, {
+            method: 'POST',
             headers: {
                 ...jsonHeaders, 
             }

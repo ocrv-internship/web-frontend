@@ -19,14 +19,16 @@
 }
 
 #authSection input {
-    /* border: 0; */
     height: 30px;
     font-size: 18px;
-    line-height: 1.5;
     padding: 10px 15px;
     border: 0;
     border-radius: 20px;
     background: rgba(224, 224, 255, 0.06);
+}
+
+input:focus {
+    border-color: var(--intermediate-color)
 }
 
 #authSection > p {

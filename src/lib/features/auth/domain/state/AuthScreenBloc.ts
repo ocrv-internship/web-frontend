@@ -17,12 +17,21 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         super({type: AuthType.login});
 
         this.toggleType = this.toggleType.bind(this);
+        this.onLogin = this.onLogin.bind(this); 
+        this.onRegister = this.onRegister.bind(this);
     }
 
     toggleType() {
         this.emit({
             type: this.state.type === AuthType.login ? AuthType.registration : AuthType.login,
         });
+    }
+
+    onLogin(username: string, password: string) {
+        this.auth.login(username, password);
+    }
+    onRegister(username: string, password: string, passwordRepeat: string) {
+        this.auth.register(username, password);
     }
 }
 

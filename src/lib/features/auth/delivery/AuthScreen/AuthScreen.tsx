@@ -1,3 +1,4 @@
+import React from "react";
 import { useContext } from "react";
 import Spinner from "../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../di";
@@ -32,17 +33,42 @@ function AuthScreen() {
 
 function AuthForm() {
     const bloc = useContext(AuthScreenContext)!; 
+
+    const getLoginTarget = (t: EventTarget) => {
+        return t as typeof t & {
+            username: {value: string}, 
+            password: {value: string},
+        };
+    }
+    const getRegisterTarget = (t: EventTarget) => {
+        return t as typeof t & {
+            username: {value: string}, 
+            password: {value: string},
+            passwordRepeat: {value: string},
+        };
+    };
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (bloc.state.type === AuthType.registration) {
+            const t = getRegisterTarget(e.target);
+            bloc.onRegister(t.username.value, t.password.value, t.passwordRepeat.value);
+        } else {
+            const t = getLoginTarget(e.target);
+            bloc.onLogin(t.username.value, t.password.value);
+        }
+    }
+
     return (
-        <form>
+        <form onSubmit={onSubmit}>
             <input placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
             <input placeholder="Пароль" name="password" required autoComplete="password" type="password"/>
             { 
-                bloc.state.type == AuthType.registration ? 
+                bloc.state.type === AuthType.registration ? 
                 <input placeholder="Повтор пароля" name="passwordRepeat" required autoComplete="password" type="password"/>
                 : <></>
             }
             <button type="submit" className="highlighted">
-                {bloc.state.type == AuthType.login ? "Войти" : "Зарегистрироваться"}
+                {bloc.state.type === AuthType.login ? "Войти" : "Зарегистрироваться"}
             </button>
         </form>
     );

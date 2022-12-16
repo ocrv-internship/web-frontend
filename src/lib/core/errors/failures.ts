@@ -42,3 +42,14 @@ export class NoTokenFailure extends Failure {
         return "..."; // TODO
     }
 }
+
+
+export class FormFailures extends Failure {
+    constructor(
+        readonly fields?: Map<string, string[]>,
+        readonly nonField?: string, 
+    ) {super();};
+    get msg() {
+        return "..."; // TODO
+    }
+}

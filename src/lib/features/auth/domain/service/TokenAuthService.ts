@@ -1,16 +1,15 @@
 import { map, Observable } from "rxjs";
 import { Failure } from "../../../../core/errors/failures";
 import { jsonHeaders } from "../../../../core/utils/utils";
-import TokenStore from "../../store/TokenStore";
+import NetworkAuthDataSource from "../datasources/NetworkAuthDataSource";
+import TokenDataSource from "../datasources/TokenDataSource";
 import AuthService, { AuthToken } from "./AuthService";
 
-export interface AuthEndpoints {
-    login: string, 
-    register: string, 
-};
-
 class TokenAuthService implements AuthService {
-    constructor(private readonly s: TokenStore, private readonly ep: AuthEndpoints) {}
+    constructor(
+        private readonly s: TokenDataSource,
+        private readonly net: NetworkAuthDataSource,
+    ) {}
     async isAuthenticated() {
         return this.getToken() !== null;
     }
@@ -25,30 +24,12 @@ class TokenAuthService implements AuthService {
     }
 
     async login(username: string, password: string) {
-        // TODO: implement form error handling
-        const response = await fetch(this.ep.login, {
-            method: 'POST',
-            headers: {
-                ...jsonHeaders, 
-            }
-        });
-        const json = await response.json();
-        const token = json.token; 
-        this.s.set(token);
-        return token;
+        const token = await this.net.login(username, password);
+        this.s.set(token); 
     }
     async register(username: string, password: string) {
-        // TODO: implement form error handling
-        const response = await fetch(this.ep.register, {
-            method: 'POST',
-            headers: {
-                ...jsonHeaders, 
-            }
-        });
-        const json = await response.json();
-        const token = json.token; 
+        const token = await this.net.register(username, password);
         this.s.set(token);
-        return json.token;
     }
 }
 

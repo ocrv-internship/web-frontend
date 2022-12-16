@@ -1,9 +1,9 @@
 import { concatMap, fromEvent, map, Observable } from "rxjs";
-import TokenStore from "./TokenStore";
+import TokenDataSource from "../domain/datasources/TokenDataSource";
 
 const TOKEN_KEY = "AUTH_TOKEN";
 
-class TokenStoreImpl implements TokenStore {
+class TokenDataSourceImpl implements TokenDataSource {
     constructor(private readonly s: Storage) {};
     async retrieve(): Promise<string | null> {
         return this.s.getItem(TOKEN_KEY);
@@ -20,4 +20,4 @@ class TokenStoreImpl implements TokenStore {
     }
 }
 
-export default TokenStoreImpl;
+export default TokenDataSourceImpl;

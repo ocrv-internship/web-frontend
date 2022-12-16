@@ -1,8 +1,9 @@
 import { Subscription } from "rxjs";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
+import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import AuthService from "../service/AuthService";
 
-enum AuthState {
+export enum AuthState {
     loading, 
     unauthenticated, 
     authenticated, 
@@ -24,3 +25,12 @@ class AuthBloc extends Bloc<AuthState> {
         this.subscription.unsubscribe();
     }
 }
+
+export default AuthBloc;
+
+
+export const {
+    Provider: AuthProvider, 
+    Builder: AuthBuilder,
+    Context: AuthContext,
+} = BlocComponentsFactory<AuthState, AuthBloc>();

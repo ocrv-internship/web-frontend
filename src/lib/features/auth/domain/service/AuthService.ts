@@ -1,15 +1,13 @@
 import { Failure } from "../../../../core/errors/failures";
 
-export interface AuthToken {
-    token: string,
-};
+export type AuthToken = string;
 
 abstract class AuthService {
-    abstract isAuthenticated(): Promise<boolean | Failure>;
-    abstract getToken(): Promise<AuthToken | null | Failure>;
-    abstract login(username: string, password: string): Promise<Failure | null>;
-    abstract register(username: string, password: string): Promise<Failure | null>;
-    abstract logout(): Promise<null>;
+    abstract isAuthenticated(): Promise<boolean>;
+    abstract getToken(): Promise<AuthToken | null>;
+    abstract login(username: string, password: string): Promise<void>;
+    abstract register(username: string, password: string): Promise<void>;
+    abstract logout(): Promise<void>;
 }
 
 export default AuthService;

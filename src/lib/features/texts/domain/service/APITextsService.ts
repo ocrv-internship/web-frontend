@@ -23,19 +23,11 @@ const baseParams: RequestInit = {
 export class APITextsService implements TextsService {
     getTexts(): Promise<Failure | TextInfo[]> {
         return withErrorHandling(async () => {
-            const output: any = [];
-            document.cookie.split(/\s*;\s*/).forEach((pair) => {
-                output.push(decodeURIComponent(pair))
-              });
-            console.log(output);
-
             const response = await fetch(textsEndpoint, baseParams);
-            console.log(response);
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
             const json = await response.json();
-            console.log(json);
             const texts = (json["texts"] as TextJson[]).map(mapText); 
             return texts.map((text) => {
                 return {

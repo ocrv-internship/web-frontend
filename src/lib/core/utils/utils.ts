@@ -5,3 +5,8 @@ export function formatDuration(dur: DurationSec) {
     const sec = (dur % 60).toString().padStart(2, "0");
     return `${min}:${sec}`;
 }
+
+export const jsonHeader = {
+    "Content-Type": 'application/json', 
+    "Accept": 'application/json',
+}

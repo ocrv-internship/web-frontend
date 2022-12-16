@@ -12,14 +12,25 @@ const speechesEndpoint = apiHost+"speeches/";
 const skipsEndpoint = apiHost+"skips/";
 
 
+const baseParams: RequestInit = {
+    credentials: 'include',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+
+}
+
 export class APITextsService implements TextsService {
     getTexts(): Promise<Failure | TextInfo[]> {
         return withErrorHandling(async () => {
-            const response = await fetch(textsEndpoint, {
-                'headers': {
-                    'Content-Type': 'application/json',
-                },
-            });
+            const output: any = [];
+            document.cookie.split(/\s*;\s*/).forEach((pair) => {
+                output.push(decodeURIComponent(pair))
+              });
+            console.log(output);
+
+            const response = await fetch(textsEndpoint, baseParams);
+            console.log(response);
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
@@ -41,11 +52,9 @@ export class APITextsService implements TextsService {
                 retries: retries,
             };
             const response = await fetch(skipsEndpoint, {
+                ...baseParams,
                 method: "POST", 
                 body: JSON.stringify(body),
-                headers: {
-                    'Content-Type': 'application/json',
-                }
             });
             if (!response.ok) throw await getNetworkFailure(response);
         })
@@ -58,6 +67,7 @@ export class APITextsService implements TextsService {
             formData.set("is_video", speech.isVideo.toString());
             formData.set("speech", speech.blob);
             const response = await fetch(speechesEndpoint, {
+                ...baseParams,
                 method: "POST", 
                 body: formData,
             });

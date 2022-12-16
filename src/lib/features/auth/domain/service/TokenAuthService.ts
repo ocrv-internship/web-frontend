@@ -1,5 +1,5 @@
 import { Failure } from "../../../../core/errors/failures";
-import { jsonHeader } from "../../../../core/utils/utils";
+import { jsonHeaders } from "../../../../core/utils/utils";
 import AuthService, { AuthToken } from "./AuthService";
 
 const TOKEN_KEY = "AUTH_TOKEN";
@@ -20,7 +20,7 @@ class TokenAuthService implements AuthService {
         // TODO: implement form error handling
         const response = await fetch(this.loginEndpoint, {
             headers: {
-                ...jsonHeader, 
+                ...jsonHeaders, 
             }
         });
         const json = await response.json();
@@ -30,7 +30,7 @@ class TokenAuthService implements AuthService {
         // TODO: implement form error handling
         const response = await fetch(this.loginEndpoint, {
             headers: {
-                ...jsonHeader, 
+                ...jsonHeaders, 
             }
         });
         const json = await response.json();

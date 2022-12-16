@@ -1,15 +1,20 @@
+import { NoTokenFailure } from "../../../../core/errors/failures";
 import AuthService from "./AuthService";
 
-function newAuthFetch(auth: AuthService) {
-    return async (input: RequestInfo | URL, init?: RequestInit) => fetch(
-        input, 
-        {
-            ...init, 
+class AuthFetcher {
+    constructor(private readonly auth: AuthService) { };
+    async fetch(input: RequestInfo | URL, init?: RequestInit) {
+        const token = await this.auth.getToken();
+        if (token === null) throw new NoTokenFailure();
+        return fetch(input, {
+            ...init,
             headers: {
-                ...init?.headers, 
-                'Authentication': `Token ${(await auth.getToken()) as string}`,
+                ...init?.headers,
+                'Authentication': `Token ${token}`,
             }
-        }
-    );
+        });
+    }
 }
-export default newAuthFetch; 
+
+
+export default AuthFetcher; 

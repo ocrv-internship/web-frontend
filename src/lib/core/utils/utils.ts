@@ -6,7 +6,7 @@ export function formatDuration(dur: DurationSec) {
     return `${min}:${sec}`;
 }
 
-export const jsonHeader = {
+export const jsonHeaders = {
     "Content-Type": 'application/json', 
     "Accept": 'application/json',
 }

@@ -37,4 +37,8 @@ export class RecordingStartFailure extends Failure {
     }
 }
 
-
+export class NoTokenFailure extends Failure {
+    get msg() {
+        return "..."; // TODO
+    }
+}

@@ -1,5 +1,6 @@
 import { getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
+import { jsonHeaders } from "../../../../core/utils/utils";
 import preprocess from "../preprocessing/preprocessing";
 import { mapText, TextJson } from "./mappers";
 import { SpeechInfo, TextInfo, TextsService } from "./TextsService";
@@ -13,9 +14,8 @@ const skipsEndpoint = apiHost+"skips/";
 
 
 const baseParams: RequestInit = {
-    credentials: 'include',
     headers: {
-        'Content-Type': 'application/json',
+        ...jsonHeaders,
     },
 
 }

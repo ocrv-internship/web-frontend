@@ -1,29 +1,31 @@
 import { getNetworkFailure, withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
 import { jsonHeaders } from "../../../../core/utils/utils";
+import AuthFetcher from "../../../auth/domain/service/AuthFetch";
 import preprocess from "../preprocessing/preprocessing";
 import { mapText, TextJson } from "./mappers";
 import { SpeechInfo, TextInfo, TextsService } from "./TextsService";
 
-// const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
-const apiHost = "http://localhost:8000/api/v1/"; 
-
-const textsEndpoint = apiHost+"texts/";
-const speechesEndpoint = apiHost+"speeches/"; 
-const skipsEndpoint = apiHost+"skips/";
 
 
 const baseParams: RequestInit = {
     headers: {
         ...jsonHeaders,
     },
+}
 
+export interface TextsEndpoints {
+    texts: string, 
+    speeches: string, 
+    skips: string,  
 }
 
 export class APITextsService implements TextsService {
+    constructor(private readonly fetcher: AuthFetcher, private readonly ep: TextsEndpoints) {};
+
     getTexts(): Promise<Failure | TextInfo[]> {
         return withErrorHandling(async () => {
-            const response = await fetch(textsEndpoint, baseParams);
+            const response = await this.fetcher.fetch(this.ep.texts, baseParams);
             if (!response.ok) {
                 throw await getNetworkFailure(response);
             }
@@ -43,7 +45,7 @@ export class APITextsService implements TextsService {
                 text_id: id, 
                 retries: retries,
             };
-            const response = await fetch(skipsEndpoint, {
+            const response = await this.fetcher.fetch(this.ep.skips, {
                 ...baseParams,
                 method: "POST", 
                 body: JSON.stringify(body),
@@ -53,12 +55,8 @@ export class APITextsService implements TextsService {
     }
     sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
         return withErrorHandling(async () => {
-            const formData = new FormData();
-            formData.set("text_id", speech.id)
-            formData.set("retries", speech.retries.toString());
-            formData.set("is_video", speech.isVideo.toString());
-            formData.set("speech", speech.blob);
-            const response = await fetch(speechesEndpoint, {
+            const formData = mapSpeech(speech);
+            const response = await this.fetcher.fetch(this.ep.speeches, {
                 ...baseParams,
                 method: "POST", 
                 body: formData,
@@ -66,4 +64,14 @@ export class APITextsService implements TextsService {
             if (!response.ok) throw await getNetworkFailure(response);
         });
     }
+}
+
+
+function mapSpeech(speech: SpeechInfo): FormData {
+    const formData = new FormData();
+    formData.set("text_id", speech.id)
+    formData.set("retries", speech.retries.toString());
+    formData.set("is_video", speech.isVideo.toString());
+    formData.set("speech", speech.blob);
+    return formData;
 }

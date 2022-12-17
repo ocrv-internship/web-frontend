@@ -10,6 +10,7 @@ export enum AuthType {
 
 export interface AuthScreenState {
     type: AuthType, 
+    failures?: FormFailures<AuthFieldsFailures>,
 };
 
 type AuthMethod = (username: string, password: string) => Promise<void | Failure>;
@@ -43,10 +44,14 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     }
 
     private async onAuth(auth: AuthMethod, username: string, password: string) {
-        const failure = await auth(username, password);
-        if (failure instanceof FormFailures<AuthFieldsFailures>) {
-            console.log(failure.nonField);
-            console.log(failure.fields); 
+        const result = await auth(username, password);
+        if (result instanceof Failure) {
+            const formFailures = (
+                result instanceof FormFailures ?
+                    result 
+                :   new FormFailures([result.msg])
+            );
+            this.emit({...this.state, failures: formFailures});
         }
     }
 }

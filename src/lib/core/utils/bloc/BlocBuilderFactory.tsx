@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Bloc } from './Bloc';
 
 export enum ConnectionState {
@@ -19,7 +19,7 @@ function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | nul
       const [snapshot, setSnapshot] = useState<Snapshot<S>>(null); 
       const bloc = useContext(context);
       useEffect(() => {
-        if (bloc === null) return;
+        if (bloc === null) throw Error("No bloc found in context"); 
         setSnapshot(bloc.state);
         const subscription = bloc.stream.subscribe(
           {
@@ -29,9 +29,8 @@ function BlocBuilderFactory<S, B extends Bloc<S>>(context: React.Context<B | nul
           }
         );
         return () => subscription.unsubscribe();
-      }, [builder, bloc]); 
+      }, [bloc]); 
 
-      if (bloc === null) throw Error("No bloc found in context"); 
       return builder(snapshot);
   }
 

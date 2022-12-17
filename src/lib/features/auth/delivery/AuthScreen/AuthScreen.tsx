@@ -4,15 +4,17 @@ import Spinner from "../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../di";
 import { AuthScreenBuilder, AuthScreenContext, AuthScreenProvider, AuthScreenState, AuthType } from "../../domain/state/AuthScreenBloc";
 import './AuthScreen.css';
+import { Snapshot } from "../../../../core/utils/bloc/BlocBuilderFactory";
 
 function AuthScreenContainer() {
     const create = useMemo(() => uiDeps.authScreenBloc, []);
+    const builder = useMemo(() => (state: Snapshot<AuthScreenState>) => {
+        console.log(state);
+        if (state === null) return <Spinner />; 
+        return <AuthScreen />;
+    }, []);
     return <AuthScreenProvider create={create}>
-        <AuthScreenBuilder builder={(state) => {
-            console.log(state);
-            if (state === null) return <Spinner />; 
-            return <AuthScreen />;
-        }} />
+        <AuthScreenBuilder builder={builder} />
     </AuthScreenProvider>
 }
 
@@ -63,15 +65,19 @@ function AuthForm() {
 
     useEffect(() => {
         if (!bloc.state.failures) return;
-        usernameRef.current?.setCustomValidity("Test Test Test"); 
+        console.log('here2');
+        const username = usernameRef.current;
+        username?.setCustomValidity("Test Test Test"); 
+        username?.reportValidity();
         return () => {
-            usernameRef.current?.setCustomValidity('');
+            console.log("clearing validity");
+            username?.setCustomValidity('');
         }
     }, [bloc.state.failures]);
 
     return (
         <form onSubmit={onSubmit}>
-            <input ref={usernameRef} placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
+            <input onInput={bloc.clearFailures} ref={usernameRef} placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
             <input placeholder="Пароль" name="password" required autoComplete="password" type="password"/>
             { 
                 bloc.state.type === AuthType.registration ? 

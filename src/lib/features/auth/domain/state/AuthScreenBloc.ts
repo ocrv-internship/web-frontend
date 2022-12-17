@@ -22,6 +22,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         console.log('created');
 
         this.toggleType = this.toggleType.bind(this);
+        this.clearFailures = this.clearFailures.bind(this);
         this.onLogin = this.onLogin.bind(this); 
         this.onRegister = this.onRegister.bind(this);
     }
@@ -36,11 +37,15 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         });
     }
 
+    clearFailures() {
+        this.emit({type: this.state.type});
+    }
+
     async onLogin(username: string, password: string) {
-        this.onAuth(this.auth.login, username, password);
+        return this.onAuth(this.auth.login, username, password);
     }
     async onRegister(username: string, password: string, passwordRepeat: string) {
-        this.onAuth(this.auth.register, username, password);
+        return this.onAuth(this.auth.register, username, password);
     }
 
     private async onAuth(auth: AuthMethod, username: string, password: string) {

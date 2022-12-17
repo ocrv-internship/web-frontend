@@ -8,6 +8,7 @@ import { TextsBloc } from "./features/texts/domain/state/TextsBloc";
 import NetworkAuthDataSource from "./features/auth/domain/datasources/NetworkAuthDataSource";
 import NetworkAuthDataSourceImpl from "./features/auth/datasources/NetworkAuthDataSourceImpl";
 import { FetcherExceptionMW } from "./core/fetcher/fetcher";
+import NetworkTextsDataSourceImpl from "./features/texts/datasources/NetworkTextsDataSourceImpl";
 
 interface UIDeps {
     textsBloc: () => TextsBloc;
@@ -36,7 +37,8 @@ const tokenStore = new TokenDataSourceImpl(localStorage);
 const authDS = new NetworkAuthDataSourceImpl(baseFetcher, ep);
 const authService = new TokenAuthService(tokenStore, authDS);
 const authFetcher = newFetcherAuthMW(authService)(baseFetcher);
-const textsService = new APITextsService(authFetcher, ep);
+const textsDS = new NetworkTextsDataSourceImpl(authFetcher, ep);
+const textsService = new APITextsService(textsDS);
 
 uiDeps = {
     textsBloc: () => new TextsBloc(textsService),

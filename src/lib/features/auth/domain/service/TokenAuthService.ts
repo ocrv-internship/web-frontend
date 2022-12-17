@@ -1,9 +1,7 @@
-import { map, Observable } from "rxjs";
-import { Failure } from "../../../../core/errors/failures";
-import { jsonHeaders } from "../../../../core/utils/utils";
+import { map } from "rxjs";
 import NetworkAuthDataSource from "../datasources/NetworkAuthDataSource";
 import TokenDataSource from "../datasources/TokenDataSource";
-import AuthService, { AuthToken } from "./AuthService";
+import AuthService from "./AuthService";
 import { withErrorHandling } from "../../../../core/errors/errorHandling";
 
 class TokenAuthService implements AuthService {

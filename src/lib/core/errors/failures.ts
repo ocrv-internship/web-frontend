@@ -41,7 +41,7 @@ export class RecordingStartFailure extends Failure {
 
 export class NoTokenFailure extends Failure {
     get msg() {
-        return "..."; // TODO
+        return "Для выполнения данного запроса нужно авторизоваться."; 
     }
 }
 
@@ -52,6 +52,6 @@ export class FormFailures<FieldsFailures> extends Failure {
         readonly fields?: FieldsFailures,
     ) {super();};
     get msg() {
-        return "..."; // TODO
+        return "Произошли ошибки при валидации формы."; 
     }
 }

@@ -5,8 +5,8 @@ const defaultFontSize = 18;
 
 export function TextSection({text}: {text: string}) {
     const [fontSize, setFontSize] = useState(defaultFontSize);
-    const decrement = fontSize > 12 ? () => setFontSize(fontSize-1) : () => {};
-    const increment = () => setFontSize(fontSize+1);
+    const decrement = fontSize > 12 ? () => setFontSize(fontSize-2) : () => {};
+    const increment = fontSize < 50 ? () => setFontSize(fontSize+2) : () => {};
     const textInnerHTML = {
         __html: text, 
     };

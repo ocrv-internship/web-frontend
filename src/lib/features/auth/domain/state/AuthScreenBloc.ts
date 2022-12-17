@@ -19,7 +19,6 @@ type AuthMethod = (username: string, password: string) => Promise<void | Failure
 class AuthScreenBloc extends Bloc<AuthScreenState> {
     constructor(private readonly auth: AuthService) {
         super({type: AuthType.login});
-        console.log('created');
 
         this.toggleType = this.toggleType.bind(this);
         this.clearFailures = this.clearFailures.bind(this);
@@ -27,7 +26,6 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         this.onRegister = this.onRegister.bind(this);
     }
     dispose() {
-        console.log('disposed');
         super.dispose();
     }
 
@@ -51,7 +49,6 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
 
     private async onAuth(auth: AuthMethod, username: string, password: string) {
         const result = await auth(username, password);
-        console.log(result);
         if (result instanceof Failure) {
             const formFailures = (
                 result instanceof FormFailures ?

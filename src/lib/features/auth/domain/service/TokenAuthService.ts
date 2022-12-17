@@ -25,9 +25,7 @@ class TokenAuthService implements AuthService {
     )
     login = async (username: string, password: string) => {
         return withErrorHandling(async () => {
-            console.log("asdf");
             const token = await this.net.login(username, password);
-            console.log(token);
             await this.store.set(token); 
         })
     }

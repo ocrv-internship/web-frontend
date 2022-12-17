@@ -11,7 +11,6 @@ import useFieldValidation from "./hooks";
 function AuthScreenContainer() {
     const create = useMemo(() => uiDeps.authScreenBloc, []);
     const builder = useMemo(() => (state: Snapshot<AuthScreenState>) => {
-        console.log(state);
         if (state === null) return <Spinner />; 
         return <AuthScreen />;
     }, []);

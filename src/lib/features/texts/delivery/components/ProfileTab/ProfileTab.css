@@ -1,0 +1,12 @@
+#profileTab {
+    position: fixed; 
+    right: 0; 
+    top: 0;
+    border-top-right-radius: 0; 
+    border-top-left-radius: 0; 
+    border-bottom-right-radius: 0;
+
+    display: flex; 
+    flex-direction: row;
+    gap: 20px;
+}

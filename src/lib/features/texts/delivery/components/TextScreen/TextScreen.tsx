@@ -5,6 +5,7 @@ import { MediaRecorderContainer } from '../../../../recording/delivery/component
 import { TextSection } from './TextSection/TextSection';
 import { ProgressTab } from './ProgressTab/ProgressTab';
 import { ErrorNotification } from '../../../../../core/delivery/components/ErrorNotification/ErrorNotification';
+import ProfileTab from '../ProfileTab/ProfileTab';
 
 
 export interface LoadedTextScreenProps {
@@ -26,6 +27,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
                 textsCount={state.texts.length} 
                 fullDurationSec={state.fullRecDurationSec}
             />
+            <ProfileTab />
             {state.err != null ? 
                 <ErrorNotification message={state.err.msg} />
             : <></>

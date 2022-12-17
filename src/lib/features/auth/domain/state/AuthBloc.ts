@@ -18,12 +18,17 @@ class AuthBloc extends Bloc<AuthState> {
     constructor(private readonly auth: AuthService) {
         super(AuthType.loading);
         this.load = this.load.bind(this);
+        this.logout = this.logout.bind(this);
         this.load();
     }
 
     dispose() {
         super.dispose(); 
         this.subscription?.unsubscribe();
+    }
+
+    async logout() {
+        await this.auth.logout();
     }
 
     async load() {

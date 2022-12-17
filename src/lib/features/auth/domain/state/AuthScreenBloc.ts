@@ -13,6 +13,8 @@ export interface AuthScreenState {
     type: AuthType, 
 };
 
+type AuthMethod = (username: string, password: string) => Promise<void>;
+
 
 class AuthScreenBloc extends Bloc<AuthScreenState> {
     constructor(private readonly auth: AuthService) {
@@ -35,20 +37,20 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     }
 
     async onLogin(username: string, password: string) {
+        this.onAuth(this.auth.login, username, password);
+    }
+    async onRegister(username: string, password: string, passwordRepeat: string) {
+        this.onAuth(this.auth.register, username, password);
+    }
+
+    private async onAuth(auth: AuthMethod, username: string, password: string) {
         try {
-            await this.auth.login(username, password);
+            await auth(username, password);
         } catch (e) {
             if (e instanceof FormFailures<AuthFieldsFailures>) {
                 console.log(e.nonField);
                 console.log(e.fields); 
             }
-        }
-    }
-    async onRegister(username: string, password: string, passwordRepeat: string) {
-        try {
-            await this.auth.register(username, password);
-        } catch (e) {
-            console.log(e);
         }
     }
 }

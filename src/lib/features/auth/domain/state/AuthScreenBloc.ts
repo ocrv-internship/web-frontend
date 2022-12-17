@@ -38,6 +38,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     }
 
     clearFailures() {
+        if (!this.state.failures) return;
         this.emit({type: this.state.type});
     }
 

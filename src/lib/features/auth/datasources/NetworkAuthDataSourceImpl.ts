@@ -1,3 +1,4 @@
+import { ConnectableObservable } from "rxjs";
 import { FormFailures, UnknownNetworkFailure } from "../../../core/errors/failures";
 import { NetworkFetcher } from "../../../core/fetcher/fetcher";
 import { jsonHeaders } from "../../../core/utils/utils";
@@ -18,6 +19,7 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
 
 
     login(username: string, password: string): Promise<AuthToken> {
+        console.log("login()");
         return this.authenticate(username, password, this.ep.login);
     }
 
@@ -30,11 +32,13 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
             username: username, 
             password: password, 
         };
+        console.log("hjkl");
         const params = {
             method: 'POST',
             body: JSON.stringify(body),
             headers: jsonHeaders,
         };
+        console.log('test');
         return this.fetcher(endpoint, params)
             .then((r) => r.json())
             .then((json) => json.token)
@@ -46,6 +50,7 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
     }
 
     private convertFormFailures(e: UnknownNetworkFailure) {
+        console.log(e.json);
         return new FormFailures<AuthFieldsFailures>(
             e.json.non_field_errors,
             e.json, 

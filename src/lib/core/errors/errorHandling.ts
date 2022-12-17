@@ -12,6 +12,7 @@ export function getNetworkFailure(response: Response): Promise<Failure> {
 }
 
 export function convertError(e: any, fallback?: Failure) {
+    console.log(`caught exception ${e}`)
     return e instanceof Failure ? e : fallback ?? new UnknownFailure();
 }
 

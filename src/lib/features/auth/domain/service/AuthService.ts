@@ -6,6 +6,7 @@ export type AuthToken = string;
 export interface AuthFieldsFailures {
     username?: string[], 
     password?: string[],
+    passwordRepeat?: string[],
 }
 
 abstract class AuthService {

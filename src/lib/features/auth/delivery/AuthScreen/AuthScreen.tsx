@@ -5,6 +5,8 @@ import { uiDeps } from "../../../../di";
 import { AuthScreenBuilder, AuthScreenContext, AuthScreenProvider, AuthScreenState, AuthType } from "../../domain/state/AuthScreenBloc";
 import './AuthScreen.css';
 import { Snapshot } from "../../../../core/utils/bloc/BlocBuilderFactory";
+import onSubmit from "./utils";
+import useFieldValidation from "./hooks";
 
 function AuthScreenContainer() {
     const create = useMemo(() => uiDeps.authScreenBloc, []);
@@ -37,51 +39,47 @@ function AuthScreen() {
 function AuthForm() {
     const bloc = useContext(AuthScreenContext)!; 
 
-    const getLoginTarget = (t: EventTarget) => {
-        return t as typeof t & {
-            username: {value: string}, 
-            password: {value: string},
-        };
-    }
-    const getRegisterTarget = (t: EventTarget) => {
-        return t as typeof t & {
-            username: {value: string}, 
-            password: {value: string},
-            passwordRepeat: {value: string},
-        };
-    };
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (bloc.state.type === AuthType.registration) {
-            const t = getRegisterTarget(e.target);
-            bloc.onRegister(t.username.value, t.password.value, t.passwordRepeat.value);
-        } else {
-            const t = getLoginTarget(e.target);
-            bloc.onLogin(t.username.value, t.password.value);
-        }
-    }
 
     const usernameRef = useRef<HTMLInputElement | null>(null);
-
-    useEffect(() => {
-        if (!bloc.state.failures) return;
-        console.log('here2');
-        const username = usernameRef.current;
-        username?.setCustomValidity("Test Test Test"); 
-        username?.reportValidity();
-        return () => {
-            console.log("clearing validity");
-            username?.setCustomValidity('');
-        }
-    }, [bloc.state.failures]);
+    const passwordRef = useRef<HTMLInputElement | null>(null);
+    const passwordRepeatRef = useRef<HTMLInputElement | null>(null);
+    
+    const fieldFailures = bloc.state.failures?.fields;
+    useFieldValidation(usernameRef, fieldFailures?.username);
+    useFieldValidation(passwordRef, fieldFailures?.password);
+    useFieldValidation(passwordRepeatRef, fieldFailures?.passwordRepeat);
 
     return (
-        <form onSubmit={onSubmit}>
-            <input onInput={bloc.clearFailures} ref={usernameRef} placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
-            <input placeholder="Пароль" name="password" required autoComplete="password" type="password"/>
+        <form onSubmit={onSubmit(bloc)}>
+            <input 
+                onInput={bloc.clearFailures} 
+                ref={usernameRef} 
+                name="username" 
+                required 
+                autoComplete="username" 
+                autoCorrect="false" 
+                placeholder="Логин" 
+            />
+            <input 
+                onInput={bloc.clearFailures} 
+                ref={passwordRef}
+                name="password" 
+                required 
+                autoComplete="password" 
+                type="password"
+                placeholder="Пароль" 
+            />
             { 
                 bloc.state.type === AuthType.registration ? 
-                <input placeholder="Повтор пароля" name="passwordRepeat" required autoComplete="password" type="password"/>
+                <input 
+                    onInput={bloc.clearFailures}
+                    ref={passwordRepeatRef}
+                    name="passwordRepeat" 
+                    required 
+                    autoComplete="password" 
+                    type="password"
+                    placeholder="Повтор пароля" 
+                />
                 : <></>
             }
             <button type="submit" className="highlighted">

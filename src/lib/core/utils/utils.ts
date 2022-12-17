@@ -11,3 +11,9 @@ export const jsonHeaders = {
     "Content-Type": 'application/json', 
     "Accept": 'application/json',
 }
+
+export const baseParams: RequestInit = {
+    headers: {
+        ...jsonHeaders,
+    },
+}

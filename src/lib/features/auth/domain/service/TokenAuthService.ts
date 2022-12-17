@@ -15,9 +15,10 @@ class TokenAuthService implements AuthService {
     getToken = () => withErrorHandling(() => 
         this.store.retrieve()
     );
-    logout = () => withErrorHandling(() => 
-        this.store.delete()
-    );
+    logout = () => withErrorHandling(async () => {
+        await this.store.delete();
+        await this.net.logout();
+    });
     isAuthenticatedStream = () => withErrorHandling(async () => 
         this.store.stream().pipe(map((t) => t !== null))
     )

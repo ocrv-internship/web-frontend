@@ -8,6 +8,7 @@ import { AuthFieldsFailures, AuthToken } from "../domain/service/AuthService";
 export interface AuthEndpoints {
     login: string, 
     register: string, 
+    logout: string, 
 };
 
 
@@ -17,6 +18,12 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
         private readonly ep: AuthEndpoints
     ) {};
 
+    async logout(): Promise<void> {
+        await this.fetcher(this.ep.logout, {
+            method: 'POST', 
+            headers: jsonHeaders,
+        });
+    }
 
     login(username: string, password: string): Promise<AuthToken> {
         return this.authenticate(username, password, this.ep.login);

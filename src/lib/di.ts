@@ -29,7 +29,8 @@ const ep = {
     skips: apiHost+"skips/",
     login: host+"auth/login/", 
     register: host+"auth/register/", 
-}
+    logout: host+"auth/logout/",
+};
 
 
 const baseFetcher = FetcherExceptionMW(fetch);

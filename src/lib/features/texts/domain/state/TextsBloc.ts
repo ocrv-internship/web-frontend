@@ -7,15 +7,9 @@ import { Loading, RecInfo, TextsState } from "./TextsState";
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
-        this.load = this.load.bind(this);
-        this.emitFailure = this.emitFailure.bind(this);
-        this.skipPressed = this.skipPressed.bind(this);
-        this.sendPressed = this.sendPressed.bind(this); 
-        this.sendSpeech = this.sendSpeech.bind(this);
-
         this.load();
     }
-    private async load() {
+    private load = async () => {
         const textsRes = await this.service.getTexts() 
         if (textsRes instanceof Failure) return this.emit(textsRes);
         this.emit({
@@ -25,15 +19,15 @@ export class TextsBloc extends Bloc<TextsState> {
         })
     }
 
-    async sendPressed(retries: number, speech: RecInfo) {
+    sendPressed = async (retries: number, speech: RecInfo) => {
         this.sendSpeech(retries, speech);
     }
-    async skipPressed(retries: number) {
+    skipPressed = async (retries: number) => {
         this.sendSpeech(retries, null);
     }
 
     // if speech is null, skips this text
-    private async sendSpeech(retries: number, speech: RecInfo | null) {
+    private sendSpeech = async (retries: number, speech: RecInfo | null) => {
         const current = this.state;
         if (current == null || current instanceof Failure) return; 
         this.emit({
@@ -59,7 +53,7 @@ export class TextsBloc extends Bloc<TextsState> {
         })
     }
 
-    private emitFailure(e: Failure) {
+    private emitFailure = (e: Failure) => {
         const current = this.state; 
         if (current == null) return;
         else if (current instanceof Failure) this.emit(e);

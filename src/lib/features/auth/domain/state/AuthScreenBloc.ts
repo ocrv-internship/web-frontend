@@ -20,30 +20,23 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     constructor(private readonly auth: AuthService) {
         super({type: AuthType.login});
 
-        this.toggleType = this.toggleType.bind(this);
-        this.clearFailures = this.clearFailures.bind(this);
-        this.onLogin = this.onLogin.bind(this); 
-        this.onRegister = this.onRegister.bind(this);
-    }
-    dispose() {
-        super.dispose();
     }
 
-    toggleType() {
+    toggleType = () => {
         this.emit({
             type: this.state.type === AuthType.login ? AuthType.registration : AuthType.login,
         });
     }
 
-    clearFailures() {
+    clearFailures = () => {
         if (!this.state.failures) return;
         this.emit({type: this.state.type});
     }
 
-    async onLogin(username: string, password: string) {
+    onLogin = async (username: string, password: string) => {
         return this.onAuth(this.auth.login, username, password);
     }
-    async onRegister(username: string, password: string, passwordRepeat: string) {
+    onRegister = async (username: string, password: string, passwordRepeat: string) => {
         if (password != passwordRepeat) {
             return this.emit({
                 type: this.state.type,
@@ -55,7 +48,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         return this.onAuth(this.auth.register, username, password);
     }
 
-    private async onAuth(auth: AuthMethod, username: string, password: string) {
+    private onAuth = async (auth: AuthMethod, username: string, password: string) => {
         const result = await auth(username, password);
         if (result instanceof Failure) {
             const formFailures = (

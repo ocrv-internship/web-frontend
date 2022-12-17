@@ -17,21 +17,16 @@ class AuthBloc extends Bloc<AuthState> {
     private subscription?: Subscription;
     constructor(private readonly auth: AuthService) {
         super(AuthType.loading);
-        this.load = this.load.bind(this);
-        this.logout = this.logout.bind(this);
         this.load();
     }
 
-    dispose() {
+    dispose = () => {
         super.dispose(); 
         this.subscription?.unsubscribe();
     }
 
-    async logout() {
-        await this.auth.logout();
-    }
-
-    async load() {
+    logout = this.auth.logout; 
+    load = async () => {
         const stream = await this.auth.isAuthenticatedStream();
         if (stream instanceof Failure) return this.emit(stream);
         this.subscription = stream

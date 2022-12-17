@@ -16,20 +16,19 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
             minDuration: minDuration, 
             maxDuration: maxDuration,
         }));
-        this.onStartPressed = this.onStartPressed.bind(this);
-        this.onStopPressed = this.onStopPressed.bind(this);
-        this.onCancelPressed = this.onCancelPressed.bind(this);
-        this.disposeAll = this.disposeAll.bind(this);
-        this.incrementDuration = this.incrementDuration.bind(this);
-        this.onVideoTogglePressed = this.onVideoTogglePressed.bind(this);
     }
 
-    dispose() {
+    dispose = () => {
         super.dispose();
         this.disposeAll();
     }
+    private disposeAll = () => {
+        clearInterval(this.durationTimer);
+        this.recorder?.dispose();
+        this.recorder = undefined;
+    }
 
-    onStartPressed() {
+    onStartPressed = () => {
         const current = this.state; 
         if (!(current instanceof Initial)) return; 
         this.disposeAll();
@@ -46,7 +45,7 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
             ),)
         );
     }
-    private incrementDuration() {
+    private incrementDuration = () => {
         if (this.state instanceof Recording) {
             this.emit(new Recording(
                 this.state.currDuration + 1, 
@@ -56,7 +55,7 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         }
     }
 
-    async onStopPressed() {
+    onStopPressed = async () => {
         if (!this.recorder || !(this.state instanceof Recording)) return; 
         const recording = await this.recorder.finish();
         this.recorder = undefined; 
@@ -68,13 +67,13 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         this.disposeAll();
     }
 
-    onVideoTogglePressed() {
+    onVideoTogglePressed = () => {
         const current = this.state; 
         if (!(current instanceof Initial)) return; 
         this.emit(new Initial(current.base, !current.video));
     }
 
-    onCancelPressed() {
+    onCancelPressed = () => {
         this.emit(new Initial({
             ...this.state.base,
             retries: this.state.base.retries + 1
@@ -82,11 +81,6 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         this.disposeAll();
     }
 
-    private disposeAll() {
-        clearInterval(this.durationTimer);
-        this.recorder?.dispose();
-        this.recorder = undefined;
-    }
 }
 
 export default MediaRecorderBloc;

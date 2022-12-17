@@ -3,10 +3,12 @@ import { Failure, NetworkFailure, UnknownFailure, UnknownNetworkFailure } from "
 
 export function getNetworkFailure(response: Response): Promise<Failure> {
     return response.json()
-        .then((json: {detail: string}) => 
-            new NetworkFailure(json.detail)
-        )
-        .catch((e) => new UnknownNetworkFailure(response));
+        .then((json: any) => {
+            const detail = json.detail; 
+            if (!detail) return new UnknownNetworkFailure(json);
+            return new NetworkFailure(detail);
+        })
+        .catch((e) => new UnknownNetworkFailure());
 }
 
 export function convertError(e: any, fallback?: Failure) {

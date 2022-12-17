@@ -48,7 +48,6 @@ export class APITextsService implements TextsService {
                 method: "POST", 
                 body: JSON.stringify(body),
             });
-            if (!response.ok) throw await getNetworkFailure(response);
         })
     }
     sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
@@ -59,7 +58,6 @@ export class APITextsService implements TextsService {
                 method: "POST", 
                 body: formData,
             });
-            if (!response.ok) throw await getNetworkFailure(response);
         });
     }
 }

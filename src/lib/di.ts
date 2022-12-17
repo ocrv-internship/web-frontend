@@ -27,10 +27,11 @@ const ep = {
     register: host+"auth/register/", 
 }
 
+
 const baseFetcher = FetcherExceptionMW(fetch);
 
 const tokenStore = new TokenDataSourceImpl(localStorage);
-const authDS = new NetworkAuthDataSourceImpl(fetch, ep);
+const authDS = new NetworkAuthDataSourceImpl(baseFetcher, ep);
 const authService = new TokenAuthService(tokenStore, authDS);
 const authFetcher = newFetcherAuthMW(authService)(baseFetcher);
 const textsService = new APITextsService(authFetcher, ep);

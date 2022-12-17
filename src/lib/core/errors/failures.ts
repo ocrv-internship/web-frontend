@@ -3,7 +3,7 @@ export abstract class Failure {
 };
 
 export class UnknownNetworkFailure extends Failure {
-    constructor(readonly response: Response) {super();};
+    constructor(readonly json?: any) {super();};
     get msg() {
         return "При обработке запроса произошла неизвестная ошибка.";
     } 
@@ -48,7 +48,7 @@ export class NoTokenFailure extends Failure {
 export class FormFailures<FieldsFailures> extends Failure {
     constructor(
         readonly fields?: FieldsFailures,
-        readonly nonField?: string, 
+        readonly nonField?: string[], 
     ) {super();};
     get msg() {
         return "..."; // TODO

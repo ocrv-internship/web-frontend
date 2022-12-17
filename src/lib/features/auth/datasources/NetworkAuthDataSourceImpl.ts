@@ -46,7 +46,7 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
             return json.token; 
         } catch (e) {
             if (e instanceof UnknownNetworkFailure) {
-                throw this.convertFormFailures(e);
+                throw await this.convertFormFailures(e);
             }
             throw e;
         }
@@ -54,9 +54,8 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
 
     private async convertFormFailures(e: UnknownNetworkFailure) {
         try {
-            const json = await e.response.json();
-            const nonField = json.non_field_error as string; 
-            const fields = json as AuthFieldsFailures;  
+            const nonField = e.json.non_field_errors as string[] | undefined; 
+            const fields = e.json as AuthFieldsFailures;  
             return new FormFailures<AuthFieldsFailures>(fields, nonField);
         } catch { 
             return e; 

@@ -8,7 +8,7 @@ export function FetcherExceptionMW(fetcher: NetworkFetcher): NetworkFetcher {
     return async (input: RequestInfo | URL, init?: RequestInit) => {
         const response = await fetcher(input, init);
         if (!response.ok) {
-            throw getNetworkFailure(response);
+            throw await getNetworkFailure(response);
         }
         return response;
     }; 

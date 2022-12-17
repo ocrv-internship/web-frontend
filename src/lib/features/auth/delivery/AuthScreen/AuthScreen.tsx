@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useContext } from "react";
 import Spinner from "../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../di";
@@ -6,7 +6,8 @@ import { AuthScreenBuilder, AuthScreenContext, AuthScreenProvider, AuthScreenSta
 import './AuthScreen.css';
 
 function AuthScreenContainer() {
-    return <AuthScreenProvider create={uiDeps.authScreenBloc}>
+    const create = useMemo(() => uiDeps.authScreenBloc, []);
+    return <AuthScreenProvider create={create}>
         <AuthScreenBuilder builder={(state) => {
             console.log(state);
             if (state === null) return <Spinner />; 

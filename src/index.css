@@ -1,5 +1,6 @@
 html, body, #root {
   height: 100%;
+  color-scheme: dark; 
 }
 
 
@@ -18,7 +19,6 @@ body {
 }
 
 #root {
-  color-scheme: dark; 
   width: 100%; 
   min-height: 100vh;
 }

@@ -62,6 +62,7 @@ button {
 }
 
 /* Disables the ugly default autofill styles */ 
+input:-internal-autofill-selected,
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

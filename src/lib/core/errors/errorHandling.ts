@@ -5,7 +5,8 @@ export function getNetworkFailure(response: Response): Promise<Failure> {
     return response.json()
         .then((json: any) => {
             const detail = json.detail; 
-            if (!detail) return new UnknownNetworkFailure(json);
+            console.log(json);
+            if (!detail) return new UnknownNetworkFailure(response.status, json);
             return new NetworkFailure(detail, response.status);
         })
         .catch((e) => new UnknownNetworkFailure(response.status));

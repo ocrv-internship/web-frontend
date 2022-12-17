@@ -47,8 +47,9 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
     }
 
     private convertFormFailures(e: UnknownNetworkFailure) {
+        console.log(e.json);
         return new FormFailures<AuthFieldsFailures>(
-            e.json.non_field_errors,
+            e.json?.non_field_errors,
             e.json, 
         );
     }

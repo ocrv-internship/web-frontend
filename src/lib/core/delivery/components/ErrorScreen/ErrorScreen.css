@@ -2,6 +2,7 @@
     width: 300px;
     max-height: 200px;
     padding: 26px;
+    margin: auto;
     display: flex; 
     flex-direction: column; 
     align-items: stretch;

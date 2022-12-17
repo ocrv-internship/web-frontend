@@ -1,4 +1,6 @@
-
+#textBody {
+    white-space: pre-wrap;
+}
 
 #textHeader {
     display: flex; 

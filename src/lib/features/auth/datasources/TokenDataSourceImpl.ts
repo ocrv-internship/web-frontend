@@ -1,4 +1,4 @@
-import { concatMap, fromEvent, map, Observable } from "rxjs";
+import { concat, concatMap, fromEvent, map, Observable, startWith } from "rxjs";
 import TokenDataSource from "../domain/datasources/TokenDataSource";
 
 const TOKEN_KEY = "AUTH_TOKEN";
@@ -9,14 +9,20 @@ class TokenDataSourceImpl implements TokenDataSource {
         return this.s.getItem(TOKEN_KEY);
     }
     async set(token: string): Promise<void> {
-        return this.s.setItem(TOKEN_KEY, token);
+        this.s.setItem(TOKEN_KEY, token); 
+        window.dispatchEvent(new Event("storage"));
     }
     async delete(): Promise<void> {
-        return this.s.removeItem(TOKEN_KEY);
+        this.s.removeItem(TOKEN_KEY);
+        window.dispatchEvent(new Event("storage"));
     }
     stream(): Observable<string | null> {
-        return fromEvent(document, 'storage')
-            .pipe(concatMap((_) => this.retrieve()));
+        const current = this.retrieve();
+        const storageEvents = fromEvent(window, 'storage')
+            .pipe(
+                concatMap((_) => this.retrieve()),
+            );
+        return concat(current, storageEvents);
     }
 }
 

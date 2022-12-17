@@ -44,6 +44,14 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         return this.onAuth(this.auth.login, username, password);
     }
     async onRegister(username: string, password: string, passwordRepeat: string) {
+        if (password != passwordRepeat) {
+            return this.emit({
+                type: this.state.type,
+                failures: new FormFailures(undefined, {
+                    passwordRepeat: ["Пароли не совпадают."],
+                })
+            });
+        }
         return this.onAuth(this.auth.register, username, password);
     }
 

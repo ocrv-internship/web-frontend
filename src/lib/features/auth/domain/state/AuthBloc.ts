@@ -18,6 +18,7 @@ class AuthBloc extends Bloc<AuthState> {
     constructor(private readonly auth: AuthService) {
         super(AuthType.loading);
         this.load = this.load.bind(this);
+        this.load();
     }
 
     dispose() {
@@ -28,9 +29,13 @@ class AuthBloc extends Bloc<AuthState> {
     async load() {
         const stream = await this.auth.isAuthenticatedStream();
         if (stream instanceof Failure) return this.emit(stream);
-        this.subscription = stream.subscribe((isAuth) => this.emit(
-                isAuth ? AuthType.authenticated : AuthType.unauthenticated,
-            ));
+        this.subscription = stream
+            .subscribe((isAuth) => {
+                console.log(isAuth);
+                this.emit(
+                    isAuth ? AuthType.authenticated : AuthType.unauthenticated,
+                );
+            }); 
     }
 }
 

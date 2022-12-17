@@ -16,6 +16,8 @@ interface UIDeps {
 }
 export let uiDeps: UIDeps;
 
+window.addEventListener('storage', (e) => console.log(e));
+
 // const apiHost = "https://api.ocrv.skomarov.com/api/v1/";
 const host = "http://localhost:8000/";
 const apiHost = host+"api/v1/"; 

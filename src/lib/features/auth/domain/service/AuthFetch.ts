@@ -11,7 +11,7 @@ export function newFetcherAuthMW(auth: AuthService) {
                 ...init,
                 headers: {
                     ...init?.headers,
-                    'Authentication': `Token ${token}`,
+                    'Authorization': `Token ${token}`,
                 }
             });
         }

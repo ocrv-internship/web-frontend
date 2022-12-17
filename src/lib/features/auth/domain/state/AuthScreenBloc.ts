@@ -1,8 +1,7 @@
-import { FormFailures } from "../../../../core/errors/failures";
+import { Failure, FormFailures } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
-import { AuthFieldsFailures } from "../../datasources/NetworkAuthDataSourceImpl";
-import AuthService from "../service/AuthService";
+import AuthService, { AuthFieldsFailures } from "../service/AuthService";
 
 export enum AuthType {
     login, 
@@ -13,7 +12,7 @@ export interface AuthScreenState {
     type: AuthType, 
 };
 
-type AuthMethod = (username: string, password: string) => Promise<void>;
+type AuthMethod = (username: string, password: string) => Promise<void | Failure>;
 
 
 class AuthScreenBloc extends Bloc<AuthScreenState> {
@@ -44,13 +43,10 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     }
 
     private async onAuth(auth: AuthMethod, username: string, password: string) {
-        try {
-            await auth(username, password);
-        } catch (e) {
-            if (e instanceof FormFailures<AuthFieldsFailures>) {
-                console.log(e.nonField);
-                console.log(e.fields); 
-            }
+        const failure = await auth(username, password);
+        if (failure instanceof FormFailures<AuthFieldsFailures>) {
+            console.log(failure.nonField);
+            console.log(failure.fields); 
         }
     }
 }

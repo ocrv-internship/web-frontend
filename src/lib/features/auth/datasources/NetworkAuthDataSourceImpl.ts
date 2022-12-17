@@ -2,17 +2,13 @@ import { FormFailures, UnknownNetworkFailure } from "../../../core/errors/failur
 import { NetworkFetcher } from "../../../core/fetcher/fetcher";
 import { jsonHeaders } from "../../../core/utils/utils";
 import NetworkAuthDataSource from "../domain/datasources/NetworkAuthDataSource";
-import { AuthToken } from "../domain/service/AuthService";
+import { AuthFieldsFailures, AuthToken } from "../domain/service/AuthService";
 
 export interface AuthEndpoints {
     login: string, 
     register: string, 
 };
 
-export interface AuthFieldsFailures {
-    username?: string[], 
-    password?: string[],
-}
 
 class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
     constructor(
@@ -34,30 +30,26 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
             username: username, 
             password: password, 
         };
-        return this.fetcher(endpoint, {
-                method: 'POST',
-                body: JSON.stringify(body),
-                headers: {
-                    ...jsonHeaders, 
-                }
-            })
+        const params = {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers: jsonHeaders,
+        };
+        return this.fetcher(endpoint, params)
             .then((r) => r.json())
             .then((json) => json.token)
-            .catch(async (e) => {
+            .catch((e) => {
                 throw e instanceof UnknownNetworkFailure ? 
-                    await this.convertFormFailures(e)
-                : e;
+                    this.convertFormFailures(e)
+                :   e;
             });
     }
 
-    private async convertFormFailures(e: UnknownNetworkFailure) {
-        try {
-            const nonField = e.json.non_field_errors as string[] | undefined; 
-            const fields = e.json as AuthFieldsFailures;  
-            return new FormFailures<AuthFieldsFailures>(fields, nonField);
-        } catch { 
-            return e; 
-        }
+    private convertFormFailures(e: UnknownNetworkFailure) {
+        return new FormFailures<AuthFieldsFailures>(
+            e.json.non_field_errors,
+            e.json, 
+        );
     }
 }
 

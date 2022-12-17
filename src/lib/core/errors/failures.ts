@@ -2,15 +2,16 @@ export abstract class Failure {
     abstract get msg(): string;
 };
 
-export class UnknownNetworkFailure extends Failure {
-    constructor(readonly json?: any) {super();};
-    get msg() {
-        return "При обработке запроса произошла неизвестная ошибка.";
-    } 
-}
 
 export class NetworkFailure extends Failure {
-    constructor(readonly msg: string) {super();};
+    constructor(readonly msg: string, readonly code: number) {super();};
+}
+
+const unknownNetworkFailureMsg =  "При обработке запроса произошла неизвестная ошибка.";
+export class UnknownNetworkFailure extends NetworkFailure {
+    constructor(readonly code: number, readonly json?: any) {
+        super(unknownNetworkFailureMsg, code);
+    };
 }
 
 export class UnknownFailure extends Failure {

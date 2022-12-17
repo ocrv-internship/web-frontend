@@ -27,8 +27,8 @@
     background: rgba(224, 224, 255, 0.06);
 }
 
-input:focus, input:active {
-    outline: 2px var(--intermediate-color) auto;
+#authSection input:focus, #authSection input:active {
+    outline: 2px var(--intermediate-color) auto !important;
 }
 
 #authSection > p {

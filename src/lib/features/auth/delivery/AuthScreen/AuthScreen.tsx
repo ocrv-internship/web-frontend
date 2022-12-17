@@ -7,6 +7,7 @@ import './AuthScreen.css';
 import { Snapshot } from "../../../../core/utils/bloc/BlocBuilderFactory";
 import onSubmit from "./utils";
 import useFieldValidation from "./hooks";
+import ErrorNotification from "../../../../core/delivery/components/ErrorNotification/ErrorNotification";
 
 function AuthScreenContainer() {
     const create = useMemo(() => uiDeps.authScreenBloc, []);
@@ -31,6 +32,11 @@ function AuthScreen() {
                     {bloc.state.type == AuthType.login ? "Создать аккаунт" : "Войти"}
                 </button>
             </section>
+            {
+                bloc.state.failures?.nonField ? 
+                    <ErrorNotification message={bloc.state.failures.nonField[0]} />
+                : <></>
+            }
         </div>
     )
 }

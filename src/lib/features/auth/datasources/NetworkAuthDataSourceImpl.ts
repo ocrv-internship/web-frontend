@@ -38,7 +38,7 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
         };
         return this.fetcher(endpoint, params)
             .then((r) => r.json())
-            .then((json) => json.token)
+            .then(({token}: {token: string}) => token)
             .catch((e) => {
                 throw e instanceof UnknownNetworkFailure ? 
                     this.convertFormFailures(e)

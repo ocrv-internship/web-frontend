@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useContext } from "react";
 import Spinner from "../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../di";
@@ -59,9 +59,19 @@ function AuthForm() {
         }
     }
 
+    const usernameRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+        if (!bloc.state.failures) return;
+        usernameRef.current?.setCustomValidity("Test Test Test"); 
+        return () => {
+            usernameRef.current?.setCustomValidity('');
+        }
+    }, [bloc.state.failures]);
+
     return (
         <form onSubmit={onSubmit}>
-            <input placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
+            <input ref={usernameRef} placeholder="Логин" name="username" required autoComplete="username" autoCorrect="false" />
             <input placeholder="Пароль" name="password" required autoComplete="password" type="password"/>
             { 
                 bloc.state.type === AuthType.registration ? 

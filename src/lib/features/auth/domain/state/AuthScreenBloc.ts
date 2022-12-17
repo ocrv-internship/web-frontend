@@ -45,6 +45,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
 
     private async onAuth(auth: AuthMethod, username: string, password: string) {
         const result = await auth(username, password);
+        console.log(result);
         if (result instanceof Failure) {
             const formFailures = (
                 result instanceof FormFailures ?

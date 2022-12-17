@@ -33,8 +33,8 @@ function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: str
                     <CloseButton onClick={onClose} />
                 </div>
                 {isVideo ?
-                    <video controls src={src} width={600}/>
-                :   <audio controls src={src} />
+                    <video autoPlay controls src={src} width={600}/>
+                :   <audio autoPlay src={src} />
                 }
             </section>
         </div>

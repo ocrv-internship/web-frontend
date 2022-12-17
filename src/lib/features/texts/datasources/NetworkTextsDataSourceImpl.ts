@@ -35,10 +35,7 @@ class NetworkTextsDataSourceImpl implements NetworkTextsDataSource {
             ...baseParams,
             method: "POST", 
             body: formData,
-            headers: {
-                ...baseParams.headers, 
-                'Content-Type': '',
-            }, 
+            headers: {}, 
         });
     }
 }

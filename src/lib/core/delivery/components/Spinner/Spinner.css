@@ -1,3 +1,7 @@
+#root > .spinnerWrapper > .spinner {
+    width: 200px; 
+    height: 200px;
+}
 .spinner {
     border: 8px solid transparent;
     border-top: 8px solid var(--main-color);
@@ -9,6 +13,7 @@
 
 .spinnerWrapper {
     display: flex; 
+    height: 100%;
     justify-content: center;
     align-items: center;
 }

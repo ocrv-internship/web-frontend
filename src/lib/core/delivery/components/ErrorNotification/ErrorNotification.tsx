@@ -7,7 +7,7 @@ export function ErrorNotification({message} : {message: string}) {
     return (
         <section className="error">
             <div className="errorHeader">
-                <h3>Error</h3>
+                <h3>Ошибка</h3>
                 <CloseButton onClick={() => setIsClosed(true)} />
             </div>
             <p className="errorText">{message}</p>

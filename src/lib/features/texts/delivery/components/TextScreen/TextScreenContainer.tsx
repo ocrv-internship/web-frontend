@@ -8,7 +8,6 @@ import "./TextScreen.css";
 
 export function TextScreenContainer({ }) {
     return (
-        <div id="textScreen">
             <TextsProvider create={uiDeps.textsBloc}>
                 <TextsBuilder builder={(snapshot) => {
                     if (snapshot == null) {
@@ -17,9 +16,13 @@ export function TextScreenContainer({ }) {
                     else if (snapshot instanceof Failure) {
                         return <ErrorScreen err={snapshot} />;
                     }
-                    return <LoadedTextScreen state={snapshot} />
+
+                    return (
+                        <div id="textScreen">
+                            <LoadedTextScreen state={snapshot} />
+                        </div>
+                    );
                 }} />
             </TextsProvider>
-        </div>
     );
 }

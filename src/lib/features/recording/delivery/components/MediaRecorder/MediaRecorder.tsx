@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Recording, MediaRecordingState } from "../../../domain/state/MediaRecorderState";
+import { Recording, MediaRecordingState, Recorded } from "../../../domain/state/MediaRecorderState";
 import "./MediaRecorder.css";
 import { Actions } from "./Actions/Actions";
 import { formatDuration } from "../../../../../core/utils/utils";
@@ -38,9 +38,16 @@ function RecordingInfo({ state }: { state: MediaRecordingState }) {
                 </p>
             :   <></>
             }
+            {state instanceof Recorded ? 
+                <p>
+                    Конечная длина: 
+                    <span className="recordingIndicator"> {formatDuration(state.rec.duration)}</span>
+                </p>
+            :   <></>
+            }
             {state.base.minDuration || state.base.maxDuration ?
                 <span>
-                    Длина записи: <br />
+                    Требуемая длительность: <br />
                     <span> </span>
                     {fromDur} 
                     <span> </span>

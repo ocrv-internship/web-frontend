@@ -25,6 +25,9 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
 }
 
 function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const onLoaded = () => setIsLoaded(true);
+    // TODO: add a spinner
     return (
         <div onClick={onClose} className="popupBackground">
             <section onClick={(e) => e.stopPropagation()} className="popup">
@@ -33,8 +36,8 @@ function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: str
                     <CloseButton onClick={onClose} />
                 </div>
                 {isVideo ?
-                    <video autoPlay controls src={src} width={600}/>
-                :   <audio autoPlay src={src} />
+                    <video style={{visibility: isLoaded ? 'visible': 'hidden'}} onLoadedDataCapture={onLoaded} preload='auto' controls src={src} width={600}/>
+                :   <audio style={{visibility: isLoaded ? 'visible': 'hidden'}} onLoadedDataCapture={onLoaded} preload='auto' controls src={src} />
                 }
             </section>
         </div>

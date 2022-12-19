@@ -19,13 +19,16 @@ function simpleRecorderFactory(enableVideo: boolean) {
             throw new RecordingNotAllowed();
         throw e; 
     })
-    .then((stream) => new SimpleRecorder(stream))
+    .then((stream) => new SimpleRecorder(stream, enableVideo))
 }
 
 export class SimpleRecorder {
     chunks: Blob[] = [];
     rec: MediaRecorder;
-    constructor(private readonly stream: MediaStream) {
+    constructor(
+        private readonly stream: MediaStream, 
+        private readonly enableVideo: boolean,
+    ) {
         try {
             this.rec = new MediaRecorder(this.stream);
         } catch (e) {
@@ -43,8 +46,9 @@ export class SimpleRecorder {
     });
     stop = () => new Promise<Blob>((resolve) => {
         this.rec.requestData()
+        const blobMeta = this.enableVideo ? videoBlobMeta : audioBlobMeta;
         this.rec.onstop = () => {
-            resolve(new Blob(this.chunks));
+            resolve(new Blob(this.chunks, blobMeta));
         };
         this.dispose(); // calls .stop()
     })

@@ -15,12 +15,12 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
 
     const buttonText = rec.isVideo ? "Просмотреть" : "Прослушать";
     return (
-        <div>
+        <>
             <button className="simple" onClick={openVideo}>{buttonText}</button>
             {recURL != null ? 
                 <RecordingPopup src={recURL} onClose={closeVideo} isVideo={rec.isVideo}/> 
-            :   <div />}
-        </div>
+            :   <></>}
+        </>
     );
 }
 

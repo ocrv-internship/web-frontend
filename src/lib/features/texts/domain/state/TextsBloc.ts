@@ -1,7 +1,7 @@
 import { Failure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
-import { TextsService } from "../service/TextsService";
+import { TextInfo, TextsService } from "../service/TextsService";
 import { Loading, RecInfo, TextsState } from "./TextsState";
 
 export class TextsBloc extends Bloc<TextsState> {
@@ -14,9 +14,17 @@ export class TextsBloc extends Bloc<TextsState> {
         if (textsRes instanceof Failure) return this.emit(textsRes);
         this.emit({
             texts: textsRes, 
-            currentInd: 0, 
+            currentInd: this.getNextIndex(textsRes), 
             fullRecDurationSec: 0,
         })
+    }
+
+    private getNextIndex = (texts: TextInfo[], current?: number) => {
+        const first = current === undefined ? 0 : current+1;
+        for (let i = first; i < texts.length; ++i) {
+            if (!texts[i].completed) return i; 
+        }
+        return -1;
     }
 
     sendPressed = async (retries: number, speech: RecInfo) => {
@@ -48,7 +56,7 @@ export class TextsBloc extends Bloc<TextsState> {
         if (error) return this.emitFailure(error);
         this.emit({
             texts: current.texts, 
-            currentInd: current.currentInd === current.texts.length-1 ? -1 : current.currentInd + 1, 
+            currentInd: this.getNextIndex(current.texts, current.currentInd), 
             fullRecDurationSec: current.fullRecDurationSec + (speech?.duration ?? 0),
         })
     }

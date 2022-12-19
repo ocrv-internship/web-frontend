@@ -42,7 +42,7 @@ function TextCompletionInfo({text, onClick} : {text: TextInfo, onClick: () => vo
                 <span>Задача №{text.id}</span> 
                 {text.completed ?
                     <span className="recorded">Записана</span>
-                    : <></>
+                    : <span className="not-recorded">Не записана</span>
                 }
             </h3>
             <p dangerouslySetInnerHTML={textInnerHTML}></p>

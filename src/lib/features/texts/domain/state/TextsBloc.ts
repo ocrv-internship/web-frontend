@@ -77,6 +77,7 @@ export class TextsBloc extends Bloc<TextsState> {
         this.emit({
             texts: texts, 
             currentInd: this.getNextIndex(curr.texts, curr.currentInd, curr.rewriteMode), 
+            rewriteMode: curr.rewriteMode,
             fullRecDurationSec: curr.fullRecDurationSec + (speech?.duration ?? 0),
         })
     }

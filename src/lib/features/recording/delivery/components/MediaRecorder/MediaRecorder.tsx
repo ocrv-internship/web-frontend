@@ -47,10 +47,8 @@ function RecordingInfo({ state }: { state: MediaRecordingState }) {
             }
             {state.base.minDuration || state.base.maxDuration ?
                 <span>
-                    Требуемая длительность: <br />
-                    <span> </span>
                     {fromDur} 
-                    <span> </span>
+                    <br />
                     {toDur}
                 </span>
             :   <></>

@@ -1,52 +1,55 @@
 import { RecordingNotAllowed, RecordingNotSupported } from "../../../../core/errors/failures";
 
-export interface SimpleRecorder {
-    finish(): Promise<Blob>;
-    dispose(): void;
-};
-
 const minSampleRate = 22050; // Hz 
 
-const videoBlobMeta = { 'type': 'video/mp4' };
-const audioBlobMeta = { 'type': 'audio/mp3' };
+const videoBlobMeta = { type: 'video/mp4' };
+const audioBlobMeta = { type: 'audio/mp3' };
 
-export async function startRecording(enableVideo: boolean): Promise<SimpleRecorder>  {
-    const mediaStream = await navigator.mediaDevices.getUserMedia({
-        audio: {
-            sampleRate: minSampleRate,
-        }, 
+function simpleRecorderFactory(enableVideo: boolean) {
+    const options = {
+        audio: {sampleRate: minSampleRate}, 
         video: enableVideo
+    };
+    return navigator.mediaDevices.getUserMedia(options)
+    .catch((e) => {
+        if (e instanceof OverconstrainedError) 
+            throw new RecordingNotSupported(); 
+        if (e.name === "NotAllowedError")
+            throw new RecordingNotAllowed();
+        throw e; 
     })
-        .then((res) => res)
-        .catch((e) => {
-            if (e instanceof OverconstrainedError) 
-                throw new RecordingNotSupported(); 
-            if (e.name === "NotAllowedError")
-                throw new RecordingNotAllowed();
-            throw e; 
-        }); 
-    const recorder = new MediaRecorder(mediaStream);
-    const chunks: Blob[] = []; 
-    recorder.ondataavailable = ({ data }) => chunks.push(data); 
-    recorder.start();
+    .then((stream) => new SimpleRecorder(stream))
+}
 
-    const dispose = () => {
-        recorder.stop(); 
-        mediaStream?.getTracks().forEach((track) => track.stop());
+export class SimpleRecorder {
+    chunks: Blob[] = [];
+    rec: MediaRecorder;
+    constructor(private readonly stream: MediaStream) {
+        try {
+            this.rec = new MediaRecorder(this.stream);
+        } catch (e) {
+            throw e;
+        }
     };
 
-    return {
-        dispose: dispose, 
-        finish: () => new Promise(resolve => {
-            recorder.requestData()
-            recorder.onstop = () => {
-                resolve(new Blob(
-                    chunks, 
-                    enableVideo ? videoBlobMeta : audioBlobMeta
-                ));
-            };
-            // calls recorder.stop(), so that the Promise is resolved
-            dispose(); 
-        }),
+    start = () => {
+        if (this.rec === undefined) return;
+        this.rec.ondataavailable = ({data}) => {
+            this.chunks.push(data); 
+        };
+        this.rec.start();
+    };
+    stop = () => new Promise<Blob>((resolve) => {
+        this.rec.requestData()
+        this.rec.onstop = () => {
+            resolve(new Blob(this.chunks));
+        };
+        this.dispose(); // calls .stop()
+    })
+    dispose = () => {
+        this.rec.stop(); 
+        this.stream.getTracks().forEach((track) => track.stop());
     }
 }
+
+export default simpleRecorderFactory; 

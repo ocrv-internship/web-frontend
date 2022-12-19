@@ -1,9 +1,10 @@
+import { timeStamp } from "console";
 import { convertError } from "../../../../core/errors/errorHandling";
 import { Failure, RecordingStartFailure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import { DurationSec } from "../../../../core/utils/utils";
-import { startRecording, SimpleRecorder } from "../service/SimpleRecorder";
+import simpleRecorderFactory, { SimpleRecorder } from "../service/SimpleRecorder";
 import { ErrorState, Initial, MediaRecordingState, Recorded, Recording } from "./MediaRecorderState";
 
 
@@ -32,9 +33,10 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         const current = this.state; 
         if (!(current instanceof Initial)) return; 
         this.disposeAll();
-        return startRecording(current.video)
-        .then((recorder) => {
+        return simpleRecorderFactory(current.video)
+        .then(async (recorder) => {
             this.recorder = recorder; 
+            await this.recorder.start();
             this.emit(new Recording(0, this.state.base, current.video));
             this.durationTimer = setInterval(this.incrementDuration, 1000);
         })
@@ -57,7 +59,7 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
 
     onStopPressed = async () => {
         if (!this.recorder || !(this.state instanceof Recording)) return; 
-        const recording = await this.recorder.finish();
+        const recording = await this.recorder.stop();
         this.recorder = undefined; 
         this.emit(new Recorded({
             blob: recording, 

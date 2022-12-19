@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
   useEffect(() => {
-    document.title = "ОЦРВ Диктофон";
+    document.title = "ОЦРВ Запись";
   }, []);
   return <AuthGateContainer home={<TextScreenContainer />}/>;
 }

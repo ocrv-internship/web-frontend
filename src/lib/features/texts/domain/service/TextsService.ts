@@ -5,6 +5,7 @@ export interface TextInfo {
     id: string, 
     text: string, 
     note: string, 
+    completed: boolean,
     minDuration?: DurationSec, 
     maxDuration?: DurationSec,
 }

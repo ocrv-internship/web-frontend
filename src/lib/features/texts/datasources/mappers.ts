@@ -5,6 +5,7 @@ interface TextJson {
     id: string, 
     text: string, 
     note: string, 
+    completed: boolean,
     min_duration?: number, 
     max_duration?: number,
 }
@@ -26,6 +27,7 @@ function mapText(json: TextJson): TextInfo {
         id: json.id, 
         text: json.text, 
         note: json.note, 
+        completed: json.completed,
         minDuration: json.min_duration, 
         maxDuration: json.max_duration,
     }

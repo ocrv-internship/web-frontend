@@ -21,6 +21,7 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
     return  (
         <>
             <h1>Задача №{text.id}</h1>
+            <p>{text.completed ? "true" : "false"}</p>
             <TextInfoComponent text={text} /> 
             <ProgressTab 
                 completedCount={completed} 

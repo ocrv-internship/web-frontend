@@ -1,3 +1,4 @@
+import { NotFoundError } from "rxjs";
 import { RecordingNotAllowed, RecordingNotSupported } from "../../../../core/errors/failures";
 
 const minSampleRate = 22050; // Hz 
@@ -12,7 +13,7 @@ function simpleRecorderFactory(enableVideo: boolean) {
     };
     return navigator.mediaDevices.getUserMedia(options)
     .catch((e) => {
-        if (e instanceof OverconstrainedError) 
+        if (e instanceof OverconstrainedError || e.name === "NotFoundError") 
             throw new RecordingNotSupported(); 
         if (e.name === "NotAllowedError")
             throw new RecordingNotAllowed();

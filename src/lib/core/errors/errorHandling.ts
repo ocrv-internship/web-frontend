@@ -1,3 +1,4 @@
+import { NotFoundError } from "rxjs";
 import { Failure, NetworkFailure, UnknownFailure, UnknownNetworkFailure } from "./failures";
 
 

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthGateContainer from '../../../../features/auth/delivery/AuthGate';
 import { TextScreenContainer } from '../../../../features/texts/delivery/components/TextScreen/TextScreenContainer';
 import "./App.css";
 
 function App() {
+  useEffect(() => {
+    document.title = "ОЦРВ Диктофон";
+  }, []);
   return <AuthGateContainer home={<TextScreenContainer />}/>;
 }
 

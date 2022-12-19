@@ -5,6 +5,8 @@ import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFac
 import { TextInfo, TextsService } from "../service/TextsService";
 import { Loading, RecInfo, TextsState } from "./TextsState";
 
+export const TEXTS_END = -1; 
+
 export class TextsBloc extends Bloc<TextsState> {
     constructor(private readonly service: TextsService) {
         super(null);
@@ -28,6 +30,17 @@ export class TextsBloc extends Bloc<TextsState> {
         })
     }
 
+    restartPressed = () => {
+        const curr = this.state; 
+        if (curr instanceof Failure || curr === null) return; 
+        this.emit({
+            texts: curr.texts, 
+            currentInd: 0, 
+            fullRecDurationSec: 0, 
+            rewriteMode: true, 
+        });
+    }
+
     sendPressed = async (retries: number, speech: RecInfo) => {
         this.sendSpeech(retries, speech);
     }
@@ -37,15 +50,15 @@ export class TextsBloc extends Bloc<TextsState> {
 
     // if speech is null, skips this text
     private sendSpeech = async (retries: number, speech: RecInfo | null) => {
-        const current = this.state;
-        if (current == null || current instanceof Failure) return; 
+        const curr = this.state;
+        if (curr == null || curr instanceof Failure) return; 
         this.emit({
-            ...current, 
+            ...curr, 
             err: undefined,
             loading: speech ? Loading.sending : Loading.skipping, 
         })
 
-        const textId = current.texts[current.currentInd].id;
+        const textId = curr.texts[curr.currentInd].id;
         const error = speech ? 
                 await this.service.sendSpeech({
                     id: textId, 
@@ -55,13 +68,16 @@ export class TextsBloc extends Bloc<TextsState> {
                 })
             :   await this.service.skipText(textId, retries);
         if (error) return this.emitFailure(error);
-        this.emit({
-            texts: current.texts.map((text, id) => {return {
+        const texts = speech 
+            ? curr.texts.map((text, id) => {return {
                 ...text, 
-                completed: id == current.currentInd ? true : text.completed,
-            }}), 
-            currentInd: this.getNextIndex(current.texts, current.currentInd), 
-            fullRecDurationSec: current.fullRecDurationSec + (speech?.duration ?? 0),
+                completed: id == curr.currentInd ? true : text.completed,
+            }}) 
+            : curr.texts;
+        this.emit({
+            texts: texts, 
+            currentInd: this.getNextIndex(curr.texts, curr.currentInd, curr.rewriteMode), 
+            fullRecDurationSec: curr.fullRecDurationSec + (speech?.duration ?? 0),
         })
     }
 
@@ -72,12 +88,12 @@ export class TextsBloc extends Bloc<TextsState> {
         else this.emit({...current, loading: undefined, err: e});
     }
 
-    private getNextIndex = (texts: TextInfo[], current?: number) => {
+    private getNextIndex = (texts: TextInfo[], current?: number, rewriteMode?: boolean) => {
         const first = current === undefined ? 0 : current+1;
         for (let i = first; i < texts.length; ++i) {
-            if (!texts[i].completed) return i; 
+            if (!texts[i].completed || rewriteMode) return i; 
         }
-        return -1;
+        return TEXTS_END;
     }
 }
 

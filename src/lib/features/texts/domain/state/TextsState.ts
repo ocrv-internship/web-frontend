@@ -11,6 +11,7 @@ export interface LoadedState {
     texts: TextInfo[], 
     currentInd: number, 
     fullRecDurationSec: number,
+    rewriteMode?: boolean, 
     loading?: Loading, 
     err?: Failure;
 }

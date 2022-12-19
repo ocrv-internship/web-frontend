@@ -9,6 +9,7 @@
 
 #recordingInfo {
     display: flex; 
+    flex: 1; 
     justify-content: center;
     flex-direction: column;
     gap: 5px;
@@ -24,6 +25,7 @@
 
 #actions {
     display: flex;
+    flex: 1; 
     align-content: stretch; 
     justify-content: center;
     gap: 8px;

@@ -3,6 +3,7 @@
     padding-top: 0px;
     padding-bottom: 0px;
     flex-direction: row;
+    align-items: center;
     gap: 20px;
     position: fixed; 
 
@@ -11,4 +12,9 @@
     border-top-right-radius: 0; 
     border-top-left-radius: 0; 
     border-bottom-right-radius: 0;
+}
+
+#progressButton {
+    min-width: 0px;
+    padding: 10px 20px;
 }

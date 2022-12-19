@@ -33,13 +33,14 @@ export class SimpleRecorder {
         }
     };
 
-    start = () => {
+    start = () => new Promise<void>((resolve) => {
         if (this.rec === undefined) return;
         this.rec.ondataavailable = ({data}) => {
             this.chunks.push(data); 
         };
+        this.rec.onstart = () => resolve(); 
         this.rec.start();
-    };
+    });
     stop = () => new Promise<Blob>((resolve) => {
         this.rec.requestData()
         this.rec.onstop = () => {

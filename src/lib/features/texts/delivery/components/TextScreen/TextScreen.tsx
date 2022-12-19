@@ -5,7 +5,7 @@ import { MediaRecorderContainer } from '../../../../recording/delivery/component
 import { TextSection } from './TextSection/TextSection';
 import { ProgressTab } from './ProgressTab/ProgressTab';
 import { ErrorNotification } from '../../../../../core/delivery/components/ErrorNotification/ErrorNotification';
-import ProfileTab from '../ProfileTab/ProfileTab';
+import ProfileTab from '../../../../auth/ProfileTab/ProfileTab';
 
 
 export interface LoadedTextScreenProps {

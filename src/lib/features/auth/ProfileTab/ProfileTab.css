@@ -1,9 +1,10 @@
 #profileTab {
     position: fixed; 
-    right: 0; 
-    top: 0;
-    border-top-right-radius: 0; 
+
+    left: 0; 
+    bottom: 0;
     border-top-left-radius: 0; 
+    border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 
     display: flex; 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../../../../auth/domain/state/AuthBloc";
+import { AuthContext } from "../domain/state/AuthBloc";
 import "./ProfileTab.css";
 
 function ProfileTab() {

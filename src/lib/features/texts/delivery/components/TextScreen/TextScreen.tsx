@@ -17,11 +17,12 @@ export function LoadedTextScreen({state} : LoadedTextScreenProps) {
         return <TextsEndComponent />;
     }
     const text = state.texts[state.currentInd];
-    const completed = state.currentInd; 
+    const completed = state.texts.reduce<number>((prev, cur) => {
+        return prev + (cur.completed ? 1 : 0)
+    }, 0); 
     return  (
         <>
             <h1>Задача №{text.id}</h1>
-            <p>{text.completed ? "true" : "false"}</p>
             <TextInfoComponent text={text} /> 
             <ProgressTab 
                 completedCount={completed} 

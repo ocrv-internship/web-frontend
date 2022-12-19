@@ -14,11 +14,11 @@ export function ProgressTab(props : ProgressTabProps) {
     return (
         <>
             <section id="progress">
+                <h3>Записано: {props.completedCount} из {props.textsCount}</h3>
+                {props.fullDurationSec ? duration : <></>}
                 <button onClick={() => setViewVisible(true)} id="progressButton" className="simple">
                     <span>Прогресс</span>
                 </button>
-                <h3>Записано: {props.completedCount} из {props.textsCount}</h3>
-                {props.fullDurationSec ? duration : <></>}
             </section>
 
             {viewVisible ? 

@@ -19,12 +19,12 @@ export class TextsBloc extends Bloc<TextsState> {
         })
     }
 
-    private getNextIndex = (texts: TextInfo[], current?: number) => {
-        const first = current === undefined ? 0 : current+1;
-        for (let i = first; i < texts.length; ++i) {
-            if (!texts[i].completed) return i; 
-        }
-        return -1;
+    navigateToIndex = (index: number) => {
+        if (this.state instanceof Failure || this.state === null) return; 
+        this.emit({
+            ...this.state,
+            currentInd: index, 
+        })
     }
 
     sendPressed = async (retries: number, speech: RecInfo) => {
@@ -68,6 +68,13 @@ export class TextsBloc extends Bloc<TextsState> {
         else this.emit({...current, loading: undefined, err: e});
     }
 
+    private getNextIndex = (texts: TextInfo[], current?: number) => {
+        const first = current === undefined ? 0 : current+1;
+        for (let i = first; i < texts.length; ++i) {
+            if (!texts[i].completed) return i; 
+        }
+        return -1;
+    }
 }
 
 export const {

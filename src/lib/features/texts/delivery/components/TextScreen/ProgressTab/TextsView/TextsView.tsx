@@ -9,22 +9,43 @@ function TextsView({onClose} : {onClose: () => void}) {
     if (bloc.state instanceof Failure || bloc.state === null) {
         return <></>;
     }
-    const tmpTexts = bloc.state.texts.concat(bloc.state.texts).concat(bloc.state.texts);
+    // const tmpTexts = bloc.state.texts.concat(bloc.state.texts).concat(bloc.state.texts);
     return (
         <div onClick={onClose} id="textsViewWrapper">
-            <section id="textsView">
-                {tmpTexts.map((text) => 
-                    <TextCompletionInfo key={text.id} text={text} />
+            <section onClick={(e) => e.stopPropagation()} id="textsView">
+                {bloc.state.texts.map((text, i) => 
+                    <TextCompletionInfo 
+                        onClick={() => {
+                            bloc.navigateToIndex(i);
+                            onClose();
+                        }}
+                        key={text.id} 
+                        text={text} 
+                    />
                 )}
             </section>
         </div>
     );
 }
 
-function TextCompletionInfo({text} : {text: TextInfo}) {
+const bodyTrimLength = 250; 
+function TextCompletionInfo({text, onClick} : {text: TextInfo, onClick: () => void}) {
+    const textBody = text.text.substring(0, bodyTrimLength) + (
+        text.text.length > bodyTrimLength ? "..." : ""
+    );
+    const textInnerHTML = {
+        __html: textBody, 
+    };
     return (
-        <section className="textCompletion">
-            <p>{text.completed ? "true" : "false"}</p> 
+        <section onClick={onClick} className="textCompletion">
+            <h3>
+                <span>Задача №{text.id}</span> 
+                {text.completed ?
+                    <span className="recorded">Записана</span>
+                    : <></>
+                }
+            </h3>
+            <p dangerouslySetInnerHTML={textInnerHTML}></p>
         </section>
     );
 }

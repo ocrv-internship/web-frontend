@@ -27,10 +27,42 @@
     gap: 10px;
 
     overflow-y: auto;
+    min-height: 100vh;
     max-height: 100%;
 }
 
 .textCompletion {
-    min-height: 200px;
+    display: flex; 
+    flex-direction: column;
     min-width: 300px;
+    max-width: 400px;
+    min-height: 200px;
+    max-height: 300px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.textCompletion:hover {
+    filter: brightness(130%);
+}
+
+.textCompletion:active {
+    filter: brightness(180%);
+}
+
+.textCompletion > h3 {
+    margin: 5px 0; 
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+}
+
+.recorded {
+    color: rgb(0, 156, 0);
+}
+
+.textCompletion > p {
+    overflow: hidden;
+    /* white-space:normal; */
+    text-overflow: ellipsis;
 }

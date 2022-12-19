@@ -9,10 +9,11 @@
 
 #recordingInfo {
     display: flex; 
+    padding-left: 20px;
     flex: 1; 
     justify-content: center;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
 .recordingIndicator {

@@ -1,3 +1,4 @@
+import { text } from "stream/consumers";
 import { Failure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
@@ -55,7 +56,10 @@ export class TextsBloc extends Bloc<TextsState> {
             :   await this.service.skipText(textId, retries);
         if (error) return this.emitFailure(error);
         this.emit({
-            texts: current.texts, 
+            texts: current.texts.map((text, id) => {return {
+                ...text, 
+                completed: id == current.currentInd ? true : text.completed,
+            }}), 
             currentInd: this.getNextIndex(current.texts, current.currentInd), 
             fullRecDurationSec: current.fullRecDurationSec + (speech?.duration ?? 0),
         })

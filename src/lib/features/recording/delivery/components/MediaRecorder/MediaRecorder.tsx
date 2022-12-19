@@ -33,24 +33,23 @@ function RecordingInfo({ state }: { state: MediaRecordingState }) {
     return (
         <div id="recordingInfo">
             {state instanceof Recording ? 
-                <p>
-                    Запись идёт <span className="recordingIndicator">{formatDuration(state.currDuration)}</span>
-                </p>
+                <span>
+                    Запись <span className="recordingIndicator">{formatDuration(state.currDuration)}</span>
+                </span>
             :   <></>
             }
             {state instanceof Recorded ? 
-                <p>
-                    Конечная длина: 
+                <span>
+                    Итого: 
                     <span className="recordingIndicator"> {formatDuration(state.rec.duration)}</span>
-                </p>
+                </span>
             :   <></>
             }
             {state.base.minDuration || state.base.maxDuration ?
-                <span>
+                <>
                     {fromDur} 
-                    <br />
                     {toDur}
-                </span>
+                </>
             :   <></>
             }
         </div>

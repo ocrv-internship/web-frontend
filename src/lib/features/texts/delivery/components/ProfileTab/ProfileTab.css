@@ -10,3 +10,8 @@
     flex-direction: row;
     gap: 20px;
 }
+
+#profileTab > button {
+    min-width: 0px;
+    padding: 10px 20px;
+}

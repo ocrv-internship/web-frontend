@@ -4,7 +4,7 @@ import { TextsContext } from "../../../../../texts/domain/state/TextsBloc";
 import { LoadedState, Loading } from "../../../../../texts/domain/state/TextsState";
 import { RecordingContext } from "../../../../domain/state/MediaRecorderBloc";
 import { ErrorState, Initial, MediaRecordingState, Recorded, Recording } from "../../../../domain/state/MediaRecorderState";
-import VideoPopupButton from "../../RecordingPopupButton/RecordingPopupButton";
+import RecordingPopupButton from "../../RecordingPopupButton/RecordingPopupButton";
 
 
 export function Actions({ state }: {state: MediaRecordingState}) {
@@ -44,7 +44,7 @@ export function Actions({ state }: {state: MediaRecordingState}) {
                     {textsState.loading === Loading.sending ? < Spinner /> : <></>}
                     <p>Отправить</p>
                 </button>
-                <VideoPopupButton rec={state.rec} />
+                <RecordingPopupButton rec={state.rec} />
                 <button onClick={recordingBloc.onCancelPressed} className="simple">Отменить</button>
             </div>
         );

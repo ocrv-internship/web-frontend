@@ -21,6 +21,7 @@ video {
 
 .popup {
     display: flex;
+    background-color: var(--tab-color);
     flex-direction: column;
     position: relative;
     align-items: left;

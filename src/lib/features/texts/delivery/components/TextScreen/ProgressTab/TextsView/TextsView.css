@@ -58,7 +58,7 @@
 }
 
 .recorded {
-    color: rgb(0, 156, 0);
+    color: var(--green);
 }
 .not-recorded {
     color: var(--red);

@@ -71,7 +71,10 @@ export class TextsBloc extends Bloc<TextsState> {
         const texts = speech 
             ? curr.texts.map((text, id) => {return {
                 ...text, 
-                completed: id == curr.currentInd ? true : text.completed,
+                completed: id == curr.currentInd ? { // TODO: implement getting the completed urls as a response
+                    url: "test",
+                    is_video: false,
+                } : text.completed,
             }}) 
             : curr.texts;
         this.emit({

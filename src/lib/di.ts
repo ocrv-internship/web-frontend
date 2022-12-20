@@ -1,11 +1,10 @@
-import AuthFetcher, { newFetcherAuthMW } from "./features/auth/domain/service/AuthFetch";
+import { newFetcherAuthMW } from "./features/auth/domain/service/AuthFetch";
 import TokenAuthService from "./features/auth/domain/service/TokenAuthService";
 import AuthBloc from "./features/auth/domain/state/AuthBloc";
 import AuthScreenBloc from "./features/auth/domain/state/AuthScreenBloc";
 import TokenDataSourceImpl from "./features/auth/datasources/TokenDataSourceImpl";
 import { APITextsService } from "./features/texts/domain/service/APITextsService";
 import { TextsBloc } from "./features/texts/domain/state/TextsBloc";
-import NetworkAuthDataSource from "./features/auth/domain/datasources/NetworkAuthDataSource";
 import NetworkAuthDataSourceImpl from "./features/auth/datasources/NetworkAuthDataSourceImpl";
 import { FetcherExceptionMW } from "./core/fetcher/fetcher";
 import NetworkTextsDataSourceImpl from "./features/texts/datasources/NetworkTextsDataSourceImpl";

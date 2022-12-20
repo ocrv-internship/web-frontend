@@ -5,7 +5,10 @@ export interface TextInfo {
     id: string, 
     text: string, 
     note: string, 
-    completed: boolean,
+    completed?: {
+        url: string, 
+        is_video: boolean,
+    },
     minDuration?: DurationSec, 
     maxDuration?: DurationSec,
 }

@@ -27,6 +27,11 @@ export function LoadedTextScreen({state} : {state: LoadedState}) {
     return  (
         <>
             <h1>Задача №{text.id}</h1>
+            {text.completed ? 
+                <button id="recordedButton" className='simple'>
+                    Записан
+                </button>
+            :   <></>}
             <TextInfoComponent text={text} /> 
             <ProgressTab 
                 completedCount={completed} 

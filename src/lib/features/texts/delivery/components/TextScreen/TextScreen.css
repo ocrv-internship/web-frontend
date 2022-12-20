@@ -45,6 +45,11 @@ h1 {
     flex: 1;
 }
 
+#recordedButton {
+    margin-bottom: 10px;
+    color: green;
+}
+
 
 #textsEnd {
     display: flex; 

@@ -59,7 +59,7 @@ export class TextsBloc extends Bloc<TextsState> {
         })
 
         const textId = curr.texts[curr.currentInd].id;
-        const error = speech ? 
+        const result = speech ? 
                 await this.service.sendSpeech({
                     id: textId, 
                     blob: speech.blob, 
@@ -67,14 +67,11 @@ export class TextsBloc extends Bloc<TextsState> {
                     retries: retries,
                 })
             :   await this.service.skipText(textId, retries);
-        if (error) return this.emitFailure(error);
+        if (result instanceof Failure) return this.emitFailure(result);
         const texts = speech 
             ? curr.texts.map((text, id) => {return {
                 ...text, 
-                completed: id == curr.currentInd ? { // TODO: implement getting the completed urls as a response
-                    url: "test",
-                    is_video: false,
-                } : text.completed,
+                completed: id == curr.currentInd && result ? result : text.completed,
             }}) 
             : curr.texts;
         this.emit({

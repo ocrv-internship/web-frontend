@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TextInfo } from '../../../domain/service/TextsService';
+import { CompletedInfo, TextInfo } from '../../../domain/service/TextsService';
 import { LoadedState} from '../../../domain/state/TextsState';
 import { MediaRecorderContainer } from '../../../../recording/delivery/components/MediaRecorder/MediaRecorderContainer';
 import { TextSection } from './TextSection/TextSection';
@@ -7,6 +7,7 @@ import { ProgressTab } from './ProgressTab/ProgressTab';
 import { ErrorNotification } from '../../../../../core/delivery/components/ErrorNotification/ErrorNotification';
 import ProfileTab from '../../../../auth/ProfileTab/ProfileTab';
 import { TEXTS_END, TextsContext } from '../../../domain/state/TextsBloc';
+import { RecordingPopup } from '../../../../recording/delivery/components/RecordingPopupButton/RecordingPopupButton';
 
 
 export function LoadedTextScreen({state} : {state: LoadedState}) {
@@ -27,11 +28,10 @@ export function LoadedTextScreen({state} : {state: LoadedState}) {
     return  (
         <>
             <h1>Задача №{text.id}</h1>
-            {text.completed ? 
-                <button id="recordedButton" className='simple'>
-                    Записан
-                </button>
-            :   <></>}
+            {text.completed ?
+                <CompletedLabel completed={text.completed}/>
+            : <></>
+            }
             <TextInfoComponent text={text} /> 
             <ProgressTab 
                 completedCount={completed} 
@@ -46,6 +46,25 @@ export function LoadedTextScreen({state} : {state: LoadedState}) {
         </>
     );
 }
+
+function CompletedLabel({completed} : {completed: CompletedInfo}) {
+    console.log(completed);
+    const [popupShown, setPopupShown] = useState(false);
+    return (
+        <>
+            <button onClick={() => setPopupShown(true)} id="recordedButton" className='simple'>
+                Записана
+            </button>
+            {popupShown ?
+                <RecordingPopup 
+                    onClose={() => setPopupShown(false)}
+                    src={completed.url} 
+                    isVideo={completed.is_video}
+                />
+            : <></>
+            }
+        </>
+     ) }
 
 interface TextInfoComponentProps {
     text: TextInfo, 

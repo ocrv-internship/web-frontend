@@ -24,7 +24,8 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
     );
 }
 
-function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
+export function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
+    const nonCachingSrc = src + `?${new Date().toISOString()}`
     return (
         <div onClick={onClose} className="popupBackground">
             <section onClick={(e) => e.stopPropagation()} className="popup">
@@ -33,8 +34,8 @@ function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: str
                     <CloseButton onClick={onClose} />
                 </div>
                 {isVideo ?
-                    <video preload='auto' controls src={src} width={600}/>
-                :   <audio preload='auto' controls src={src} />
+                    <video preload='auto' controls src={nonCachingSrc} width={600}/>
+                :   <audio preload='auto' controls src={nonCachingSrc} />
                 }
             </section>
         </div>

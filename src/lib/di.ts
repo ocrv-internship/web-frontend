@@ -18,8 +18,8 @@ export let uiDeps: UIDeps;
 
 window.addEventListener('storage', (e) => console.log(e));
 
-const host = "http://localhost:8000/";
-// const host = "https://api.ocrv.skomarov.com/";
+// const host = "http://localhost:8000/";
+const host = "https://api.ocrv.skomarov.com/";
 const apiHost = host+"api/v1/"; 
 const ep = {
     texts: apiHost+"texts/", 

@@ -5,13 +5,14 @@ export interface TextInfo {
     id: string, 
     text: string, 
     note: string, 
-    completed?: {
-        url: string, 
-        is_video: boolean,
-    },
+    completed?: CompletedInfo,
     minDuration?: DurationSec, 
     maxDuration?: DurationSec,
 }
+export interface CompletedInfo {
+    url: string, 
+    is_video: boolean,
+};
 
 export interface SpeechInfo {
     id: string, 
@@ -24,5 +25,5 @@ export interface SpeechInfo {
 export interface TextsService {
     getTexts() : Promise<Failure | TextInfo[]>;
     skipText(id: string, retries: number): Promise<Failure | void>;
-    sendSpeech(speech: SpeechInfo): Promise<Failure | void>;
+    sendSpeech(speech: SpeechInfo): Promise<Failure | CompletedInfo>;
 }

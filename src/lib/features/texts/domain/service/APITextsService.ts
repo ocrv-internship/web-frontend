@@ -1,7 +1,7 @@
 import { withErrorHandling } from "../../../../core/errors/errorHandling";
 import { Failure } from "../../../../core/errors/failures";
 import NetworkTextsDataSource from "../datasources/NetworkTextsDataSource";
-import { SpeechInfo, TextInfo, TextsService } from "./TextsService";
+import { CompletedInfo, SpeechInfo, TextInfo, TextsService } from "./TextsService";
 import preprocess from "../preprocessing/preprocessing";
 
 export class APITextsService implements TextsService {
@@ -23,7 +23,7 @@ export class APITextsService implements TextsService {
             return this.ds.skipText(id, retries);
         });
     }
-    sendSpeech(speech: SpeechInfo): Promise<Failure | void> {
+    sendSpeech(speech: SpeechInfo): Promise<Failure | CompletedInfo> {
         return withErrorHandling(async () => {
             return this.ds.sendSpeech(speech);
         });

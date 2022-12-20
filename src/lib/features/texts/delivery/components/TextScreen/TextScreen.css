@@ -16,33 +16,32 @@ h1 {
     display: flex;
     flex-direction: row;
     gap: 20px;
-    justify-content: space-around;
+    justify-content:stretch;
     align-items: stretch; 
     height: 100%;
 }
 
-#textBody, #notesBody {
+#textBody, #notes {
     overflow-y: auto;
 }
 
 #notesSection {
     display: flex; 
     flex-direction: column; 
+    justify-content: space-between;
     gap: 20px;
-    flex-grow: 1;
+    height: 100%;
+    flex: 1;
 }
 
 #notes {
-    flex-grow: 1;
+    flex: 1 0;
 }
 
 #text {
     flex: 2;
     display: flex; 
     flex-direction: column; 
-}
-#notesSection {
-    flex: 1;
 }
 
 #recordedButton {

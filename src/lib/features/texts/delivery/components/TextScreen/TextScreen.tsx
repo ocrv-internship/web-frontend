@@ -50,9 +50,13 @@ export function LoadedTextScreen({state} : {state: LoadedState}) {
 function CompletedLabel({completed} : {completed: CompletedInfo}) {
     console.log(completed);
     const [popupShown, setPopupShown] = useState(false);
+    const open = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.currentTarget.blur();
+        setPopupShown(true);
+    };
     return (
         <>
-            <button onClick={() => setPopupShown(true)} id="recordedButton" className='simple'>
+            <button onClick={open} id="recordedButton" className='simple'>
                 Записана
             </button>
             {popupShown ?

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CloseButton from "../../../../../core/delivery/components/App/CloseButton/CloseButton";
 import { RecInfo } from "../../../../texts/domain/state/TextsState";
 import "./RecordingPopupButton.css";
@@ -7,8 +7,11 @@ import { Recording } from "../../../domain/state/MediaRecorderState";
 
 export function VideoPopupButton({rec} : {rec: RecInfo}) {
     const [recURL, setRecURL] = useState<string | null>(null);
-    const openVideo = () => setRecURL(window.URL.createObjectURL(rec.blob));
-    const closeVideo = () => setRecURL(null);
+    const openMedia = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.currentTarget.blur();
+        setRecURL(window.URL.createObjectURL(rec.blob))
+    };
+    const closeMedia = () => setRecURL(null);
     // useEffect is used here only for cleaning up the video copy
     useEffect(() => {
         if (recURL != null) return () => window.URL.revokeObjectURL(recURL);
@@ -17,9 +20,9 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
     const buttonText = rec.isVideo ? "Просмотреть" : "Прослушать";
     return (
         <>
-            <button className="simple" onClick={openVideo}>{buttonText}</button>
+            <button className="simple" onClick={openMedia}>{buttonText}</button>
             {recURL != null ? 
-                <RecordingPopup src={recURL} onClose={closeVideo} isVideo={rec.isVideo}/> 
+                <RecordingPopup src={recURL} onClose={closeMedia} isVideo={rec.isVideo}/> 
             :   <></>}
         </>
     );
@@ -42,8 +45,8 @@ export function RecordingPopup({onClose, src, isVideo, resetCache} : RecordingPo
                     <CloseButton onClick={onClose} />
                 </div>
                 {isVideo ?
-                    <video preload='auto' controls src={nonCachingSrc} width={600}/>
-                :   <audio preload='auto' controls src={nonCachingSrc} />
+                    <video preload='metadata' controls src={nonCachingSrc} />
+                :   <audio preload='metadata' controls src={nonCachingSrc} />
                 }
             </section>
         </div>

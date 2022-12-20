@@ -11,6 +11,13 @@
     z-index: 9000;
 }
 
+audio {
+    width: 400px;
+}
+video {
+    width: 800px;
+}
+
 
 .popup {
     display: flex;

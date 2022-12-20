@@ -2,10 +2,12 @@
     position: fixed; 
 
     left: 0; 
-    bottom: 0;
+    top: 0; 
     border-top-left-radius: 0; 
+    border-top-right-radius: 0; 
     border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+
+    background-color: var(--tab-color);
 
     display: flex; 
     flex-direction: row;

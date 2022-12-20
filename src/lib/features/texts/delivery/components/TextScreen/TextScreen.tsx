@@ -60,6 +60,7 @@ function CompletedLabel({completed} : {completed: CompletedInfo}) {
                     onClose={() => setPopupShown(false)}
                     src={completed.url} 
                     isVideo={completed.is_video}
+                    resetCache={true}
                 />
             : <></>
             }

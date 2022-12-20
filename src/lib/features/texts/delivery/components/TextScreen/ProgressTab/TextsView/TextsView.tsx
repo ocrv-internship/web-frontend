@@ -9,7 +9,6 @@ function TextsView({onClose} : {onClose: () => void}) {
     if (bloc.state instanceof Failure || bloc.state === null) {
         return <></>;
     }
-    // const tmpTexts = bloc.state.texts.concat(bloc.state.texts).concat(bloc.state.texts);
     return (
         <div onClick={onClose} id="textsViewWrapper">
             <section onClick={(e) => e.stopPropagation()} id="textsView">

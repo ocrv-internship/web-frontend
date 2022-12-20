@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CloseButton from "../../../../../core/delivery/components/App/CloseButton/CloseButton";
 import { RecInfo } from "../../../../texts/domain/state/TextsState";
 import "./RecordingPopupButton.css";
+import { Recording } from "../../../domain/state/MediaRecorderState";
 
 
 export function VideoPopupButton({rec} : {rec: RecInfo}) {
@@ -24,8 +25,15 @@ export function VideoPopupButton({rec} : {rec: RecInfo}) {
     );
 }
 
-export function RecordingPopup({onClose, src, isVideo} : {onClose: () => void, src: string, isVideo: boolean}) {
-    const nonCachingSrc = src + `?${new Date().toISOString()}`
+export interface RecordingPopupProps {
+    onClose: () => void, 
+    src: string, 
+    isVideo: boolean, 
+    resetCache?: boolean,
+};
+
+export function RecordingPopup({onClose, src, isVideo, resetCache} : RecordingPopupProps) {
+    const nonCachingSrc = src + (resetCache ? `?${new Date().toISOString()}` : "");
     return (
         <div onClick={onClose} className="popupBackground">
             <section onClick={(e) => e.stopPropagation()} className="popup">

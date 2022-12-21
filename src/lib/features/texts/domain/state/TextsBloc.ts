@@ -67,7 +67,19 @@ export class TextsBloc extends Bloc<TextsState> {
                     retries: retries,
                 })
             :   await this.service.skipText(textId, retries);
-        if (result instanceof Failure) return this.emitFailure(result);
+        if (result instanceof Failure) {
+            this.emit({
+                ...curr, 
+                texts: curr.texts.map((t, i) => i === curr.currentInd 
+                    ? {
+                        ...t, 
+                        completed: undefined,
+                    } : t),
+                loading: undefined, 
+                err: result, 
+            })
+            return this.emitFailure(result);
+        }
         const texts = speech 
             ? curr.texts.map((text, id) => {return {
                 ...text, 

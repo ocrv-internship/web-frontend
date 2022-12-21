@@ -18,8 +18,9 @@ export let uiDeps: UIDeps;
 
 window.addEventListener('storage', (e) => console.log(e));
 
-// const host = "http://localhost:8000/";
-const host = "https://api.ocrv.skomarov.com/";
+const host = process.env.REACT_APP_OCRV_BACKEND_URL;
+console.log(host);
+
 const apiHost = host+"api/v1/"; 
 const ep = {
     texts: apiHost+"texts/", 

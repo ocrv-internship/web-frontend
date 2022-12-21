@@ -21,9 +21,9 @@
 
     display: flex; 
     flex-direction: column;  
-    /* gap: 10px; */
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    margin-bottom: 20px;
 
     min-height: 100vh;
     max-height: 100%;
@@ -32,6 +32,9 @@
 #textsList {
     overflow-y: auto;
     padding-right: 20px;
+}
+#textsList > div {
+    margin-bottom: 20px;
 }
 
 .textCompletion {
@@ -45,6 +48,10 @@
     max-height: 300px;
     user-select: none;
     cursor: pointer;
+}
+
+.textCompletion:last-child {
+    margin-bottom: 30px;
 }
 
 .textCompletion:hover {

@@ -23,9 +23,9 @@ const ep = {
     texts: apiHost+"texts/", 
     speeches: apiHost+"speeches/",
     skips: apiHost+"skips/",
-    login: host+"auth/login/", 
-    register: host+"auth/register/", 
-    logout: host+"auth/logout/",
+    login: apiHost+"login/", 
+    register: apiHost+"register/", 
+    logout: apiHost+"logout/",
 };
 
 

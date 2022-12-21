@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useContext } from "react";
 import Spinner from "../../../../core/delivery/components/Spinner/Spinner";
 import { uiDeps } from "../../../../di";
@@ -44,6 +44,8 @@ function AuthScreen() {
 function AuthForm() {
     const bloc = useContext(AuthScreenContext)!; 
 
+    const submitText = bloc.state.type === AuthType.login ? "Войти" : "Зарегистрироваться";
+    const submitClassName = "highlighted " + (bloc.state.isLoading ? "button-loading" : "");
 
     const usernameRef = useRef<HTMLInputElement | null>(null);
     const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -87,12 +89,12 @@ function AuthForm() {
                 />
                 : <></>
             }
-            <button type="submit" className="highlighted">
-                {bloc.state.type === AuthType.login ? "Войти" : "Зарегистрироваться"}
+            <button type="submit" className={submitClassName}>
+                {bloc.state.isLoading ? <Spinner /> : <></> }
+                <p>{submitText}</p>
             </button>
         </form>
     );
 }
-
 
 export default AuthScreenContainer;

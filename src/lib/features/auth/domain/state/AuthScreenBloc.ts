@@ -10,6 +10,7 @@ export enum AuthType {
 
 export interface AuthScreenState {
     type: AuthType, 
+    isLoading: boolean,
     failures?: FormFailures<AuthFieldsFailures>,
 };
 
@@ -18,19 +19,20 @@ type AuthMethod = (username: string, password: string) => Promise<void | Failure
 
 class AuthScreenBloc extends Bloc<AuthScreenState> {
     constructor(private readonly auth: AuthService) {
-        super({type: AuthType.login});
+        super({type: AuthType.login, isLoading: false});
 
     }
 
     toggleType = () => {
         this.emit({
             type: this.state.type === AuthType.login ? AuthType.registration : AuthType.login,
+            isLoading: false, 
         });
     }
 
     clearFailures = () => {
         if (!this.state.failures) return;
-        this.emit({type: this.state.type});
+        this.emit({type: this.state.type, isLoading: false});
     }
 
     onLogin = async (username: string, password: string) => {
@@ -40,6 +42,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         if (password != passwordRepeat) {
             return this.emit({
                 type: this.state.type,
+                isLoading: false, 
                 failures: new FormFailures(undefined, {
                     passwordRepeat: ["Пароли не совпадают."],
                 })
@@ -49,6 +52,7 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
     }
 
     private onAuth = async (auth: AuthMethod, username: string, password: string) => {
+        this.emit({...this.state, isLoading: true})
         const result = await auth(username, password);
         if (result instanceof Failure) {
             const formFailures = (
@@ -56,7 +60,11 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
                     result 
                 :   new FormFailures([result.msg])
             );
-            this.emit({...this.state, failures: formFailures});
+            this.emit({
+                ...this.state, 
+                isLoading: false, 
+                failures: formFailures
+            });
         }
     }
 }

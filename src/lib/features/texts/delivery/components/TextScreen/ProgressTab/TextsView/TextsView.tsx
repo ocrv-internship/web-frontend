@@ -12,16 +12,18 @@ function TextsView({onClose} : {onClose: () => void}) {
     return (
         <div onClick={onClose} id="textsViewWrapper">
             <section onClick={(e) => e.stopPropagation()} id="textsView">
-                {bloc.state.texts.map((text, i) => 
-                    <TextCompletionInfo 
-                        onClick={() => {
-                            bloc.navigateToIndex(i);
-                            onClose();
-                        }}
-                        key={text.id} 
-                        text={text} 
-                    />
-                )}
+                <div id="textsList">
+                    {bloc.state.texts.map((text, i) => 
+                        <TextCompletionInfo 
+                            onClick={() => {
+                                bloc.navigateToIndex(i);
+                                onClose();
+                            }}
+                            key={text.id} 
+                            text={text} 
+                        />
+                    )}
+                </div>
             </section>
         </div>
     );

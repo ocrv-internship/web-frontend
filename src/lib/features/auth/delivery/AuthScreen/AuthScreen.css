@@ -28,7 +28,7 @@
 }
 
  #authSection > form > input:focus {
-    outline: 2px var(--intermediate-color) auto;
+    outline: none;
 }
 
 #authSection > p {

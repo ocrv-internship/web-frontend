@@ -16,8 +16,7 @@ interface UIDeps {
 }
 export let uiDeps: UIDeps;
 
-const host = process.env.REACT_APP_OCRV_BACKEND_URL;
-console.log(host);
+const host = "/";
 
 const apiHost = host+"api/v1/"; 
 const ep = {

@@ -16,8 +16,6 @@ interface UIDeps {
 }
 export let uiDeps: UIDeps;
 
-window.addEventListener('storage', (e) => console.log(e));
-
 const host = process.env.REACT_APP_OCRV_BACKEND_URL;
 console.log(host);
 

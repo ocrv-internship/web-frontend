@@ -4,9 +4,6 @@ import { TextScreenContainer } from '../../../../features/texts/delivery/compone
 import "./App.css";
 
 function App() {
-  useEffect(() => {
-    document.title = "ОЦРВ Запись";
-  }, []);
   return <AuthGateContainer home={<TextScreenContainer />}/>;
 }
 

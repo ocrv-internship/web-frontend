@@ -19,13 +19,14 @@ export let uiDeps: UIDeps;
 const host = "/";
 
 const apiHost = host+"api/v1/"; 
+const auth = apiHost+"auth/";
 const ep = {
     texts: apiHost+"texts/", 
     speeches: apiHost+"speeches/",
     skips: apiHost+"skips/",
-    login: apiHost+"login/", 
-    register: apiHost+"register/", 
-    logout: apiHost+"logout/",
+    login: auth+"login/", 
+    register: auth+"register/", 
+    logout: auth+"logout/",
 };
 
 

@@ -13,7 +13,11 @@ export interface BaseRecordingState {
 }
 
 export class Initial implements BaseRecordingState {
-    constructor(readonly base: BaseRecording, readonly video: boolean = false) { };
+    constructor(
+        readonly base: BaseRecording, 
+        readonly video: boolean = false, 
+        readonly startingRec: boolean = false,
+    ) { };
 };
 
 export class Recording implements BaseRecordingState {

@@ -1,6 +1,5 @@
-import { timeStamp } from "console";
 import { convertError } from "../../../../core/errors/errorHandling";
-import { Failure, RecordingStartFailure } from "../../../../core/errors/failures";
+import { RecordingStartFailure } from "../../../../core/errors/failures";
 import { Bloc } from "../../../../core/utils/bloc/Bloc";
 import BlocComponentsFactory from "../../../../core/utils/bloc/BlocComponentsFactory";
 import { DurationSec } from "../../../../core/utils/utils";
@@ -33,6 +32,7 @@ class MediaRecorderBloc extends Bloc<MediaRecordingState> {
         const current = this.state; 
         if (!(current instanceof Initial)) return; 
         this.disposeAll();
+        this.emit(new Initial(current.base, current.video, true));
         return simpleRecorderFactory(current.video)
         .then(async (recorder) => {
             this.recorder = recorder; 

@@ -54,11 +54,12 @@ class NetworkAuthDataSourceImpl implements NetworkAuthDataSource {
     }
 
     private convertFormFailures(e: UnknownNetworkFailure) {
-        console.log(e.json);
-        return new FormFailures<AuthFieldsFailures>(
+        const failures = new FormFailures<AuthFieldsFailures>(
             e.json?.non_field_errors,
             e.json, 
         );
+        if (!failures.fields && !failures.nonField) return e;
+        return failures;
     }
 }
 

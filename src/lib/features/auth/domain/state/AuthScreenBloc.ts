@@ -55,15 +55,13 @@ class AuthScreenBloc extends Bloc<AuthScreenState> {
         this.emit({...this.state, isLoading: true})
         const result = await auth(username, password);
         if (result instanceof Failure) {
-            const formFailures = (
-                result instanceof FormFailures ?
-                    result 
-                :   new FormFailures([result.msg])
-            );
+            const failures = result instanceof FormFailures<AuthFieldsFailures> 
+                ? result 
+                : new FormFailures<AuthFieldsFailures>([result.msg]);
             this.emit({
                 ...this.state, 
                 isLoading: false, 
-                failures: formFailures
+                failures: failures,
             });
         }
     }

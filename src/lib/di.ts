@@ -16,7 +16,7 @@ interface UIDeps {
 }
 export let uiDeps: UIDeps;
 
-const host = "/";
+const host = "http://localhost:8000/";
 
 const apiHost = host+"api/v1/"; 
 const auth = apiHost+"auth/";

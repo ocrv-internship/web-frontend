@@ -2,7 +2,7 @@
 
 Проект для конкурса, разработанный в 2023 г. 
 
-Видео-демонстрация - [](https://youtu.be/73bb_BDPU4M)
+Видео-демонстрация - [https://youtu.be/73bb_BDPU4M](https://youtu.be/73bb_BDPU4M)
 
 [Django Backend](https://github.com/k0marov/ocrv-backend)
 [Deploy](https://github.com/k0marov/ocrv-deploy) 
